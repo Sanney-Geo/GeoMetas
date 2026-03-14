@@ -287,6 +287,80 @@
       border: 1px solid #333;
     }
 
+    /* ── Hint system ──────────────────────────────────────────── */
+    .hint-area { padding: 0 16px; margin-bottom: 4px; }
+    .hint-btn {
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: 11px;
+      border: 1px dashed #3a3a3a;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--fb);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color .15s, color .15s, background .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .hint-btn:hover:not(:disabled) { border-color: #555; color: #bbb; background: var(--s2); }
+    .hint-btn:disabled { opacity: .35; cursor: default; }
+    .hint-btn .hb-cost { font-size: 11px; color: #555; margin-left: auto; }
+
+    .hints-used { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+    .hint-card {
+      background: var(--s2);
+      border: 1px solid #2a2a2a;
+      border-left: 3px solid #444;
+      border-radius: 10px;
+      padding: 9px 13px;
+      font-size: 13px;
+      color: #bbb;
+      line-height: 1.5;
+      animation: hintSlide .25s ease;
+    }
+    @keyframes hintSlide {
+      from { opacity:0; transform:translateY(-6px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .hint-card.h1 { border-left-color: var(--accent); }
+    .hint-card.h2 { border-left-color: var(--gold); }
+    .hint-card.h3 { border-left-color: var(--danger); }
+    .hint-num {
+      font-family: var(--fd);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .pts-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 16px 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .pts-val {
+      font-family: var(--fd);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent);
+      transition: color .4s, transform .2s;
+    }
+    .pts-val.bump { transform: scale(1.2); }
+    .pts-val.c1 { color: var(--gold); }
+    .pts-val.c2 { color: var(--bronze); }
+    .pts-val.c3 { color: var(--danger); }
+
     /* ── Next button ──────────────────────────────────────────── */
     .nxt {
       margin: 12px 16px 16px;
@@ -443,13 +517,31 @@
       </div>
       <img id="imgel" style="display:none" alt="Street view location">
       <div class="img-grad"></div>
-      <div class="clue-chip"><div class="ci"></div><span id="cl">Look for the clue</span></div>
+      <div class="clue-chip"><div class="ci"></div><span>🌍 Where in Europe is this?</span></div>
       <div class="dchip de" id="dc">CITY</div>
     </div>
 
     <div class="imgcred" id="imgcred"></div>
     <div class="mtag" id="mt">📍 Europe · Bronze</div>
     <div class="qtext" id="qt"></div>
+
+    <!-- Points preview -->
+    <div class="pts-preview">
+      <span>Answer now for</span>
+      <span class="pts-val" id="ptsval">300</span>
+      <span>pts</span>
+    </div>
+
+    <!-- Hint system -->
+    <div class="hint-area">
+      <div class="hints-used" id="hintsused"></div>
+      <button class="hint-btn" id="hintbtn" onclick="revealHint()">
+        <span>💡</span>
+        <span id="hintlabel">Show first clue</span>
+        <span class="hb-cost" id="hintcost">−100 pts</span>
+      </button>
+    </div>
+
     <div class="opts" id="op"></div>
 
     <div class="ebox" id="eb">
@@ -543,104 +635,149 @@ const LEAGUES = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ── ACTIVE: Bronze — European city streets ────────────────────────────────────
+// Each question has 3 progressive hints:
+//   hints[0] — vague environmental clue  (costs 100 pts)
+//   hints[1] — more specific meta clue   (costs 100 pts)
+//   hints[2] — near-giveaway clue        (costs 100 pts)
+// Max score per question: 300 (no hints) → 200 → 100 → 50
 const BRONZE_EUROPE = [
   {
     c:'Russia', r:'Europe', mt:'🏙️ Soviet Architecture',
-    clue:'Cyrillic signs + the building style gives it away',
-    q:'Cyrillic script, a wide boulevard, and imposing Soviet-era buildings. Which country?',
+    q:'Where in Europe would you find city streets that look exactly like this?',
     opts:['Ukraine','Bulgaria','Kazakhstan','Russia'],
-    lat:55.7558, lon:37.6173,   // Moscow city centre
+    lat:55.7558, lon:37.6173,
     key:'115004000820956',
+    hints:[
+      'The writing system on the signs is not Latin — it uses a different alphabet entirely.',
+      'The architectural style is unmistakably Soviet: massive buildings, wide boulevards, ornate decorative details on older structures.',
+      'The signs are in Cyrillic and the city has iconic Soviet-era skyscrapers called "Stalin's Seven Sisters". This is the capital city.',
+    ],
     exp:"Moscow combines Cyrillic-only signs with unmistakable Soviet architecture — massive avenues, ornate Stalinist buildings, and brutalist towers. Ukrainian cities also use Cyrillic but have narrower streets and less imposing Soviet styling.",
     pills:['Cyrillic-only signs','Soviet/Stalinist buildings','Wide multi-lane avenues','Ornate metro station signs'],
   },
   {
     c:'Greece', r:'Europe', mt:'🏙️ City Script',
-    clue:'The alphabet on street signs is unique in the EU',
-    q:'Street signs use the Greek alphabet. White buildings, blue accents, orange roof tiles. Where?',
+    q:'This European city has a very distinctive look. Which country are you in?',
     opts:['Cyprus','Albania','North Macedonia','Greece'],
-    lat:37.9755, lon:23.7348,   // Athens
+    lat:37.9755, lon:23.7348,
     key:'4080286698660561',
+    hints:[
+      'The writing on signs uses an alphabet that is NOT Latin and NOT Cyrillic — it is unique in the EU.',
+      'Buildings are white-plastered with blue window frames and orange clay roof tiles. The streets are narrow and stone-paved.',
+      'The alphabet on every sign is Greek (Α Β Γ Δ...). You can see the Acropolis hill in the distance. This is Athens.',
+    ],
     exp:"Greek uses its own alphabet (Α Β Γ Δ...) — the only non-Latin EU script. Classic Athenian streets show white plaster, blue window frames, narrow lanes, and orange roof tiles.",
     pills:['Greek alphabet: Α Β Γ Δ','White plaster + blue frames','Orange roof tiles','Narrow stone streets'],
   },
   {
     c:'Turkey', r:'Europe/Asia', mt:'🏙️ Minarets + Latin Signs',
-    clue:'Minarets in the skyline — but what script are the road signs?',
-    q:'Mosque minarets dominate the skyline but every road sign is in the Latin alphabet. Which country?',
+    q:'Something unusual about this city — what country is it?',
     opts:['Egypt','Iran','Morocco','Turkey'],
-    lat:41.0082, lon:28.9784,   // Istanbul
+    lat:41.0082, lon:28.9784,
     key:'3129035958800270',
+    hints:[
+      'Look at the skyline — thin tall towers with pointed tops are visible above the rooftops. This is a Muslim-majority country.',
+      'Despite the mosque minarets, all road signs and shop fronts use the Latin alphabet — not Arabic script.',
+      'The unique letters ğ, ı, ş, ç on signs confirm this country. It bridges Europe and Asia across a famous strait.',
+    ],
     exp:"Turkey switched from Arabic to Latin script in 1928 — the only majority-Muslim country with Latin road signs. Minarets confirm Islamic context but rule out Arabic-speaking countries. Unique letters: ğ, ı, ş, ç.",
     pills:['Latin script + minarets','Unique letters: ğ ı ş ç','Bosphorus waterfront','Trams in Istanbul'],
   },
   {
     c:'Poland', r:'Europe', mt:'🏙️ City Signs',
-    clue:'Find the Żabka store and read the diacritics',
-    q:'European city with trams, rebuilt market squares, and Polish diacritics on every sign. Where?',
+    q:'A central European city — but which country exactly?',
     opts:['Czech Republic','Hungary','Romania','Poland'],
-    lat:52.2297, lon:21.0122,   // Warsaw
+    lat:52.2297, lon:21.0122,
     key:'477863866582630',
+    hints:[
+      'Tram lines run through the city centre, and the buildings around a large market square look rebuilt and colourful.',
+      'The signs use Latin letters but with heavy diacritics — look for letters with tails, hooks, and dots: ą, ę, ó, ś, ź, ż.',
+      'A small bright green shop called "Żabka" appears on almost every block. That brand exists only in this country.',
+    ],
     exp:"Polish diacritics — ą, ę, ó, ś, ź, ż — appear on virtually every sign. The bright green Żabka store on almost every city block is the easiest Polish urban meta. Rebuilt rynek squares confirm Polish cities.",
     pills:['Polish diacritics: ą ę ó ś ż','Żabka green store','Rebuilt rynek square','Tram lines'],
   },
   {
     c:'Germany', r:'Europe', mt:'🏙️ Highway Signs',
-    clue:'The shape and colour of highway/direction signs',
-    q:'Clean wide streets, blue Autobahn shield signs, and post-war architecture. Which country?',
+    q:'Clean and orderly European streets — which country?',
     opts:['Austria','Netherlands','Switzerland','Germany'],
-    lat:52.5200, lon:13.4050,   // Berlin
+    lat:52.5200, lon:13.4050,
     key:'134467583540200',
+    hints:[
+      'The streets are wide, clean, and well-marked. Post-war brick and concrete architecture dominates. This is Western Europe.',
+      'Road signs are blue with white text. Highway signs have a distinctive shield shape unlike any other country in Europe.',
+      'The signs show the word "Autobahn" and contain letters with umlauts: ä, ö, ü, ß. This is the largest economy in Europe.',
+    ],
     exp:"German cities have distinctive blue Autobahn signs with a specific shield shape. Post-war reconstruction architecture with clean brick and concrete is typical. Austrian cities look similar but use different highway sign formats.",
     pills:['Blue Autobahn shield signs','Post-war reconstruction buildings','German umlauts: ä ö ü ß'],
   },
   {
     c:'Italy', r:'Europe', mt:'🏙️ City Architecture',
-    clue:'The building facade colour palette',
-    q:'Ochre and terracotta building facades, cobblestone streets, Italian signs. Which country?',
+    q:'A southern European city — which country is this?',
     opts:['Spain','France','Portugal','Italy'],
-    lat:41.9028, lon:12.4964,   // Rome
+    lat:41.9028, lon:12.4964,
     key:'313749116199',
+    hints:[
+      'The buildings have warm-toned facades — ochre, terracotta, and burnt orange. The streets are cobblestone.',
+      'Green wooden shutters on windows, scooters parked everywhere, and church domes visible above the rooftops.',
+      'Shop signs are in Italian. The word "Via" appears on street name plates. Dome of a famous basilica is visible.',
+    ],
     exp:"Italian city centres have iconic ochre/terracotta-coloured facades with green shutters, cobblestone streets, and Italian signage. Dense scooter traffic and Catholic church domes above rooftops are additional metas.",
     pills:['Ochre/terracotta facades','Green window shutters','Cobblestone streets','Dense scooter traffic'],
   },
   {
     c:'Spain', r:'Europe', mt:'🏙️ Language + Street Names',
-    clue:"The word for 'street' on name plates",
-    q:'Signs in Spanish, sandstone buildings, and "Calle" on street name plates. Which country?',
+    q:'Warm southern European streets — which country?',
     opts:['Italy','Portugal','France','Spain'],
-    lat:40.4168, lon:-3.7038,   // Madrid
+    lat:40.4168, lon:-3.7038,
     key:'336978346789',
+    hints:[
+      'The buildings are made of warm sandstone and limestone. The pavements have decorative mosaic tile patterns.',
+      'Signs are in a Romance language. Look at the street name plates for the word used instead of "Street" or "Rue".',
+      'Street name plates say "Calle" or "Av." (Avenida). Bar windows display hanging cured ham (Jamón). This is the Iberian Peninsula.',
+    ],
     exp:"Spanish streets use 'Calle' (street) or 'Avenida' on name plates — different from Portugal ('Rua') or France ('Rue'). Warm sandstone facades, mosaic pavements, and Jamón in bar windows confirm Spain.",
     pills:["'Calle' on street plates",'Warm sandstone facades','Mosaic tile pavements','Jamón in bar windows'],
   },
   {
     c:'France', r:'Europe', mt:'🏙️ Haussmann Architecture',
-    clue:'The building style and roofline are iconic',
-    q:'Wide boulevards lined with uniform cream-coloured buildings with zinc rooftops. Which country?',
+    q:'A famous style of European boulevard — which country?',
     opts:['Belgium','Italy','Spain','France'],
-    lat:48.8566, lon:2.3522,    // Paris
+    lat:48.8566, lon:2.3522,
     key:'491220044745',
+    hints:[
+      'Wide boulevards lined with buildings of almost identical height and cream/grey stone facades. Very uniform and elegant.',
+      'The roofs are grey zinc with small dormer windows. Wrought-iron balconies appear on every floor. Cylindrical advertising columns stand on the pavement.',
+      'Street name plates say "Rue". A green Wallace drinking fountain is visible. This city is famous for its Eiffel Tower.',
+    ],
     exp:"Haussmann-era buildings have cream-stone facades, zinc rooftops, and wrought-iron balconies — iconic to French cities. Morris column advertising pillars and Wallace fountains are uniquely French street furniture.",
     pills:['Haussmann cream-stone facades','Zinc rooftops + iron balconies','Morris column pillars',"'Rue' on street name plates"],
   },
   {
     c:'Netherlands', r:'Europe', mt:'🏙️ Canal Architecture',
-    clue:'The building shape — especially the rooflines',
-    q:'Narrow tall brick buildings with step-gable rooflines along a canal. Which country?',
+    q:'A very distinctive European city — which country?',
     opts:['Belgium','Germany','Denmark','Netherlands'],
-    lat:52.3676, lon:4.9041,    // Amsterdam
+    lat:52.3676, lon:4.9041,
     key:'490660843609',
+    hints:[
+      'A canal runs along the street. Bicycles are parked everywhere — more bikes than cars visible.',
+      'The buildings are very narrow and tall, made of dark brick, with unusually shaped rooflines at the top.',
+      'The rooflines are stepped or bell-shaped gables — a design unique to this country's historic canal houses. Houseboats are moored along the water.',
+    ],
     exp:"Dutch canal houses are uniquely narrow, tall, and have step-gable or bell-gable rooflines — driven by historical property taxes based on street frontage width. Canals lined with bicycles and houseboats confirm the Netherlands.",
     pills:['Narrow step-gable canal houses','Canals + bicycles + houseboats',"'Straat' on street signs"],
   },
   {
     c:'Sweden', r:'Europe', mt:'🏙️ Street Furniture',
-    clue:'The colour of post boxes on the street',
-    q:'Clean Scandinavian city. Post boxes are bright yellow. Signs show Swedish. Which country?',
+    q:'A clean Scandinavian city — but which country specifically?',
     opts:['Norway','Finland','Denmark','Sweden'],
-    lat:59.3293, lon:18.0686,   // Stockholm
+    lat:59.3293, lon:18.0686,
     key:'521930',
+    hints:[
+      'Very clean and modern Scandinavian architecture. Everything is well-designed and minimalist. Could be any Nordic country.',
+      'Look at the street furniture — specifically any post boxes or letter collection boxes on the street. What colour are they?',
+      'The post boxes are bright yellow — uniquely Swedish. Norwegian and Danish boxes are red. Street signs say "gatan" or "vägen".',
+    ],
     exp:"Sweden's post boxes are bright yellow — uniquely Swedish in Scandinavia. Norway and Denmark use red; Finland uses yellow but with different signage. Swedish streets use 'gatan' (the street) or 'vägen' (the road).",
     pills:['Yellow post boxes (Sweden only)',"'Gatan/vägen' on street signs",'Clean Scandinavian architecture'],
   },
@@ -699,6 +836,74 @@ const sh = a => [...a].sort(() => Math.random() - .5);
 // ─────────────────────────────────────────────────────────────────────────────
 let league = 0, score = 0, qi = 0, answered = false;
 let cStreak = 0, bStreak = 0, results = [], qList = [];
+
+// Hint state — reset each question
+let hintsRevealed = 0;
+
+// Points based on hints used: 0→300, 1→200, 2→100, 3→50
+const HINT_PTS = [300, 200, 100, 50];
+const HINT_LABELS = [
+  'Show first clue',
+  'Show second clue',
+  'Show third clue',
+  'No more clues',
+];
+const HINT_COSTS = ['−100 pts', '−100 pts', '−100 pts', ''];
+
+function currentPts() {
+  return HINT_PTS[Math.min(hintsRevealed, 3)];
+}
+
+function updatePtsPreview() {
+  const pts = currentPts();
+  const el  = $('ptsval');
+  el.textContent = pts;
+  el.className = 'pts-val' +
+    (pts === 300 ? '' :
+     pts === 200 ? ' c1' :
+     pts === 100 ? ' c2' : ' c3');
+  // little bump animation
+  el.style.transform = 'scale(1.25)';
+  setTimeout(() => el.style.transform = '', 200);
+}
+
+function revealHint() {
+  if (answered) return;
+  const q = qList[qi];
+  if (hintsRevealed >= q.hints.length) return;
+
+  const hintText = q.hints[hintsRevealed];
+  hintsRevealed++;
+
+  // Add hint card
+  const container = $('hintsused');
+  const card = document.createElement('div');
+  card.className = `hint-card h${hintsRevealed}`;
+  card.innerHTML = `<div class="hint-num">Clue ${hintsRevealed}</div>${hintText}`;
+  container.appendChild(card);
+
+  // Update button
+  const btn = $('hintbtn');
+  if (hintsRevealed >= q.hints.length) {
+    btn.disabled = true;
+    $('hintlabel').textContent = 'No more clues';
+    $('hintcost').textContent  = '';
+  } else {
+    $('hintlabel').textContent = HINT_LABELS[hintsRevealed];
+    $('hintcost').textContent  = HINT_COSTS[hintsRevealed];
+  }
+
+  updatePtsPreview();
+}
+
+function resetHints() {
+  hintsRevealed = 0;
+  $('hintsused').innerHTML    = '';
+  $('hintbtn').disabled       = false;
+  $('hintlabel').textContent  = HINT_LABELS[0];
+  $('hintcost').textContent   = HINT_COSTS[0];
+  updatePtsPreview();
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IMAGE LOADING
@@ -796,13 +1001,13 @@ function loadQ() {
 
   $('dc').textContent = l.chip;
   $('dc').className   = 'dchip ' + l.chipCls;
-  $('cl').textContent = q.clue;
   $('mt').textContent = q.mt + ' · ' + q.r;
   $('qt').textContent = q.q;
   $('eb').className   = 'ebox';
   $('nb').className   = 'nxt';
   $('imgcred').innerHTML = '';
 
+  resetHints();
   loadImage(q);
 
   const opts = sh([...q.opts]);
@@ -822,7 +1027,8 @@ function pick(sel, q) {
   answered = true;
 
   const ok = sel === q.c;
-  if (ok) { score += pts(); cStreak++; if (cStreak > bStreak) bStreak = cStreak; }
+  const earned = ok ? currentPts() : 0;
+  if (ok) { score += earned; cStreak++; if (cStreak > bStreak) bStreak = cStreak; }
   else    { cStreak = 0; }
   results.push(ok);
   buildStreak();
@@ -842,7 +1048,9 @@ function pick(sel, q) {
     }
   });
 
-  $('et').textContent = ok ? "Correct! Here's why:" : "Not quite — the clue was:";
+  $('et').textContent = ok
+    ? `Correct! +${earned} pts${hintsRevealed > 0 ? ` (${hintsRevealed} clue${hintsRevealed>1?'s':''} used)` : ' — no clues needed! 🎯'}`
+    : "Not quite — here's the explanation:";
   $('ex').textContent = q.exp;
   $('ep').innerHTML   = (q.pills || []).map(p => `<div class="pill">${p}</div>`).join('');
   $('eb').className   = 'ebox show' + (ok ? '' : ' we');
@@ -861,7 +1069,8 @@ document.getElementById('nb').onclick = () => {
   }
 };
 
-function pts() { return [100, 150, 200, 300][Math.min(league, 3)]; }
+// pts() replaced by currentPts() which factors in hints used
+// League multiplier can be added here later
 
 function showRankUp() {
   $('qs').style.display = 'none';
