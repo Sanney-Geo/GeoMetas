@@ -284,6 +284,7 @@ svg{display:block}
 .prog-xp-bar{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
 .prog-xp-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .6s}
 .prog-xp-lbl{font-size:10px;color:var(--muted);margin-top:5px;font-family:var(--fm)}
+.quiz-item.srs-due{border-left:2px solid var(--accent);}
 .prog-collapse-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:var(--r2);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;margin:12px 0 0;transition:border-color .15s}
 .prog-collapse-btn:hover{border-color:var(--border2)}
 .league-tier-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
@@ -395,6 +396,7 @@ svg{display:block}
         <div class="qc-badge qc-badge-muted" id="relearn-badge">0</div>
       </div>
     </div>
+    <div id="srs-card-slot"></div>
     <div id="home-smart"></div>
     <div style="padding:4px 20px 16px">
       <button onclick="openBrowse()" style="width:100%;padding:11px;border-radius:var(--r2);border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px">
@@ -623,9 +625,9 @@ svg{display:block}
 <script>
 
 // ── STATE ──────────────────────────────────────────────────────────────────
-const S={xp:0,pc:0,qp:{},daily:'',mistakes:[],globalDiff:'easy',sectionOpen:{0:true,1:false,2:false},goals:[],goalsWeek:'',lastCat:''};
+const S={xp:0,pc:0,qp:{},daily:'',mistakes:[],globalDiff:'easy',sectionOpen:{0:true,1:false,2:false},goals:[],goalsWeek:'',lastCat:'',srs:{}};
 function save(){try{localStorage.setItem('pt4',JSON.stringify(S));}catch(e){}}
-function load(){try{const d=JSON.parse(localStorage.getItem('pt4')||'{}');if(d.xp!==undefined)S.xp=d.xp;if(d.qp)S.qp=d.qp;if(d.daily)S.daily=d.daily;if(d.mistakes)S.mistakes=d.mistakes;if(d.globalDiff)S.globalDiff=d.globalDiff;if(d.sectionOpen)S.sectionOpen=d.sectionOpen;if(d.lastCat)S.lastCat=d.lastCat;if(d.pc)S.pc=d.pc;if(d.goals)S.goals=d.goals;if(d.goalsWeek)S.goalsWeek=d.goalsWeek;}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('pt4')||'{}');if(d.xp!==undefined)S.xp=d.xp;if(d.qp)S.qp=d.qp;if(d.daily)S.daily=d.daily;if(d.mistakes)S.mistakes=d.mistakes;if(d.globalDiff)S.globalDiff=d.globalDiff;if(d.sectionOpen)S.sectionOpen=d.sectionOpen;if(d.lastCat)S.lastCat=d.lastCat;if(d.pc)S.pc=d.pc;if(d.goals)S.goals=d.goals;if(d.goalsWeek)S.goalsWeek=d.goalsWeek;if(d.srs)S.srs=d.srs;}catch(e){}}
 function league(){return S.xp>=7000?3:S.xp>=3000?2:S.xp>=1000?1:0;}
 const LS=[{n:'Bronze',e:'🥉',c:'var(--bronze)',cl:'lbronze',m:1000},{n:'Silver',e:'🥈',c:'var(--silver)',cl:'lsilver',m:3000},{n:'Gold',e:'🥇',c:'var(--gold)',cl:'lgold',m:7000},{n:'Diamond',e:'💎',c:'#80d8ff',cl:'lgold',m:99999}];
 function today(){return new Date().toISOString().slice(0,10);}
@@ -1371,6 +1373,23 @@ const D={
   ,drawSignUKPriority(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));s.appendChild(el('circle',{cx:150,cy:82,r:68,fill:'#003189',stroke:'#fff','stroke-width':3}));const up=el('text',{x:150,y:74,'text-anchor':'middle','dominant-baseline':'central','font-size':32,fill:'#fff'});up.textContent='↑';s.appendChild(up);const la=el('text',{x:116,y:95,'text-anchor':'middle','dominant-baseline':'central','font-size':20,fill:'#CC0000'});la.textContent='←';s.appendChild(la);const ra=el('text',{x:184,y:95,'text-anchor':'middle','dominant-baseline':'central','font-size':20,fill:'#CC0000'});ra.textContent='→';s.appendChild(ra);if(!h){const l=el('text',{x:150,y:168,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Blue circle priority sign · UK narrow roads';s.appendChild(l);}return s;}
   ,drawCarStandard(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));this._carBase(s,'#b8b4a8','#c8c4b8');if(!h){const l=el('text',{x:150,y:202,'text-anchor':'middle','font-size':11,fill:'rgba(255,255,255,.45)','font-family':'sans-serif'});l.textContent='Standard configuration · common in SE Asia';s.appendChild(l);}return s;}
   ,drawCarBrazil(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));this._carBase(s,'#c8c4b8','#d8d4c8');s.appendChild(el('rect',{x:10,y:150,width:280,height:6,rx:2,fill:'#FFD700',opacity:.8}));if(!h){const l=el('text',{x:150,y:202,'text-anchor':'middle','font-size':11,fill:'rgba(255,255,255,.45)','font-family':'sans-serif'});l.textContent='Brazil — yellow safety stripe on lower body';s.appendChild(l);}return s;}
+  ,drawFlagBW(h){return this._fw('🇧🇼',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#75AADB'}));s.appendChild(el('rect',{x:50,y:84,width:200,height:12,fill:'#000'}));s.appendChild(el('rect',{x:50,y:82,width:200,height:2,fill:'#fff'}));s.appendChild(el('rect',{x:50,y:96,width:200,height:2,fill:'#fff'}));},h);}
+  ,drawFlagNA(h){return this._fw('🇳🇦',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#003580'}));s.appendChild(el('polygon',{points:'50,30 250,150 50,150',fill:'#009A44'}));s.appendChild(el('line',{x1:50,y1:30,x2:250,y2:150,stroke:'#fff','stroke-width':18}));s.appendChild(el('line',{x1:50,y1:30,x2:250,y2:150,stroke:'#CC0000','stroke-width':10}));const su=el('text',{x:90,y:72,'text-anchor':'middle','dominant-baseline':'central','font-size':28,fill:'#FFD700'});su.textContent='☀';s.appendChild(su);},h);}
+  ,drawFlagTZ(h){return this._fw('🇹🇿',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#1EB53A'}));s.appendChild(el('polygon',{points:'50,150 250,30 250,150',fill:'#00A3DD'}));s.appendChild(el('line',{x1:50,y1:150,x2:250,y2:30,stroke:'#FCD116','stroke-width':20}));s.appendChild(el('line',{x1:50,y1:150,x2:250,y2:30,stroke:'#000','stroke-width':10}));},h);}
+  ,drawFlagUG(h){return this._fw('🇺🇬',(s)=>{const cs=['#000','#FFD700','#D90000'];for(let i=0;i<6;i++)s.appendChild(el('rect',{x:50,y:30+i*20,width:200,height:20,fill:cs[i%3]}));s.appendChild(el('circle',{cx:150,cy:90,r:24,fill:'#fff'}));const t=el('text',{x:150,y:90,'text-anchor':'middle','dominant-baseline':'central','font-size':28});t.textContent='🐦';s.appendChild(t);},h);}
+  ,drawFlagSN(h){return this._fw('🇸🇳',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#00853F'}));s.appendChild(el('rect',{x:116,y:30,width:68,height:120,fill:'#FDEF42'}));s.appendChild(el('rect',{x:184,y:30,width:66,height:120,fill:'#E31B23'}));const st=el('text',{x:150,y:90,'text-anchor':'middle','dominant-baseline':'central','font-size':22,fill:'#00853F'});st.textContent='★';s.appendChild(st);},h);}
+  ,drawFlagLK(h){return this._fw('🇱🇰',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#8D153A'}));s.appendChild(el('rect',{x:50,y:30,width:30,height:120,fill:'#FF7A00'}));s.appendChild(el('rect',{x:80,y:30,width:25,height:120,fill:'#009B3A'}));const t=el('text',{x:170,y:90,'text-anchor':'middle','dominant-baseline':'central','font-size':36,fill:'#FFD100'});t.textContent='🦁';s.appendChild(t);},h);}
+  ,drawFlagNP(h){return this._fw('🇳🇵',(s)=>{s.appendChild(el('polygon',{points:'65,30 65,150 155,100',fill:'#003893',stroke:'#fff','stroke-width':3}));s.appendChild(el('polygon',{points:'65,30 65,100 130,68',fill:'#DC143C',stroke:'#fff','stroke-width':3}));const m=el('text',{x:103,y:62,'text-anchor':'middle','dominant-baseline':'central','font-size':16,fill:'#fff'});m.textContent='☽';s.appendChild(m);const su=el('text',{x:108,y:95,'text-anchor':'middle','dominant-baseline':'central','font-size':16,fill:'#fff'});su.textContent='☀';s.appendChild(su);},h);}
+  ,drawFlagBD(h){return this._fw('🇧🇩',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#006A4E'}));s.appendChild(el('circle',{cx:144,cy:90,r:36,fill:'#F42A41'}));},h);}
+  ,drawFlagVE(h){return this._fw('🇻🇪',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#CC0001'}));s.appendChild(el('rect',{x:50,y:30,width:200,height:80,fill:'#00247D'}));s.appendChild(el('rect',{x:50,y:30,width:200,height:40,fill:'#CF9B00'}));for(let i=0;i<8;i++){const a=i*(Math.PI/4)-Math.PI/2+Math.PI/8;const st=el('text',{x:150+26*Math.cos(a),y:90+26*Math.sin(a),'text-anchor':'middle','dominant-baseline':'central','font-size':8,fill:'#fff'});st.textContent='★';s.appendChild(st);}},h);}
+  ,drawFlagPE(h){return this._fw('🇵🇪',(s)=>{s.appendChild(el('rect',{x:50,y:30,width:200,height:120,fill:'#D91023'}));s.appendChild(el('rect',{x:116,y:30,width:68,height:120,fill:'#fff'}));},h);}
+  ,drawScriptMN(h){const s=mSVG(300,160);s.appendChild(el('rect',{x:0,y:0,width:300,height:160,rx:8,fill:'#1c1c22'}));if(!h){const t=el('text',{x:150,y:18,'text-anchor':'middle','font-size':10,fill:'#888','font-family':'sans-serif','letter-spacing':1});t.textContent='MONGOLIAN (VERTICAL)';s.appendChild(t);}const cols=[{x:80,chars:'ᠮᠣᠩᠭᠣᠯ'},{x:150,chars:'ᠤᠯᠤᠰ'},{x:220,chars:'ᠪᠢᠴᠢᠭ'}];cols.forEach(({x,chars})=>{const t=el('text',{x,y:80,'text-anchor':'middle','font-size':28,fill:'#f0eee8','writing-mode':'vertical-lr'});t.textContent=chars;s.appendChild(t);});if(!h){const l=el('text',{x:150,y:148,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Vertical top-to-bottom · only major vertical script';s.appendChild(l);}return s;}
+  ,drawScriptKA(h){const s=mSVG(300,120);s.appendChild(el('rect',{x:0,y:0,width:300,height:120,rx:8,fill:'#1c1c22'}));if(!h){const t=el('text',{x:150,y:20,'text-anchor':'middle','font-size':10,fill:'#D85A30','font-family':'sans-serif','letter-spacing':1});t.textContent='GEORGIAN SCRIPT';s.appendChild(t);}const k=el('text',{x:150,y:65,'text-anchor':'middle','font-size':36,fill:'#f0eee8'});k.textContent='თბილისი';s.appendChild(k);if(!h){const l=el('text',{x:150,y:100,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Curly round letterforms · Georgia only';s.appendChild(l);}return s;}
+  ,drawScriptHY(h){const s=mSVG(300,120);s.appendChild(el('rect',{x:0,y:0,width:300,height:120,rx:8,fill:'#1c1c22'}));if(!h){const t=el('text',{x:150,y:20,'text-anchor':'middle','font-size':10,fill:'#CC0000','font-family':'sans-serif','letter-spacing':1});t.textContent='ARMENIAN SCRIPT';s.appendChild(t);}const k=el('text',{x:150,y:65,'text-anchor':'middle','font-size':36,fill:'#f0eee8'});k.textContent='Երևան';s.appendChild(k);if(!h){const l=el('text',{x:150,y:100,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Angular + circular elements · Armenia only';s.appendChild(l);}return s;}
+  ,drawScriptMY2(h){const s=mSVG(300,120);s.appendChild(el('rect',{x:0,y:0,width:300,height:120,rx:8,fill:'#1c1c22'}));if(!h){const t=el('text',{x:150,y:20,'text-anchor':'middle','font-size':10,fill:'#FFD700','font-family':'sans-serif','letter-spacing':1});t.textContent='BURMESE SCRIPT';s.appendChild(t);}const k=el('text',{x:150,y:65,'text-anchor':'middle','font-size':36,fill:'#f0eee8'});k.textContent='မြန်မာ';s.appendChild(k);if(!h){const l=el('text',{x:150,y:100,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Almost entirely circular letterforms · Myanmar';s.appendChild(l);}return s;}
+  ,drawScriptKM(h){const s=mSVG(300,120);s.appendChild(el('rect',{x:0,y:0,width:300,height:120,rx:8,fill:'#1c1c22'}));if(!h){const t=el('text',{x:150,y:20,'text-anchor':'middle','font-size':10,fill:'#1D9E75','font-family':'sans-serif','letter-spacing':1});t.textContent='KHMER SCRIPT';s.appendChild(t);}const k=el('text',{x:150,y:65,'text-anchor':'middle','font-size':36,fill:'#f0eee8'});k.textContent='ភ្នំពេញ';s.appendChild(k);if(!h){const l=el('text',{x:150,y:100,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Rounded + stacked subscripts · Cambodia';s.appendChild(l);}return s;}
+  ,drawHwKorea(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));const shield=el('polygon',{points:'88,20 212,20 218,100 150,160 82,100',fill:'#003189',stroke:'#fff','stroke-width':1.5});s.appendChild(shield);const m=el('text',{x:150,y:86,'text-anchor':'middle','dominant-baseline':'central','font-size':34,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});m.textContent='1';s.appendChild(m);if(!h){const l=el('text',{x:150,y:170,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Blue shield · South Korea national highway';s.appendChild(l);}return s;}
+  ,drawHwChina(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'88,20 212,20 218,100 150,160 82,100',fill:'#CC0000',stroke:'#fff','stroke-width':1.5}));s.appendChild(el('polygon',{points:'88,20 212,20 218,100 150,160 82,100',fill:'none',stroke:'#fff','stroke-width':1.5}));const top=el('text',{x:150,y:52,'text-anchor':'middle','dominant-baseline':'central','font-size':13,'font-weight':'700',fill:'#fff','font-family':'sans-serif','letter-spacing':1});top.textContent='G';s.appendChild(top);const m=el('text',{x:150,y:92,'text-anchor':'middle','dominant-baseline':'central','font-size':36,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});m.textContent='2';s.appendChild(m);if(!h){const l=el('text',{x:150,y:170,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Red shield + G-number · China expressway';s.appendChild(l);}return s;}
   ,drawSignSTOP(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='STOP';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='English — UK, USA, Australia';s.appendChild(l);}return s;}
   ,drawSignPARE(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='PARE';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Portuguese — Brazil, Portugal, ex-colonies';s.appendChild(l);}return s;}
   ,drawSignALTO(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='ALTO';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Spanish — Mexico, most of Latin America';s.appendChild(l);}return s;}
@@ -1562,6 +1581,10 @@ const CATS=[
       {answer:'Korean',q:'Which language uses this script?',meta:'Written script',hints:['Square block characters.','Rounded soft letterforms.','Hangul = rounded square syllable blocks, one script only.'],exp:'Hangul forms rounded square syllable blocks. One script, not mixed.',pills:['Rounded block syllables','Hangul only'],opts:['Japanese','Chinese','Thai','Korean'],drawFn:'drawScriptKO'},
       {answer:'Hindi',q:'Which language uses this script?',meta:'Written script',hints:['All letters connect at the top.','Horizontal bar runs through the text.','Devanagari = horizontal bar (shirorekha) at top.'],exp:'Devanagari has a distinctive horizontal line connecting the tops of all letters.',pills:['Top horizontal bar','Letters hang below bar','India + Nepal'],opts:['Bengali','Tamil','Arabic','Hindi'],drawFn:'drawScriptHI'},
       {answer:'Thai',q:'Which language uses this script?',meta:'Written script',hints:['Circular looping elements.','Letters end in small circular curls.','Thai = distinctive circular curls on strokes.'],exp:'Thai has unmistakably looped circular letterforms.',pills:['Circular looped letters','More loopy than Khmer'],opts:['Khmer','Burmese','Hindi','Thai'],drawFn:'drawScriptTH'},
+      ,{answer:'Georgian',q:'Which Caucasian script has highly distinctive curly round letterforms?',meta:'Written script',hints:['Curly, round letterforms.','Very distinctive — nothing looks like it.','Georgia — between Russia and Turkey.'],exp:'Georgian script (Mkhedruli) is one of the most distinctive in the world — curly, rounded letters. Used only in Georgia. Once seen, never confused with anything else.',pills:['Curly round letterforms','Completely unique','Georgia only'],opts:['Armenian','Sinhala','Burmese','Georgian'],drawFn:'drawScriptKA'}
+      ,{answer:'Armenian',q:'Which script has angular block-like letters with circular elements, used only in Armenia?',meta:'Written script',hints:['Angular block letters.','Some circular/oval elements.','Armenia only.'],exp:'Armenian script (Hayeren) was created in 405 AD. Angular letters with circular elements, used exclusively for Armenian.',pills:['Angular + circular elements','Created 405 AD','Armenia only'],opts:['Georgian','Greek','Ethiopic','Armenian'],drawFn:'drawScriptHY'}
+      ,{answer:'Burmese',q:'Which Southeast Asian script has almost entirely circular or oval letterforms?',meta:'Written script',hints:['Almost all letters are circles or ovals.','Very round, bubbly.','Myanmar.'],exp:'Burmese script is famously circular — almost every letter is a circle or oval, because it was traditionally carved on palm leaves where straight lines would split the leaf.',pills:['Circular/oval letterforms','Palm leaf origin','Myanmar only'],opts:['Thai','Khmer','Sinhala','Burmese'],drawFn:'drawScriptMY2'}
+      ,{answer:'Khmer',q:'Which script is used in Cambodia, with rounded letterforms and stacked subscript letters?',meta:'Written script',hints:['Rounded letterforms.','Letters stack vertically.','Cambodia.'],exp:'Khmer script has rounded forms (similar to Thai/Burmese) but with many stacked subscript consonants. Cambodia road signs use Khmer + French on older signs.',pills:['Rounded + stacked subscripts','Cambodia only','Similar to Thai but distinct'],opts:['Thai','Lao','Burmese','Khmer'],drawFn:'drawScriptKM'}
     ]},
     {id:'eu-scripts',name:'European languages',desc:'Spanish, Portuguese, French, German…',questions:[
       {answer:'Spain',q:'This street sign uses Spanish. Which country is most likely?',meta:'Language on signs',hints:['The word "Calle" means street.','Spanish is spoken in many countries but this specific street furniture style is European.','Calle + sandstone buildings + mosaic pavements = Spain. (Not Latin America which drives on right and has different street furniture.)'],exp:'Spanish street signs say "Calle" (street) or "Avenida". Combined with European street furniture, sandstone buildings and mosaic tile pavements this confirms Spain rather than a Latin American country.',pills:['Calle = Spanish for street','Mosaic pavements','Sandstone buildings','≠ Latin America (different furniture)'],opts:['Mexico','Colombia','Spain','Argentina'],drawFn:'drawLangES'},
@@ -1584,6 +1607,7 @@ const CATS=[
       {answer:'Arabic',q:'Which language uses this script? Reading direction is the key clue.',meta:'Written script',hints:['The script flows horizontally but in which direction?','Arabic reads RIGHT to LEFT.','Arabic = right-to-left flowing cursive script. Persian/Farsi looks very similar but is used in Iran.'],exp:'Arabic reads right-to-left. It is a cursive script where letters connect. Similar-looking scripts: Persian (Iran), Urdu (Pakistan). In a GeoGuessr context, Arabic on signs + dusty beige buildings = Middle East/North Africa.',pills:['Right to left','Cursive connected letters','Middle East + North Africa','Similar to Persian/Urdu'],opts:['Hebrew','Persian/Farsi','Urdu','Arabic'],drawFn:'drawScriptAR'},
       {answer:'Hindi',q:'Devanagari vs Bengali — both have a top bar. Which is this one?',meta:'Written script',hints:['Both Hindi (Devanagari) and Bengali have a horizontal bar at the top.','In Devanagari, the bar is a solid straight line.','Devanagari (Hindi) = clean straight top bar, letters are more angular. Bengali = curved and rounder.'],exp:'Devanagari (Hindi) has a clean, straight horizontal bar (shirorekha) at the top. Bengali looks similar but has more curved, rounded letterforms and a slightly different bar style. Both used in India but Bengali also used in Bangladesh.',pills:['Straight top bar = Devanagari','Curved rounder = Bengali','Devanagari = India + Nepal','Bengali = Bangladesh + West Bengal'],opts:['Tamil','Bengali','Sinhala','Hindi'],drawFn:'drawScriptHI'},
       {answer:'Japanese',q:'Japanese vs Chinese — both use similar characters. What is the key difference visible here?',meta:'Written script',hints:['Look at whether multiple different-looking scripts appear together.','Japanese mixes complex characters WITH simpler flowing scripts.','Japanese = three scripts together. Chinese = only hanzi (complex characters), no mixing.'],exp:'The three-script mix is the definitive Japanese tell. Chinese uses only hanzi. In Japanese text you can spot hiragana (curved simple syllables like な, の, て) and katakana (angular syllables like ナ, ト) mixed in with complex kanji.',pills:['Three scripts mixed = Japanese','Chinese = hanzi only','Hiragana curved: な の て','Katakana angular: ナ ト ニ'],opts:['Chinese','Korean','Vietnamese','Japanese'],drawFn:'drawScriptJA'},
+      ,{answer:'Mongolian',q:'A sign shows vertical text running top-to-bottom in flowing cursive script. Which writing direction is this?',meta:'Written script',hints:['Text runs vertically — top to bottom.','Flowing cursive script.','Traditional Mongolian script is the only major script written vertically.'],exp:'Traditional Mongolian script is written vertically from top to bottom, left to right — unique among modern widely-used scripts. Seen on government signs in Mongolia alongside Cyrillic.',pills:['Vertical top-to-bottom','Only major vertical script','Mongolia uses both vertical + Cyrillic'],opts:['Chinese','Japanese','Arabic','Mongolian'],drawFn:'drawScriptMN'}
     ]},
   ]},
   {id:'currencies',icon:'💰',name:'Currencies',sub:'Symbols · Placement',color:'#BA7517',league:0,quizzes:[
@@ -1693,6 +1717,14 @@ const CATS=[
       {answer:'United Arab Emirates',q:'Which country does this flag belong to?',meta:'National flag',hints:['A vertical red stripe on the left.','Green, white, and black horizontal stripes on the right.','Red left stripe + green/white/black = UAE.'],exp:'The UAE flag has a vertical red band on the left with three horizontal stripes: green (top), white (middle), and black (bottom). These are Pan-Arab colours.',pills:['Red vertical left stripe','Green/white/black right half','Pan-Arab colours'],opts:['Jordan','Kuwait','Bahrain','United Arab Emirates'],drawFn:'drawFlagAE'},
       {answer:'Kuwait',q:'Which country does this flag belong to?',meta:'National flag',hints:['Three horizontal stripes: green, white, red.','A black trapezoid appears on the left side.','Green/white/red + black trapezoid left = Kuwait.'],exp:'Kuwait has green, white, and red horizontal stripes with a distinctive black trapezoid on the left. The trapezoid shape distinguishes it from other Pan-Arab tricolours.',pills:['Green/white/red horizontal','Black TRAPEZOID on left (not triangle)','Trapezoid shape is unique'],opts:['Jordan','UAE','Iraq','Kuwait'],drawFn:'drawFlagKW'},
       {answer:'Zimbabwe',q:'Which country does this flag belong to?',meta:'National flag',hints:['Seven horizontal stripes of multiple colours.','A white triangle on the left with a bird and star.','7 stripes (green/yellow/red/black/red/yellow/green) + white triangle + Zimbabwe bird = Zimbabwe.'],exp:'Zimbabwe\'s flag has 7 stripes and a white triangle on the left containing a red 5-pointed star with the Zimbabwe Bird (soapstone bird) on it.',pills:['7 coloured stripes','White triangle on left','Zimbabwe Bird inside','Red star with bird'],opts:['Mozambique','Tanzania','Zambia','Zimbabwe'],drawFn:'drawFlagZW'},
+      ,{answer:'Botswana',q:'Which African country has a light blue flag with a black and white horizontal band?',meta:'National flag',hints:['Light blue background.','A thick black band with thin white borders across the middle.','Botswana — water is precious here.'],exp:'Botswana has a light blue background (representing water and rain) with a central black band bordered by white, symbolising racial harmony. Very distinctive simple design.',pills:['Light blue + black/white band','Blue = water (precious)','Simple elegant design'],opts:['Lesotho','Namibia','Eswatini','Botswana'],drawFn:'drawFlagBW'}
+      ,{answer:'Namibia',q:'Which African country has a flag with a diagonal stripe and golden sun?',meta:'National flag',hints:['Three diagonal sections: blue, red, green.','A golden sun in the top-left corner.','Namibia — diagonal design.'],exp:'Namibia has diagonal red and blue triangles separated by white, with a golden sun in the upper left. Red = people, white = peace, blue = sky and Atlantic coast.',pills:['Diagonal red/white/blue','Golden sun top-left','Atlantic coast country'],opts:['South Africa','Angola','Botswana','Namibia'],drawFn:'drawFlagNA'}
+      ,{answer:'Tanzania',q:'Which East African country has a diagonal black stripe with gold borders on green and blue?',meta:'National flag',hints:['Green triangle top-left, blue bottom-right.','Black diagonal stripe with thin gold borders.','Tanzania — one of the most elegant African flag designs.'],exp:'Tanzania has a black diagonal stripe (gold-bordered) from lower-left to upper-right, with green (land/agriculture) top-left and blue (Indian Ocean) bottom-right.',pills:['Black diagonal + gold borders','Green top-left / blue bottom-right'],opts:['Uganda','Rwanda','Kenya','Tanzania'],drawFn:'drawFlagTZ'}
+      ,{answer:'Uganda',q:'Which East African country has horizontal stripes with a grey crowned crane in the centre?',meta:'National flag',hints:['Black, yellow, and red stripes repeated.','A white disc with a bird.','Ugandan crested crane.'],exp:'Uganda has six equal horizontal stripes (black, yellow, red, repeated) with a central white disc containing a grey crowned crane — Uganda national bird.',pills:['Black/yellow/red x2','Grey crowned crane in white circle','National bird symbol'],opts:['Kenya','Rwanda','Ethiopia','Uganda'],drawFn:'drawFlagUG'}
+      ,{answer:'Nepal',q:'Which country is the ONLY one in the world with a non-rectangular national flag?',meta:'National flag',hints:['Not a rectangle.','Two stacked triangular pennants.','Nepal.'],exp:'Nepal flag is the only national flag that is not a rectangle or square — a double pennant shape. White moon (upper pennant) and white sun (lower pennant) on crimson red.',pills:['Only non-rectangular flag','Double pennant shape','Crimson red + moon + sun','100% unique identifier'],opts:['Bhutan','Sri Lanka','India','Nepal'],drawFn:'drawFlagNP'}
+      ,{answer:'Bangladesh',q:'Which country has a green flag with a large red disc slightly left of centre?',meta:'National flag',hints:['Plain green background.','Large red circle.','Offset slightly left — like Japan but green.','Bangladesh.'],exp:'Bangladesh has dark green with a red disc offset slightly left (appears centred when flying). Green = Islam and countryside; red = rising sun and blood of independence.',pills:['Green + red disc','Disc slightly left of centre','Resembles Japan but green'],opts:['Pakistan','Libya','Portugal','Bangladesh'],drawFn:'drawFlagBD'}
+      ,{answer:'Venezuela',q:'Which South American country has yellow, blue, and red stripes with 8 stars in an arc?',meta:'National flag',hints:['Three horizontal stripes.','Eight white stars on the blue stripe.','Similar to Colombia but equal stripe widths.'],exp:'Venezuela has equal-width yellow, blue, and red stripes with 8 stars in a semicircle on blue. Colombia uses same colours but yellow is double-width. Ecuador adds a coat of arms.',pills:['Yellow/blue/red equal stripes','8 stars in arc on blue','Colombia = wider yellow, no stars'],opts:['Colombia','Ecuador','Bolivia','Venezuela'],drawFn:'drawFlagVE'}
+      ,{answer:'Peru',q:'Which South American country has a vertical red-white-red tricolour with no symbols?',meta:'National flag',hints:['Three vertical stripes.','Only red and white.','No symbols on the civil flag.'],exp:'Peru civil flag is red-white-red vertical with no symbols. The state flag adds a coat of arms. Similar structure to Canada but only two colours.',pills:['Red/white/red vertical','No symbols (civil flag)','South America'],opts:['Canada','Austria','Singapore','Peru'],drawFn:'drawFlagPE'}
     ]},
     {id:'flags-islands',name:'Island nations',desc:'Oceania · Caribbean · Indian Ocean',questions:[
       {answer:'Fiji',q:'Which Pacific island nation uses this flag?',meta:'National flag',hints:['Light blue background with the Union Jack.','A shield with a British lion appears on the right.','Light blue + Union Jack + Fijian shield = Fiji.'],exp:'Fiji\'s flag is light blue (representing the Pacific Ocean) with the Union Jack in the top-left and the Fijian coat of arms on the right. One of the last countries to keep the Union Jack prominently.',pills:['Light BLUE background (not dark)','Union Jack top-left','Fijian shield on right'],opts:['Tuvalu','Cayman Islands','British Virgin Islands','Fiji'],drawFn:'drawFlagFJ'},
@@ -1830,6 +1862,9 @@ const CATS=[
       {answer:'France',q:'A blue rectangular sign shows a route starting with A. The sign style is French. Which country?',meta:'Highway sign',hints:['A stands for Autoroute.','French motorway signs are blue — unlike UK\'s green.','France: A1, A6, A10, A71...'],exp:'French autoroutes use blue rectangular signs with white text and an A-prefix. This contrasts with the UK (green signs). Spain also uses blue signs with A-prefix but the surrounding context (language, architecture) distinguishes them.',pills:['Blue + A-number = French autoroute','Blue not green (unlike UK)','Spain also blue A-prefix but different context','A1 = Paris to Lille'],opts:['UK','Germany','Spain','France'],drawFn:'drawHwFrance'},
       {answer:'Germany',q:'A yellow shield-shaped sign shows a route starting with B followed by a number. Which country?',meta:'Highway sign',hints:['Yellow shields are unusual in Europe.','B stands for Bundesstraße (federal road).','Germany uses yellow shields for Bundesstraßen: B12, B14, B96...'],exp:'German Bundesstraßen (federal roads) use yellow shield signs with black B-numbers — completely distinctive in Europe. The Autobahn uses blue signs with A-numbers. Seeing a yellow B-shield immediately confirms Germany or Austria (which uses a similar system).',pills:['Yellow shield + B-number = German Bundesstraße','Blue + A-number = Autobahn','Yellow shields = Germany / Austria','B96 = famous Berlin to Bavaria route'],opts:['France','Netherlands','Switzerland','Germany'],drawFn:'drawHwGermany'},
       {answer:'Brazil',q:'A green sign shows a route in a horizontal oval shape with a BR prefix. Which country?',meta:'Highway sign',hints:['BR prefix means federal highway.','The oval shape is distinctive.','Brazil uses BR-followed by numbers: BR-101, BR-116, BR-040.'],exp:'Brazilian federal highways use green oval-shaped markers with a BR prefix. BR-101 runs the entire Brazilian coastline, BR-116 runs north-south through the interior. The oval shape is uniquely Brazilian and often painted on road surfaces too.',pills:['BR-oval = Brazil federal highway','Green oval shape','BR-101 = entire coastal highway','Often painted on road surface'],opts:['Argentina','Colombia','Chile','Brazil'],drawFn:'drawHwBrazil'},
+      ,{type:'twoopt',answer:'Left',opts:['Left','Right'],q:'Malaysia was a British colony. Which side does traffic drive on?',meta:'Driving side',hints:['Malaysia gained independence from Britain in 1957.','British colonies drive left.','Malaysia drives on the LEFT.'],exp:'Malaysia drives on the left as a former British colony. Trilingual signs (Malay + Chinese + Tamil) and tropical landscape confirm Malaysia. Singapore also drives left.',pills:['Malaysia drives LEFT','Former British colony','Singapore also left','Trilingual signs confirm'],drawFn:'drawDriveLeft'}
+      ,{type:'twoopt',answer:'Left',opts:['Left','Right'],q:'Pakistan was part of British India. Which side does traffic drive on?',meta:'Driving side',hints:['Pakistan separated from British India in 1947.','British India drove on the left.','Pakistan drives on the LEFT.'],exp:'Pakistan drives on the left — inherited from British India. Both India and Pakistan drive left. Use script to separate them: Urdu (Arabic script) = Pakistan, Devanagari = India.',pills:['Pakistan drives LEFT','Same as India','Use script to separate them','Urdu = Pakistan'],drawFn:'drawDriveLeft'}
+      ,{type:'twoopt',answer:'Right',opts:['Left','Right'],q:'Vietnam was French Indochina. Which side does traffic drive on?',meta:'Driving side',hints:['Vietnam was a French colony.','France standardised right-hand traffic in colonies.','Vietnam drives on the RIGHT.'],exp:'Vietnam drives on the right — as former French Indochina. Despite being near Japan (left) and geographically SE Asian, French colonial heritage means right-side traffic.',pills:['Vietnam drives RIGHT','Former French colony','French Indochina = right'],drawFn:'drawDriveRight'}
     ]},
     ,{id:'hw-others',name:'More highway shields',desc:'Spain · Italy · Australia · Japan',questions:[
       {answer:'Spain',q:'A blue rectangular sign shows a route starting with AP or A. The sign looks similar to France but the country is different. Which Iberian country?',meta:'Highway sign',hints:['Spanish motorways are called Autopistas.','They use blue signs like France.','AP (Autopista de Peaje = toll motorway) or A are Spanish.'],exp:'Spain uses blue motorway signs with AP (toll autopista) or A (free autovía) prefixes — very similar to France. Context separates them: Spanish signs use a different font and the landscape/architecture is distinctly Spanish.',pills:['Blue + AP or A = Spanish autopista','AP = toll · A = free autovía','Very similar to French signs','Context (language, arch) separates Spain from France'],opts:['France','Portugal','Italy','Spain'],drawFn:'drawHwSpain'},
@@ -1847,6 +1882,8 @@ const CATS=[
       {answer:'Israel',q:'A street sign shows Hebrew, Arabic, and English on three lines. Which country?',meta:'Script combination',hints:['Hebrew script — distinctive block letters, right to left.','Arabic also appears — also right to left.','This three-language combination is legally required.'],exp:'Israel is the only country where Hebrew + Arabic + English appear together on road signs — legally mandated. Hebrew block letters are very distinctive. Both Hebrew and Arabic read right-to-left. No other country uses this exact combination.',pills:['Hebrew + Arabic + English = Israel ONLY','Both scripts read right-to-left','Hebrew = distinctive block letters','Unique combination globally'],opts:['Palestine','Jordan','Lebanon','Israel'],drawFn:'drawSignIsrael'},
       {answer:'Hong Kong',q:'Signs show Traditional Chinese and English in a hyper-dense skyline of skyscrapers. Which territory?',meta:'Script combination',hints:['Traditional Chinese — not Simplified.','English alongside Chinese.','Former British territory with extreme building density.'],exp:'Hong Kong uses Traditional Chinese + English. Mainland China uses Simplified Chinese. Taiwan also uses Traditional but has no English on standard signs. Hong Kong\'s ultra-dense skyscraper skyline and British-heritage infrastructure (left-side traffic, red post boxes) confirm it.',pills:['Traditional Chinese + English = Hong Kong','Simplified = mainland China','Taiwan = Traditional but no English signs','Ultra-dense skyline + left traffic = HK'],opts:['Taiwan','Macau','Mainland China','Hong Kong'],drawFn:'drawSignHongKong'},
       {answer:'South Africa',q:'Road signs show English + Afrikaans (a Germanic-sounding language). Left-side traffic. Which country?',meta:'Script combination',hints:['Afrikaans looks like Dutch or German.','Words like PADWERKE (roadworks) and GEE PAD (give way).','South Africa has 11 official languages but English + Afrikaans dominate on signs.'],exp:'South Africa uses English + Afrikaans on most road signs. Afrikaans is derived from 17th-century Dutch. Combined with left-side traffic and African landscape, this firmly places you in South Africa. Namibia also has Afrikaans but is far rarer in GeoGuessr.',pills:['English + Afrikaans = South Africa','Afrikaans derived from Dutch','PADWERKE = roadworks','Left-side traffic confirms'],opts:['Zimbabwe','Namibia','Botswana','South Africa'],drawFn:'drawSignSouthAfrica'},
+      ,{answer:'South Korea',q:'A blue shield-shaped sign shows a route number. Which East Asian country?',meta:'Highway sign',hints:['Blue shield.','East Asian context.','South Korea uses a blue shield for national highways.'],exp:'South Korean national highways use a blue shield-shaped marker. Combined with Hangul script and right-side traffic, this confirms South Korea.',pills:['Blue shield = South Korea','Hangul confirms','Right-side traffic'],opts:['Japan','China','Taiwan','South Korea'],drawFn:'drawHwKorea'}
+      ,{answer:'China',q:'A red and white shield shows a route starting with G. Which country?',meta:'Highway sign',hints:['Red and white colouring.','G stands for Guodao.','China uses G-prefix national expressways.'],exp:'Chinese national expressways use a red/white shield with G-prefix (Guodao = national road). G1 = Beijing to Shenyang, G2 = Beijing to Shanghai.',pills:['Red/white + G-number = China','G = Guodao','Very common in urban China'],opts:['South Korea','Japan','Taiwan','China'],drawFn:'drawHwChina'}
     ]},
     {id:'signs-more',name:'More country signs',desc:'Korea · Russia · India · Thailand',questions:[
       {answer:'South Korea',q:'A road sign shows Hangul script alongside English. Which East Asian country?',meta:'Road sign',hints:['Rounded square syllable blocks.','Each block = one syllable.','Hangul on road signs = South Korea.'],exp:'South Korean road signs use Hangul alongside English. Right-side traffic + Hangul confirms South Korea over Japan.',pills:['Hangul + English = South Korea','Right-side traffic unlike Japan'],opts:['Japan','China','Taiwan','South Korea'],drawFn:'drawSignKorea'},
@@ -1859,7 +1896,7 @@ const CATS=[
 
 // ── QUIZ STATE ──────────────────────────────────────────────────────────────
 let CC=null,CQ=null,qList=[],qi=0,answered=false,hintsRevealed=0;
-let qScore=0,qStreak=0,qBest=0,qResults=[],reviewData=[],retryData=null,isDaily=false,isRelearn=false;
+let qScore=0,qStreak=0,qBest=0,qResults=[],reviewData=[],retryData=null,isDaily=false,isRelearn=false,isSrsReview=false;
 const HP=[300,200,100,50];
 const ST=[{n:3,m:1.2,l:'3 streak!'},{n:5,m:1.5,l:'5 streak!'},{n:8,m:2,l:'8 streak!'}];
 function cPts(){const b=HP[Math.min(hintsRevealed,3)];const th=ST.slice().reverse().find(t=>qStreak>=t.n);return th?Math.round(b*th.m):b;}
@@ -1996,6 +2033,104 @@ function awardPC(n,reason){
   if(reason)showToast(`+${n} 🪙 ${reason}`);
 }
 
+
+// ── SPACED REPETITION ────────────────────────────────────────────────────────
+const SRS_INTERVALS=[0,3,7,14]; // days until due per star count (0,1,2,3)
+
+function srsKey(catId,qzId){return catId+'|'+qzId;}
+
+function srsGet(catId,qzId){
+  return S.srs[srsKey(catId,qzId)]||{stars:0,lastPlayed:0,dueDate:0};
+}
+
+function srsSet(catId,qzId,stars){
+  const now=Date.now();
+  const days=SRS_INTERVALS[Math.min(stars,3)];
+  const dueDate=days>0?now+days*86400000:0;
+  S.srs[srsKey(catId,qzId)]={stars,lastPlayed:now,dueDate};
+  // Keep qp in sync for backward compat (star display)
+  if(!S.qp[catId])S.qp[catId]={};
+  S.qp[catId][qzId]=stars;
+  save();
+}
+
+function srsIsDue(catId,qzId){
+  const d=srsGet(catId,qzId);
+  if(!d.lastPlayed)return false; // never played = not "due", just unplayed
+  return d.dueDate>0&&Date.now()>=d.dueDate;
+}
+
+function srsDueCount(){
+  // Count quizzes that have been played and are now due for review
+  let n=0;
+  CATS.forEach(cat=>{
+    cat.quizzes.forEach(qz=>{
+      if(srsIsDue(cat.id,qz.id))n++;
+    });
+  });
+  return n;
+}
+
+function srsDueLabel(catId){
+  // Returns number of due quizzes in a category
+  const cat=CATS.find(c=>c.id===catId);
+  if(!cat)return 0;
+  return cat.quizzes.filter(qz=>srsIsDue(catId,qz.id)).length;
+}
+
+function srsNextDue(){
+  // Return soonest upcoming due date (for countdown display)
+  let soonest=Infinity;
+  Object.values(S.srs).forEach(d=>{
+    if(d.dueDate>Date.now()&&d.dueDate<soonest)soonest=d.dueDate;
+  });
+  return soonest===Infinity?null:soonest;
+}
+
+function srsDaysUntil(ts){
+  if(!ts)return null;
+  const d=Math.ceil((ts-Date.now())/86400000);
+  return d<=0?'today':d===1?'tomorrow':'in '+d+' days';
+}
+
+function startSrsReview(){
+  // Launch a review session of all due quizzes (up to 20 questions)
+  const due=[];
+  CATS.forEach(cat=>{
+    cat.quizzes.forEach(qz=>{
+      if(srsIsDue(cat.id,qz.id)&&qz.questions&&qz.questions.length>0){
+        qz.questions.forEach(q=>due.push({...q,_catId:cat.id,_qzId:qz.id}));
+      }
+    });
+  });
+  if(!due.length){showToast('No reviews due right now!');return;}
+  isRelearn=false;isDaily=false;CC=null;CQ=null;retryData=null;
+  isSrsReview=true;
+  qList=shuf(due).slice(0,20);
+  qi=0;qScore=0;qStreak=0;qBest=0;qResults=[];reviewData=[];answered=false;
+  renderDots();loadQ();showScreen('quiz');
+}
+
+
+function renderSrsCard(){
+  const slot=$('srs-card-slot');
+  if(!slot)return;
+  slot.innerHTML='';
+  const due=srsDueCount();
+  if(!due)return;
+  const card=document.createElement('div');
+  card.style.cssText='margin:0 20px 10px;background:linear-gradient(135deg,rgba(200,241,53,.08),rgba(200,241,53,.04));border:1px solid rgba(200,241,53,.3);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer';
+  card.onclick=startSrsReview;
+  card.innerHTML=`
+    <div style="font-size:26px">🔄</div>
+    <div style="flex:1">
+      <div style="font-family:var(--fd);font-size:14px;font-weight:800;color:var(--accent)">${due} review${due===1?'':'s'} due</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:1px">Revisit quizzes before you forget</div>
+    </div>
+    <div style="font-family:var(--fm);font-size:11px;color:var(--accent);opacity:.7">Start →</div>`;
+  slot.appendChild(card);
+}
+
 // ── SCREENS ─────────────────────────────────────────────────────────────────
 function showScreen(n){
   document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));
@@ -2010,7 +2145,7 @@ function showScreen(n){
   if(n==='shop')renderShop();
   if(n==='progress')renderProgress();
 }
-function goHome(){retryData=null;isDaily=false;renderHome();showScreen('home');}
+function goHome(){retryData=null;isDaily=false;isSrsReview=false;renderHome();showScreen('home');}
 
 // ── GLOBAL DIFFICULTY ────────────────────────────────────────────────────────
 function setGlobalDiff(mode){
@@ -2038,6 +2173,7 @@ function renderHome(){
   rb.textContent=mc;
   if(mc===0){rc.style.opacity='.45';rc.style.cursor='default';rsub.textContent='No mistakes saved yet';rb.className='qc-badge qc-badge-muted';}
   else{rc.style.opacity='1';rc.style.cursor='pointer';rsub.textContent=mc+' question'+(mc===1?'':'s')+' to relearn';rb.className='qc-badge qc-badge-danger';}
+  renderSrsCard();
   renderSmart(lg);
   ensureGoals();
   $('home-pc').textContent='🪙 '+S.pc;
@@ -2315,12 +2451,16 @@ function openCategory(catId){
   const list=$('quiz-list');list.innerHTML='';
   CC.quizzes.forEach((qz,i)=>{
     const stars=prog[qz.id]||0;
+    const isDue=srsIsDue(CC.id,qz.id);
+    const srsData=srsGet(CC.id,qz.id);
     const prevDone=i===0||(prog[CC.quizzes[i-1].id]>0);
     const locked=(!prevDone||qz.locked)&&!S.devMode;
     const isCur=!locked&&stars===0;
     const item=document.createElement('div');
-    item.className='quiz-item'+(locked?' locked':'')+(isCur?' current':'');
-    item.innerHTML=`<div class="quiz-num${isCur?' cur':''}">${i+1}</div><div class="quiz-info"><div class="quiz-name">${qz.name}</div><div class="quiz-desc">${qz.desc}</div></div><div style="display:flex;align-items:center;gap:3px">${locked?'<span style="color:var(--muted);font-size:13px">🔒</span>':`<div class="qstar${stars>=1?' on':''}"></div><div class="qstar${stars>=2?' on':''}"></div><div class="qstar${stars>=3?' on':''}"></div>`}</div>`;
+    item.className='quiz-item'+(locked?' locked':'')+(isCur?' current':'')+(isDue?' srs-due':'');
+    const dueLabel=isDue?'<span style="font-size:9px;color:var(--accent);font-family:var(--fm);background:rgba(200,241,53,.12);padding:2px 6px;border-radius:10px;margin-left:4px">REVIEW</span>':
+      (srsData.lastPlayed&&!isDue?`<span style="font-size:9px;color:var(--muted);font-family:var(--fm);margin-left:4px">${srsDaysUntil(srsData.dueDate)}</span>`:'');
+    item.innerHTML=`<div class="quiz-num${isCur?' cur':''}">${i+1}</div><div class="quiz-info"><div class="quiz-name">${qz.name}${dueLabel}</div><div class="quiz-desc">${qz.desc}</div></div><div style="display:flex;align-items:center;gap:3px">${locked?'<span style="color:var(--muted);font-size:13px">🔒</span>':`<div class="qstar${stars>=1?' on':''}"></div><div class="qstar${stars>=2?' on':''}"></div><div class="qstar${stars>=3?' on':''}"></div>`}</div>`;
     if(!locked)item.onclick=()=>startQuiz(catId,qz.id);
     list.appendChild(item);
   });
@@ -2531,7 +2671,10 @@ function showResult(){
   if(!isRelearn&&CC&&CQ){
     const wasNew=!S.qp[CC.id]||!(S.qp[CC.id][CQ.id]>0);
     if(!S.qp[CC.id])S.qp[CC.id]={};
-    S.qp[CC.id][CQ.id]=Math.max(S.qp[CC.id][CQ.id]||0,stars);
+    const prevStars=S.qp[CC.id][CQ.id]||0;
+    const newStars=Math.max(prevStars,stars);
+    S.qp[CC.id][CQ.id]=newStars;
+    srsSet(CC.id,CQ.id,newStars);
     if(stars>0){
       progressGoal('quizComplete');
       if(hardMode())progressGoal('hardComplete');
