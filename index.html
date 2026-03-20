@@ -2150,6 +2150,65 @@ function openBrowse(){
   $('screen-browse').classList.add('active');
 }
 
+function goalPlayTarget(g){
+  // Returns {fn, label} for what to do when Play is tapped
+  const lg=league();
+  const unlocked=CATS.filter(c=>c.league<=lg);
+  
+  function firstIncompleteQuiz(catId){
+    const cat=CATS.find(c=>c.id===catId);
+    if(!cat)return null;
+    const prog=S.qp[catId]||{};
+    const qz=cat.quizzes.find(q=>q.questions&&q.questions.length>0&&!(prog[q.id]>0));
+    return qz||cat.quizzes.filter(q=>q.questions&&q.questions.length>0).slice(-1)[0];
+  }
+  
+  function bestCat(preferCatId){
+    if(preferCatId){
+      const cat=CATS.find(c=>c.id===preferCatId&&c.league<=lg);
+      if(cat)return cat;
+    }
+    // Most progressed but incomplete
+    const inProg=unlocked.filter(c=>{
+      const prog=S.qp[c.id]||{};
+      const done=Object.values(prog).filter(s=>s>0).length;
+      return done>0&&done<c.quizzes.filter(q=>q.questions&&q.questions.length>0).length;
+    });
+    if(inProg.length)return inProg[0];
+    // Any untouched
+    const untouched=unlocked.filter(c=>!S.qp[c.id]||Object.values(S.qp[c.id]).every(s=>!s));
+    if(untouched.length)return untouched[0];
+    return unlocked[0];
+  }
+
+  if(g.type==='daily'){
+    return {label:'Play Daily 5',fn:()=>{closeGoals();startDaily();}};
+  }
+  if(g.type==='clearRelearn'){
+    return S.mistakes.length>0?{label:'Start relearn',fn:()=>{closeGoals();startRelearn();}}:null;
+  }
+  if(g.type==='catCorrect'&&g.cat){
+    const cat=bestCat(g.cat);
+    const qz=firstIncompleteQuiz(cat.id);
+    if(!qz)return null;
+    return {label:'Play '+cat.name,fn:()=>{closeGoals();startQuiz(cat.id,qz.id);}};
+  }
+  if(g.type==='hardComplete'||g.type==='perfect100'&&g.diff==='hard'||g.id==='g-hard3'||g.id==='g-hard100'){
+    const cat=bestCat(null);
+    const qz=firstIncompleteQuiz(cat.id);
+    if(!qz)return null;
+    return {label:'Play in hard mode',fn:()=>{
+      if(S.globalDiff!=='hard'){S.globalDiff='hard';save();}
+      closeGoals();startQuiz(cat.id,qz.id);
+    }};
+  }
+  // Generic: pick best cat
+  const cat=bestCat(null);
+  const qz=firstIncompleteQuiz(cat.id);
+  if(!qz)return null;
+  return {label:'Play '+cat.name,fn:()=>{closeGoals();startQuiz(cat.id,qz.id);}};
+}
+
 function openGoals(){
   ensureGoals();
   $('goals-overlay-pc').textContent='🪙 '+S.pc;
@@ -2169,6 +2228,7 @@ function openGoals(){
     const pct=Math.min(100,Math.round((g.progress||0)/maxProg*100));
     const card=document.createElement('div');
     card.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px'+(g.done?';border-color:rgba(200,241,53,.25)':'');
+    const pt=g.done?null:goalPlayTarget(g);
     card.innerHTML=`
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <div style="font-size:22px">${g.done?'✅':g.icon}</div>
@@ -2185,6 +2245,13 @@ function openGoals(){
         <div style="height:100%;background:${g.done?'var(--accent)':tierCol};width:${g.done?100:pct}%;border-radius:2px;transition:width .4s;opacity:${g.done?.9:.7}"></div>
       </div>
       ${g.n?`<div style="font-size:10px;color:var(--muted);margin-top:4px;font-family:var(--fm)">${g.done?'Complete!':Math.min(g.progress||0,g.n)+' / '+g.n}</div>`:''}`;
+    if(pt){
+      const pb=document.createElement('button');
+      pb.style.cssText='width:100%;margin-top:10px;padding:9px;border-radius:var(--r2);background:var(--accent);color:#0a0a0a;font-family:var(--fd);font-size:12px;font-weight:800;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px';
+      pb.innerHTML='▶ '+pt.label;
+      pb.onclick=pt.fn;
+      card.appendChild(pb);
+    }
     c.appendChild(card);
   });
   // Earning guide
