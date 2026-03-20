@@ -165,7 +165,9 @@ svg{display:block}
 .hint-btn-row{margin:0 20px 10px;display:flex;align-items:center;gap:10px}
 .hint-btn{flex:1;padding:9px 12px;border-radius:var(--r3);border:1px dashed var(--border2);background:transparent;color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px;transition:border-color .15s,color .15s}
 .hint-btn:hover:not(:disabled){border-color:var(--accent);color:var(--text)}
-.hint-btn:disabled{opacity:.3;cursor:default}
+.hint-btn:disabled{opacity:.3;cursor:defaul
+.reveal-ans-btn{background:rgba(255,214,0,.08);border:1px solid rgba(255,214,0,.3);border-radius:var(--r2);padding:8px 12px;color:#FFD600;font-size:12px;display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap;transition:border-color .15s}
+.reveal-ans-btn:hover{border-color:rgba(255,214,0,.6)}t}
 .hint-cost{margin-left:auto;font-family:var(--fm);font-size:10px;color:var(--muted)}
 .pts-preview{font-family:var(--fm);font-size:11px;color:var(--muted);white-space:nowrap}
 .pts-preview span{color:var(--accent)}
@@ -282,6 +284,10 @@ svg{display:block}
 .prog-xp-bar{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
 .prog-xp-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .6s}
 .prog-xp-lbl{font-size:10px;color:var(--muted);margin-top:5px;font-family:var(--fm)}
+.prog-collapse-btn{width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:var(--r2);border:1px solid var(--border);background:var(--bg2);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;margin:12px 0 0;transition:border-color .15s}
+.prog-collapse-btn:hover{border-color:var(--border2)}
+.league-tier-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.league-tier-row.current-league{border-color:var(--accent);background:rgba(200,241,53,.04)}
 .smart-section{padding:12px 20px 4px}
 .smart-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:8px}
 .smart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s,transform .1s;margin-bottom:7px}
@@ -291,6 +297,23 @@ svg{display:block}
 .smart-card-name{font-family:var(--fd);font-size:14px;font-weight:800;margin-bottom:1px}
 .smart-card-sub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .smart-card-badge{font-size:10px;padding:3px 8px;border-radius:20px;white-space:nowrap;font-family:var(--fm);flex-shrink:0}
+.goal-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;margin-bottom:7px;display:flex;align-items:center;gap:10px}
+.goal-card.done{border-color:rgba(200,241,53,.25);background:rgba(200,241,53,.04)}
+.goal-icon{font-size:18px;flex-shrink:0;width:24px;text-align:center}
+.goal-info{flex:1;min-width:0}
+.goal-name{font-size:12px;font-weight:500}
+.goal-prog{height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:5px}
+.goal-prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s}
+.goal-reward{font-size:10px;color:#FFD600;font-family:var(--fm);white-space:nowrap;flex-shrink:0}
+.shop-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.shop-item.purchased{border-color:rgba(200,241,53,.2);opacity:.6}
+.shop-item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}
+.shop-item-name{font-family:var(--fd);font-size:14px;font-weight:800}
+.shop-item-sub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5}
+.shop-item-price{font-family:var(--fm);font-size:13px;color:#FFD600;white-space:nowrap;font-weight:700}
+.shop-buy-btn{width:100%;padding:9px;border-radius:var(--r2);background:#FFD600;color:#0a0a0a;font-family:var(--fd);font-size:13px;font-weight:800;border:none;cursor:pointer;margin-top:8px;transition:opacity .15s}
+.shop-buy-btn:hover{opacity:.88}.shop-buy-btn:disabled{opacity:.4;cursor:default}
+.shop-section-head{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin:16px 0 8px}
 .sc-next{border-color:rgba(200,241,53,.2)}.sc-next .smart-card-badge{background:var(--accent-dim);color:var(--accent)}
 .sc-new{}.sc-new .smart-card-badge{background:var(--bg4);color:var(--muted)}
 .browse-league-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:12px 0 6px;display:flex;align-items:center;justify-content:space-between}
@@ -347,6 +370,12 @@ svg{display:block}
         <div class="xp-track"><div class="xp-bar" id="home-xpbar" style="width:0%"></div></div>
         <div class="xp-num" id="home-xpnum">0/1000</div>
       </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:10px">
+        <div style="font-family:var(--fm);font-size:11px;color:#FFD600;display:flex;align-items:center;gap:3px" id="home-pc">🪙 0</div>
+        <button onclick="openGoals()" id="goals-btn" style="flex:1;padding:6px 10px;border-radius:var(--r3);border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:11px;font-family:var(--fd);font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:6px;transition:border-color .15s">
+          <span>Challenges</span><span id="goals-done-badge" style="font-family:var(--fm);font-size:10px;color:var(--muted)">0/3</span>
+        </button>
+      </div>
     </div>
     <div class="quick-cards">
       <div class="quick-card qc-accent" id="daily-card" onclick="startDaily()">
@@ -376,8 +405,23 @@ svg{display:block}
   <nav class="nav">
     <button class="nav-btn active" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Learn</button>
     <button class="nav-btn" onclick="showScreen('progress')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17V13M12 17V9M16 17V13"/></svg>Progress</button>
-    <button class="nav-btn" onclick="showScreen('leagues')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M4 7h16M4 7l2 8h12l2-8M8 7V5a2 2 0 014 0v2"/></svg>Leagues</button>
+    <button class="nav-btn" onclick="showScreen('shop')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Shop</button>
   </nav>
+</div>
+
+<!-- GOALS overlay -->
+<div class="screen" id="screen-goals" style="position:absolute;inset:0;z-index:50;background:var(--bg)">
+  <div class="screen-inner">
+    <div class="sub-header" style="position:sticky;top:0;z-index:10">
+      <button class="back-btn" onclick="closeGoals()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div>
+        <div class="sub-title">Weekly challenges</div>
+        <div class="sub-meta" id="goals-overlay-sub">Resets Monday</div>
+      </div>
+      <div style="margin-left:auto;font-family:var(--fm);font-size:13px;color:#FFD600" id="goals-overlay-pc">🪙 0</div>
+    </div>
+    <div style="padding:14px 20px 20px" id="goals-overlay-content"></div>
+  </div>
 </div>
 
 <!-- BROWSE ALL overlay -->
@@ -407,7 +451,7 @@ svg{display:block}
   <nav class="nav">
     <button class="nav-btn active" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Learn</button>
     <button class="nav-btn" onclick="showScreen('progress')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17V13M12 17V9M16 17V13"/></svg>Progress</button>
-    <button class="nav-btn" onclick="showScreen('leagues')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M4 7h16M4 7l2 8h12l2-8M8 7V5a2 2 0 014 0v2"/></svg>Leagues</button>
+    <button class="nav-btn" onclick="showScreen('shop')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Shop</button>
   </nav>
 </div>
 
@@ -441,6 +485,7 @@ svg{display:block}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
         <span id="hint-label">Show clue</span><span class="hint-cost" id="hint-cost">−100 pts</span>
       </button>
+      <button class="reveal-ans-btn" id="reveal-ans-btn" onclick="revealAnswer()" style="display:none">👁️ <span class="hint-cost">1 use</span></button>
       <div class="pts-preview">For <span id="pts-prev">300</span> pts</div>
     </div>
     <div class="q-text-area">
@@ -514,50 +559,73 @@ svg{display:block}
 <div class="screen" id="screen-progress">
   <div class="screen-inner">
     <div class="prog-section">
-      <div class="prog-header">Your progress</div>
-      <div class="prog-sub" id="prog-sub">Keep learning to rank up</div>
+      <div class="prog-header">Progress</div>
+
+      <!-- League / XP block -->
       <div class="prog-league">
-        <div class="prog-league-name" id="prog-lname">Bronze League</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div class="prog-league-name" id="prog-lname">Bronze League</div>
+          <div style="font-size:11px;color:var(--muted)" id="prog-sub">0 XP total</div>
+        </div>
         <div class="prog-xp-bar"><div class="prog-xp-fill" id="prog-xpfill" style="width:0%"></div></div>
         <div class="prog-xp-lbl" id="prog-xplbl">0 / 1000 XP to Silver</div>
       </div>
-      <div class="cat-prog-list" id="cat-prog-list"></div>
-      <div style="font-family:var(--fd);font-size:15px;font-weight:800;margin-bottom:4px">Mistake bank</div>
+
+      <!-- League tiers reference -->
+      <div id="league-tiers-list"></div>
+
+      <!-- Category progress — collapsible -->
+      <button onclick="toggleCatProgress()" class="prog-collapse-btn" id="cat-prog-toggle">
+        <span>Category progress</span>
+        <span id="cat-prog-arrow" style="font-size:11px;opacity:.5;transition:transform .2s">▼</span>
+      </button>
+      <div id="cat-prog-wrap" style="display:none">
+        <div class="cat-prog-list" id="cat-prog-list"></div>
+      </div>
+
+      <!-- Mistake bank — always visible -->
+      <div style="font-family:var(--fd);font-size:15px;font-weight:800;margin:16px 0 4px">Mistake bank</div>
       <div style="font-size:11px;color:var(--muted);margin-bottom:10px" id="mistakes-sub">Play quizzes to save mistakes here</div>
       <div id="mistake-list"></div>
-      <button id="relearn-btn-prog" onclick="startRelearn()" style="width:100%;padding:11px;border-radius:var(--r2);background:var(--danger);color:#fff;font-family:var(--fd);font-size:13px;font-weight:800;border:none;cursor:pointer;margin-top:8px;display:none">Relearn all mistakes →</button>
+      <button id="relearn-btn-prog" onclick="startRelearn()" style="width:100%;padding:11px;border-radius:var(--r2);background:var(--danger);color:#fff;font-family:var(--fd);font-size:13px;font-weight:800;border:none;cursor:pointer;margin-top:8px;display:none">Relearn mistakes →</button>
     </div>
   </div>
   <nav class="nav">
     <button class="nav-btn" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Learn</button>
     <button class="nav-btn active" onclick="showScreen('progress')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17V13M12 17V9M16 17V13"/></svg>Progress</button>
-    <button class="nav-btn" onclick="showScreen('leagues')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M4 7h16M4 7l2 8h12l2-8M8 7V5a2 2 0 014 0v2"/></svg>Leagues</button>
+    <button class="nav-btn" onclick="showScreen('shop')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Shop</button>
   </nav>
 </div>
-
-<!-- LEAGUES -->
-<div class="screen" id="screen-leagues">
+<!-- SHOP -->
+<div class="screen" id="screen-shop">
   <div class="screen-inner">
-    <div class="leagues-section">
-      <div class="prog-header" style="margin-bottom:14px">Leagues</div>
-      <div class="league-card cl"><div class="lc-badge cb">Current</div><div class="league-icon">🥉</div><div class="league-name" style="color:var(--bronze)">Bronze</div><div class="league-req">0–999 XP</div><div class="league-perks"><div class="league-perk">Plates, Bollards, Scripts, Currencies, Flags, Google Car, Road Signs</div><div class="league-perk">Easy + Hard difficulty for all quizzes</div><div class="league-perk">Streak multipliers: 3× (1.2×), 5× (1.5×), 8× (2×)</div></div></div>
-      <div class="league-card"><div class="lc-badge lb2">🔒 1000 XP</div><div class="league-icon" style="opacity:.4">🥈</div><div class="league-name" style="color:var(--silver);opacity:.5">Silver</div><div class="league-req" style="opacity:.5">1000 XP required</div><div class="league-perks" style="opacity:.5"><div class="league-perk">Landscapes &amp; Architecture unlocked</div><div class="league-perk">Harder confusable questions</div></div></div>
-      <div class="league-card"><div class="lc-badge lb2">🔒 3000 XP</div><div class="league-icon" style="opacity:.4">🥇</div><div class="league-name" style="color:var(--gold);opacity:.5">Gold</div><div class="league-req" style="opacity:.5">3000 XP required</div><div class="league-perks" style="opacity:.5"><div class="league-perk">Road Markings unlocked</div><div class="league-perk">Expert confusable pairs</div></div></div>
+    <div style="background:var(--bg2);padding:20px 20px 14px;border-bottom:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-family:var(--fd);font-size:22px;font-weight:800">Shop</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px">Spend your Plonky-Coins</div>
+        </div>
+        <div style="background:var(--bg3);border:1px solid rgba(255,214,0,.3);border-radius:var(--r);padding:8px 14px;text-align:center">
+          <div style="font-family:var(--fd);font-size:22px;font-weight:800;color:#FFD600" id="shop-pc-balance">0</div>
+          <div style="font-size:9px;color:var(--muted);font-family:var(--fm);letter-spacing:.08em;margin-top:1px">PLONKY-COINS 🪙</div>
+        </div>
+      </div>
     </div>
+    <div style="padding:14px 20px 80px" id="shop-content"></div>
   </div>
   <nav class="nav">
     <button class="nav-btn" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Learn</button>
     <button class="nav-btn" onclick="showScreen('progress')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17V13M12 17V9M16 17V13"/></svg>Progress</button>
-    <button class="nav-btn active" onclick="showScreen('leagues')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M4 7h16M4 7l2 8h12l2-8M8 7V5a2 2 0 014 0v2"/></svg>Leagues</button>
+    <button class="nav-btn active" onclick="showScreen('shop')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Shop</button>
   </nav>
 </div>
 </div>
 <script>
 
 // ── STATE ──────────────────────────────────────────────────────────────────
-const S={xp:0,qp:{},daily:'',mistakes:[],globalDiff:'easy',sectionOpen:{0:true,1:false,2:false}};
+const S={xp:0,pc:0,qp:{},daily:'',mistakes:[],globalDiff:'easy',sectionOpen:{0:true,1:false,2:false},goals:[],goalsWeek:'',lastCat:''};
 function save(){try{localStorage.setItem('pt4',JSON.stringify(S));}catch(e){}}
-function load(){try{const d=JSON.parse(localStorage.getItem('pt4')||'{}');if(d.xp!==undefined)S.xp=d.xp;if(d.qp)S.qp=d.qp;if(d.daily)S.daily=d.daily;if(d.mistakes)S.mistakes=d.mistakes;if(d.globalDiff)S.globalDiff=d.globalDiff;if(d.sectionOpen)S.sectionOpen=d.sectionOpen;if(d.lastCat)S.lastCat=d.lastCat;}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('pt4')||'{}');if(d.xp!==undefined)S.xp=d.xp;if(d.qp)S.qp=d.qp;if(d.daily)S.daily=d.daily;if(d.mistakes)S.mistakes=d.mistakes;if(d.globalDiff)S.globalDiff=d.globalDiff;if(d.sectionOpen)S.sectionOpen=d.sectionOpen;if(d.lastCat)S.lastCat=d.lastCat;if(d.pc)S.pc=d.pc;if(d.goals)S.goals=d.goals;if(d.goalsWeek)S.goalsWeek=d.goalsWeek;}catch(e){}}
 function league(){return S.xp>=7000?3:S.xp>=3000?2:S.xp>=1000?1:0;}
 const LS=[{n:'Bronze',e:'🥉',c:'var(--bronze)',cl:'lbronze',m:1000},{n:'Silver',e:'🥈',c:'var(--silver)',cl:'lsilver',m:3000},{n:'Gold',e:'🥇',c:'var(--gold)',cl:'lgold',m:7000},{n:'Diamond',e:'💎',c:'#80d8ff',cl:'lgold',m:99999}];
 function today(){return new Date().toISOString().slice(0,10);}
@@ -1291,6 +1359,18 @@ const D={
   ,drawSignIsrael(h){const s=mSVG(300,190);return this._signBoard(s,[['ירושלים','#f0eee8',55,24],['القدس','#c8c4b8',100,22],['Jerusalem','#a0e0ff',140,18]],h);}
   ,drawSignHongKong(h){const s=mSVG(300,190);return this._signBoard(s,[['香港中環','#f0d080',72,28],['Central, Hong Kong','#a0e0ff',125,16]],h);}
   ,drawSignSouthAfrica(h){const s=mSVG(300,190);return this._signBoard(s,[['Road Works Ahead','#f0eee8',65,16],['PADWERKE VOOR','#c8c4b8',105,16],['⚠','#FFD700',145,28]],h);}
+  ,drawHwSpain(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));s.appendChild(el('rect',{x:60,y:20,width:180,height:110,rx:6,fill:'#003189',stroke:'#fff','stroke-width':1.5}));const m=el('text',{x:150,y:66,'text-anchor':'middle','dominant-baseline':'central','font-size':40,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});m.textContent='AP-7';s.appendChild(m);if(!h){const sub=el('text',{x:150,y:100,'text-anchor':'middle','font-size':12,fill:'rgba(255,255,255,.6)','font-family':'sans-serif'});sub.textContent='AUTOPISTA';s.appendChild(sub);const l=el('text',{x:150,y:165,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Blue + AP or A · Spanish motorway';s.appendChild(l);}return s;}
+  ,drawHwItaly(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));s.appendChild(el('rect',{x:60,y:20,width:180,height:110,rx:6,fill:'#007a3d',stroke:'#fff','stroke-width':1.5}));const m=el('text',{x:150,y:66,'text-anchor':'middle','dominant-baseline':'central','font-size':40,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});m.textContent='A1';s.appendChild(m);if(!h){const sub=el('text',{x:150,y:100,'text-anchor':'middle','font-size':12,fill:'rgba(255,255,255,.6)','font-family':'sans-serif'});sub.textContent='AUTOSTRADA';s.appendChild(sub);const l=el('text',{x:150,y:165,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Green + A-number · Italian autostrada';s.appendChild(l);}return s;}
+  ,drawHwAustralia(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'88,20 212,20 220,90 150,170 80,90',fill:'#007a3d'}));s.appendChild(el('ellipse',{cx:150,cy:58,rx:18,ry:22,fill:'#d4a017'}));s.appendChild(el('ellipse',{cx:150,cy:55,rx:10,ry:14,fill:'#007a3d'}));if(!h){const num=el('text',{x:150,y:115,'text-anchor':'middle','dominant-baseline':'central','font-size':36,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});num.textContent='31';s.appendChild(num);const l=el('text',{x:150,y:185,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Kangaroo shield · Australia national route';s.appendChild(l);}return s;}
+  ,drawHwJapan(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));s.appendChild(el('circle',{cx:150,cy:75,r:58,fill:'#003189',stroke:'#fff','stroke-width':2}));if(!h){const num=el('text',{x:150,y:78,'text-anchor':'middle','dominant-baseline':'central','font-size':44,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});num.textContent='4';s.appendChild(num);const l=el('text',{x:150,y:165,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Blue circle · Japan National Route';s.appendChild(l);}return s;}
+  ,drawSignKorea(h){const s=mSVG(300,190);return this._signBoard(s,[['서울 → 부산','#f0eee8',62,22],['Seoul → Busan','#a0e0ff',108,16]],h);}
+  ,drawSignRussia(h){const s=mSVG(300,190);return this._signBoard(s,[['ул. Тверская','#f0eee8',72,24],['Москва 42 км','#c8c4b8',118,18]],h);}
+  ,drawSignIndia(h){const s=mSVG(300,190);return this._signBoard(s,[['दिल्ली  →  आगरा','#f0eee8',60,20],['Delhi → Agra','#a0e0ff',105,16],['NH 19','#FFD600',140,18]],h);}
+  ,drawSignThailand(h){const s=mSVG(300,190);return this._signBoard(s,[['กรุงเทพฯ','#f0eee8',65,26],['Bangkok 120 km','#a0e0ff',112,16]],h);}
+  ,drawSignFrancePriority(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'150,20 260,100 150,180 40,100',fill:'#FFD700',stroke:'#fff','stroke-width':6}));s.appendChild(el('polygon',{points:'150,38 242,100 150,162 58,100',fill:'#fff'}));if(!h){const l=el('text',{x:150,y:194,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Yellow diamond = you have priority · France only';s.appendChild(l);}return s;}
+  ,drawSignUKPriority(h){const s=mSVG(300,180);s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));s.appendChild(el('circle',{cx:150,cy:82,r:68,fill:'#003189',stroke:'#fff','stroke-width':3}));const up=el('text',{x:150,y:74,'text-anchor':'middle','dominant-baseline':'central','font-size':32,fill:'#fff'});up.textContent='↑';s.appendChild(up);const la=el('text',{x:116,y:95,'text-anchor':'middle','dominant-baseline':'central','font-size':20,fill:'#CC0000'});la.textContent='←';s.appendChild(la);const ra=el('text',{x:184,y:95,'text-anchor':'middle','dominant-baseline':'central','font-size':20,fill:'#CC0000'});ra.textContent='→';s.appendChild(ra);if(!h){const l=el('text',{x:150,y:168,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Blue circle priority sign · UK narrow roads';s.appendChild(l);}return s;}
+  ,drawCarStandard(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));this._carBase(s,'#b8b4a8','#c8c4b8');if(!h){const l=el('text',{x:150,y:202,'text-anchor':'middle','font-size':11,fill:'rgba(255,255,255,.45)','font-family':'sans-serif'});l.textContent='Standard configuration · common in SE Asia';s.appendChild(l);}return s;}
+  ,drawCarBrazil(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));this._carBase(s,'#c8c4b8','#d8d4c8');s.appendChild(el('rect',{x:10,y:150,width:280,height:6,rx:2,fill:'#FFD700',opacity:.8}));if(!h){const l=el('text',{x:150,y:202,'text-anchor':'middle','font-size':11,fill:'rgba(255,255,255,.45)','font-family':'sans-serif'});l.textContent='Brazil — yellow safety stripe on lower body';s.appendChild(l);}return s;}
   ,drawSignSTOP(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='STOP';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='English — UK, USA, Australia';s.appendChild(l);}return s;}
   ,drawSignPARE(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='PARE';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Portuguese — Brazil, Portugal, ex-colonies';s.appendChild(l);}return s;}
   ,drawSignALTO(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='ALTO';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Spanish — Mexico, most of Latin America';s.appendChild(l);}return s;}
@@ -1435,6 +1515,44 @@ const D={
   ,drawCarSenegal(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));this._carBase(s,'#c8c4b8','#d8d4c8');s.appendChild(el('rect',{x:62,y:56,width:176,height:14,rx:3,fill:'#e8820c',stroke:'#c06010','stroke-width':1}));if(!h){const l=el('text',{x:150,y:202,'text-anchor':'middle','font-size':11,fill:'rgba(255,255,255,.45)','font-family':'sans-serif'});l.textContent='Senegal — orange tinted windscreen strip';s.appendChild(l);}return s;}
 
 };
+
+
+// ── GOAL POOL ──────────────────────────────────────────────────────────────
+const GOAL_POOL={
+  easy:[
+    {id:'g-daily',name:'Play Daily 5',desc:'Complete today\'s Daily 5',icon:'⚡',pc:5,type:'daily'},
+    {id:'g-anyquiz',name:'Complete any quiz',desc:'Finish a quiz with 1+ stars',icon:'✅',pc:5,type:'quizComplete',n:1},
+    {id:'g-10q',name:'Answer 10 correctly',desc:'Get 10 correct answers total',icon:'🎯',pc:5,type:'correct',n:10},
+    {id:'g-newcat',name:'Try a new category',desc:'Start a category you haven\'t played',icon:'🆕',pc:5,type:'newCat'},
+    {id:'g-easy100',name:'Perfect easy quiz',desc:'Score 100% on any easy quiz',icon:'💯',pc:6,type:'perfect100',diff:'easy'},
+  ],
+  medium:[
+    {id:'g-hard1',name:'Complete a hard quiz',desc:'Finish any quiz in Hard mode',icon:'💪',pc:8,type:'hardComplete',n:1},
+    {id:'g-streak5',name:'5-question streak',desc:'Get 5 correct in a row',icon:'🔥',pc:8,type:'streak',n:5},
+    {id:'g-2quiz',name:'Complete 2 quizzes',desc:'Finish 2 different quizzes',icon:'📚',pc:8,type:'quizComplete',n:2},
+    {id:'g-flags5',name:'Identify 5 flags',desc:'Get 5 flag questions correct',icon:'🏴',pc:8,type:'catCorrect',cat:'flags',n:5},
+    {id:'g-scripts5',name:'Read 5 scripts',desc:'Get 5 script questions correct',icon:'🔤',pc:8,type:'catCorrect',cat:'scripts',n:5},
+  ],
+  hard:[
+    {id:'g-hard100',name:'Flawless hard quiz',desc:'Score 100% on any Hard mode quiz',icon:'🏆',pc:15,type:'perfect100',diff:'hard'},
+    {id:'g-streak8',name:'8-question streak',desc:'Get 8 correct in a row',icon:'⚡',pc:12,type:'streak',n:8},
+    {id:'g-3cats',name:'3 different categories',desc:'Complete quizzes in 3 categories',icon:'🗺️',pc:12,type:'catsPlayed',n:3},
+    {id:'g-relearn',name:'Clear mistake bank',desc:'Complete a relearn session perfectly',icon:'🔁',pc:15,type:'clearRelearn'},
+    {id:'g-hard3',name:'3 hard quizzes',desc:'Complete 3 quizzes in Hard mode',icon:'💎',pc:15,type:'hardComplete',n:3},
+  ]
+};
+
+// ── SHOP DATA ──────────────────────────────────────────────────────────────
+const SHOP_ITEMS=[
+  {id:'learner-pack',name:'Learner pack',sub:'Unlocks a "Reveal answer" button on every question. Answer is shown without counting as wrong. Consumable — 5 uses per pack.',icon:'🎓',price:1,type:'consumable'},
+  {id:'reveal-token',name:'Answer reveal (single)',sub:'Spend 1 PC to reveal one answer without it counting as wrong.',icon:'👁️',price:3,type:'consumable'},
+  {id:'extra-hint',name:'4th hint unlock',sub:'Permanently unlocks a 4th hint for every question. The strongest clue — basically the answer.',icon:'💡',price:80,type:'permanent'},
+  {id:'pack-african-signs',name:'African road signs pack',sub:'20 questions on road signs across Ghana, Kenya, South Africa, Egypt, Morocco and more.',icon:'🌍',price:150,type:'quiz-pack'},
+  {id:'pack-central-asia',name:'Central Asian plates pack',sub:'Vehicle plates and road infrastructure across Kazakhstan, Kyrgyzstan, Uzbekistan, Tajikistan.',icon:'🏔️',price:150,type:'quiz-pack'},
+  {id:'pack-scandinavia',name:'Nordic deep dive',sub:'Advanced Scandinavian metas — road markings, specific signs, municipal styles, and ferry routes.',icon:'🇸🇪',price:150,type:'quiz-pack'},
+  {id:'pack-se-asia-scripts',name:'SE Asia scripts advanced',sub:'Burmese, Khmer, Lao, and Javanese script identification — the hardest script confusables in GeoGuessr.',icon:'🔤',price:200,type:'quiz-pack'},
+  {id:'pack-islands',name:'Island nations advanced',sub:'Deep dive on Pacific island nations, Caribbean territories, and Indian Ocean islands. Flags, codes, and metas.',icon:'🏝️',price:200,type:'quiz-pack'},
+];
 
 // ── CATEGORIES ──────────────────────────────────────────────────────────────
 const CATS=[
@@ -1626,7 +1744,10 @@ const CATS=[
       {answer:'Mongolia',q:'The Street View car has two parallel horizontal bars running across the roof. Which country?',meta:'Google Car',hints:['Two bars, not one — running parallel across the roof.','Looks like a ladder rack.','Mongolia uses a double-bar roof rack setup.'],exp:'Mongolian Street View cars have two parallel horizontal bars forming a ladder-rack style on the roof. Combined with Mongolia\'s distinctive steppe landscape (flat, treeless, ger/yurt visible), this confirms Mongolia.',pills:['Two parallel horizontal bars','Ladder-rack style','Mongolia steppe landscape confirms','Ger/yurt visible in background'],opts:['Kyrgyzstan','Kazakhstan','Russia','Mongolia'],drawFn:'drawCarMongolia'},
       {answer:'Senegal',q:'The Street View car has a tinted orange/yellow strip across the top of the windscreen. Which country?',meta:'Google Car',hints:['Look at the top of the windscreen, not the roof.','A coloured visor strip is visible.','Senegal cars have an orange/amber tinted windscreen visor strip.'],exp:'Senegalese Street View cars have a characteristic orange or amber tinted strip along the top of the windscreen — a visor to reduce sun glare. Combined with Senegal\'s West African urban landscape (French colonial architecture, dented concrete poles), this confirms Senegal.',pills:['Orange windscreen visor strip','Top of windscreen','French colonial urban landscape','Dented concrete poles confirm'],opts:['Ghana','Nigeria','Kenya','Senegal'],drawFn:'drawCarSenegal'},
     ]},
-  ]},
+    ,{id:'car-more',name:'More car configurations',desc:'Indonesia · Brazil · Colombia · Turkey',questions:[
+      {answer:'Indonesia',q:'The Google Street View car is a standard silver/grey model. Left-side traffic, tropical urban setting, dense city environment. The car has no special attachments. Which country?',meta:'Google Car',hints:['A standard car with no special attachments.','Left-side traffic in a tropical country.','Indonesia drives left, uses a standard car setup.'],exp:'Indonesian Street View cars typically look standard — no special rack, snorkel, or tape. The confirming factors are left-side traffic (Dutch colonial legacy), tropical dense urban landscape, Bahasa Indonesia signage, and Indonesian infrastructure style.',pills:['Standard car = Indonesia common','Left-side traffic (Dutch colonial)','Tropical dense urban','Bahasa Indonesia on signs'],opts:['Thailand','Philippines','Vietnam','Indonesia'],drawFn:'drawCarStandard'},
+      {answer:'Brazil',q:'The Street View car has a small yellow reflective stripe along its lower body. The surroundings are Brazilian. What is distinctive about Brazil car setup?',meta:'Google Car',hints:['Look at the lower body of the car.','A yellow stripe runs along the side.','Brazilian Street View cars often have a yellow reflective stripe on the lower panel.'],exp:'Brazilian Street View cars frequently have a yellow reflective stripe along the lower body sides — a Brazilian road safety requirement for vehicles. Combined with Brazilian infrastructure, Portuguese signage, and BR highway ovals, this confirms Brazil.',pills:['Yellow lower stripe = Brazil','Safety regulation requirement','Combined with BR highway ovals','Portuguese signs confirm'],opts:['Colombia','Argentina','Chile','Brazil'],drawFn:'drawCarBrazil'},
+    ]}  ]},
   {id:'roadsigns',icon:'⚠️',name:'Road signs',sub:'Shapes · Words · Colours',color:'#E24B4A',league:0,quizzes:[
     {id:'signs-stop',name:'Stop signs of the world',desc:'STOP vs PARE vs ALTO',questions:[
       {answer:'Brazil / Portugal',q:'Which countries use this word on their stop sign?',meta:'Road sign',hints:['The word is not English.','It is Portuguese.','PARE = Portuguese for STOP. Used in Brazil, Portugal, and former Portuguese colonies.'],exp:'Brazil, Portugal, and Portuguese-speaking countries (Angola, Mozambique, Cape Verde) use PARE on their stop signs. The octagon shape and red colour are universal — only the word changes.',pills:['PARE = Portuguese for STOP','Brazil + Portugal + ex-colonies','Same octagon shape as STOP'],opts:['Mexico / Latin America','France / Belgium','Brazil / Portugal','Arabic-speaking countries'],drawFn:'drawSignPARE'},
@@ -1643,7 +1764,11 @@ const CATS=[
       {answer:'Europe (including UK)',q:'Which region uses a red circle to show speed limits?',meta:'Road sign',hints:['The speed limit is shown inside a circular sign.','The circle has a red border.','Red circle = European standard — used across the EU and UK. The number inside is in km/h for EU, mph for UK.'],exp:'European speed limit signs use a white circle with a red border. This format is used across all EU countries and the UK. The key difference: EU uses km/h, UK uses mph — but the sign shape is identical. If you see a red circle with a speed number, you\'re almost certainly in Europe.',pills:['White circle + red border','EU = km/h · UK = mph','Same shape across all of Europe','Red circle = European standard'],opts:['USA and Canada','Australia','Japan','Europe (including UK)'],drawFn:'drawSignSpeedEU'},
       {answer:'USA and Canada',q:'Which region uses this rectangular white sign for speed limits?',meta:'Road sign',hints:['The sign is rectangular, not circular.','It says SPEED LIMIT at the top.','Rectangle with SPEED LIMIT text = North American standard.'],exp:'North American speed limit signs are rectangular white signs with "SPEED LIMIT" written at the top and the number below. This format is unique to the USA and Canada — the rest of the world uses circular signs. Seeing this rectangle immediately confirms North America.',pills:['Rectangular white sign','SPEED LIMIT text at top','Number below the text','USA and Canada only'],opts:['Australia','Europe','Japan','USA and Canada'],drawFn:'drawSignSpeedUS'},
     ]},
-  ]}
+    ,{id:'signs-give-way',name:'Give way & priority signs',desc:'Yield · Priorité · Vorfahrt',questions:[
+      {answer:'France',q:'A yellow diamond sign with a white border is mounted on a post. No text. Which country uses this to show priority roads?',meta:'Road sign',hints:['The sign is diamond shaped.','Yellow diamonds in Europe have a different meaning than in the USA.','France uses a yellow diamond to indicate you are on a priority road.'],exp:'France uses a distinctive yellow-and-white diamond sign to indicate that drivers on the current road have priority over side roads. This "Priorité" diamond is uniquely French — it appears at intervals along main roads to remind drivers they have right of way.',pills:['Yellow diamond = French priority road','Not a warning (unlike USA yellow diamond)','Appears repeatedly along priority route','Uniquely French sign'],opts:['Germany','Belgium','Switzerland','France'],drawFn:'drawSignFrancePriority'},
+      {answer:'UK',q:'A blue circular sign shows a white arrow pointing upward, with two red arrows pointing left and right beside it. Which country uses this?',meta:'Road sign',hints:['Blue circular signs in Europe indicate mandatory instructions.','The arrows show who has priority.','UK uses blue circle signs to show priority on narrow roads — you have priority over oncoming traffic.'],exp:'The UK uses blue circular signs with white/red arrows to indicate priority on narrow roads. The central white arrow (you) has priority over the red arrows (oncoming). This sign is very common on UK country lanes and is distinctively British.',pills:['Blue circle + priority arrows = UK','White arrow = you have priority','Red arrows = oncoming must wait','Very common on UK country lanes'],opts:['France','Germany','Ireland','UK'],drawFn:'drawSignUKPriority'},
+      {answer:'Most of Europe',q:'An upside-down red triangle with no text. Which region uses this as the standard yield/give way sign?',meta:'Road sign',hints:['The triangle points downward.','There is no text on this version.','Most of Europe uses an empty inverted triangle to mean give way.'],exp:'The inverted red-bordered triangle with no text is the standard European yield/give way sign under the Vienna Convention. Used across EU, Scandinavia, and most of the world except the UK (which adds text) and some other countries.',pills:['Empty inverted triangle = give way','No text version = most of Europe','Vienna Convention standard','UK adds GIVE WAY text'],opts:['Only UK','USA and Canada','Only France','Most of Europe'],drawFn:'drawSignGiveWayEU'},
+    ]}  ]}
   ,{id:'phonecodes',icon:'📞',name:'Area codes',sub:'Regional codes · City identification',color:'#7F77DD',league:0,quizzes:[
     {id:'phone-japan',name:'Japan area codes',desc:'Tokyo · Osaka · Sapporo and more',questions:[
       {answer:'Tokyo',q:'You are in Japan. A shop sign shows the number (03) 5555-1234. Which city?',meta:'Japan area code',hints:['The code is a single digit after the 0.','(03) is one of the most common codes in Japan.','(03) = Tokyo metropolitan area.'],exp:'(03) is the area code for Tokyo and the surrounding metropolitan area. It is Japan\'s most recognisable area code. On Street View you\'ll often see it on shop signs, business cards in windows, and van livery.',pills:['(03) = Tokyo','Most common Japanese area code','Tokyo metro area','Often on shop windows + vans'],opts:['Osaka','Sapporo','Hiroshima','Tokyo'],drawFn:'drawMapJapanTokyo'},
@@ -1692,7 +1817,12 @@ const CATS=[
       {answer:'Indonesia',q:'Indonesia was a Dutch colony, not British. Does it drive on the left?',meta:'Driving side',hints:['The Dutch historically drove on the left.','Dutch colonies inherited left-side traffic.','Indonesia drives on the LEFT.'],exp:'Indonesia drives on the left — inherited from Dutch colonial rule. The Netherlands itself now drives right (switched in 1906) but Indonesia kept left. Left-side + tropical landscape + Indonesian script confirms Indonesia.',pills:['Indonesia drives LEFT','Dutch colonial legacy','Netherlands now drives RIGHT','Tropical + left = Indonesia possible'],opts:['No — Indonesia drives right','Yes — Indonesia drives left','Indonesia','Indonesia'],drawFn:'drawDriveLeft'},
       {answer:'India and Pakistan',q:'India and Pakistan were both British colonies. Do they both drive on the left?',meta:'Driving side',hints:['Both were part of British India.','Both inherited British traffic rules.','Both India and Pakistan drive on the LEFT.'],exp:'Both India and Pakistan drive on the left as former British colonies — they were once the same country (British India). Driving side alone cannot separate them. Use script: Devanagari (हिंदी) = India, Arabic/Urdu (اردو) = Pakistan.',pills:['India drives LEFT','Pakistan also drives LEFT','Cannot separate by driving side','Use script: Devanagari vs Urdu'],opts:['Only India','Neither — both drive right','India and Pakistan','India and Pakistan'],drawFn:'drawDriveLeft'},
     ]},
-  ]},
+    ,{id:'drive-africa-asia',name:'Africa & Asia driving side',desc:'Key countries to know',questions:[
+      {answer:'South Africa',q:'South Africa was a British colony. Which side does it drive on?',meta:'Driving side',hints:['South Africa was under British colonial rule.','British colonies drive on the left.','South Africa drives on the LEFT.'],exp:'South Africa drives on the left as a former British colony. Combined with English + Afrikaans road signs and African landscape, left-side traffic confirms South Africa. Namibia, Zimbabwe, Botswana, Kenya, Tanzania all also drive left.',pills:['South Africa drives LEFT','Former British colony','Namibia, Zimbabwe, Kenya also left','Left = common in southern/eastern Africa'],opts:['Right — South Africa drives right','Left — South Africa drives left','South Africa','South Africa'],drawFn:'drawDriveLeft'},
+      {answer:'Nigeria',q:'Nigeria was a British colony. Does it drive on the left or right?',meta:'Driving side',hints:['Nigeria gained independence from Britain in 1960.','Most former British West African colonies drive left.','Nigeria drives on the LEFT.'],exp:'Nigeria drives on the left as a former British colony. West African left-drivers: Nigeria, Ghana, Sierra Leone, Gambia. However many West African countries (Senegal, Ivory Coast, Guinea) drive right — former French colonies. The colonial power matters.',pills:['Nigeria drives LEFT','Former British colony','French West Africa drives RIGHT','British West Africa drives LEFT'],opts:['Right','Left','Nigeria','Nigeria'],drawFn:'drawDriveLeft'},
+      {answer:'Right',q:'Senegal was a French colony. Which side does traffic drive on?',meta:'Driving side',hints:['France standardised right-hand traffic in its colonies.','Former French colonies drive right.','Senegal drives on the RIGHT.'],exp:'Senegal drives on the right — as a former French colony. All former French African colonies drive right: Senegal, Ivory Coast, Guinea, Mali, Burkina Faso, Niger, Chad, Cameroon, and more. This contrasts with former British colonies (left).',pills:['Senegal drives RIGHT','Former French colony','All former French African colonies = right','British Africa = left · French Africa = right'],opts:['Left','Right','Senegal','Right'],drawFn:'drawDriveRight',type:'twoopt',answer:'Right',opts:['Left','Right']},
+      {answer:'China',q:'China drives on the right. Which neighbouring country also drives on the RIGHT (confusable with Japan)?',meta:'Driving side',hints:['Japan drives left.','Most of mainland Asia drives right.','China, South Korea, Russia all drive right.'],exp:'China drives on the right. This is a key confusable with Japan (left). Mainland China = right, which means if you see dense urban environment with Simplified Chinese characters and right-side traffic, it confirms mainland China over Japan.',pills:['China drives RIGHT','Japan drives LEFT','Simplified Chinese + right = mainland China','Traditional Chinese + left = possibly Taiwan (also drives right)'],opts:['Japan','Taiwan','Vietnam','China'],drawFn:'drawDriveRight'},
+    ]}  ]},
   {id:'highways',icon:'🚧',name:'Highway shields',sub:'USA · UK · France · Germany · Brazil',color:'#E8820C',league:0,quizzes:[
     {id:'hw-shields',name:'Shield shapes and colours',desc:'Identify countries by highway signs',questions:[
       {answer:'USA',q:'A shield-shaped sign with a red top section, blue bottom, and white number. Which country?',meta:'Highway sign',hints:['The shape is distinctive — pointed at the bottom like a police badge.','Red top, blue bottom, white number.','The US Interstate Highway shield is unique in the world.'],exp:'The US Interstate Highway shield — red top, blue bottom, white number, pointed base — is one of the most distinctive road signs globally. No other country uses this design. Interstates are numbered: odd = N-S (I-5, I-95), even = E-W (I-10, I-80), 3-digit = city loops.',pills:['Red top + blue bottom + pointed base','Odd numbers = North-South','Even numbers = East-West','3-digit = city loop or spur'],opts:['Canada','Australia','UK','USA'],drawFn:'drawHwUSA'},
@@ -1701,7 +1831,12 @@ const CATS=[
       {answer:'Germany',q:'A yellow shield-shaped sign shows a route starting with B followed by a number. Which country?',meta:'Highway sign',hints:['Yellow shields are unusual in Europe.','B stands for Bundesstraße (federal road).','Germany uses yellow shields for Bundesstraßen: B12, B14, B96...'],exp:'German Bundesstraßen (federal roads) use yellow shield signs with black B-numbers — completely distinctive in Europe. The Autobahn uses blue signs with A-numbers. Seeing a yellow B-shield immediately confirms Germany or Austria (which uses a similar system).',pills:['Yellow shield + B-number = German Bundesstraße','Blue + A-number = Autobahn','Yellow shields = Germany / Austria','B96 = famous Berlin to Bavaria route'],opts:['France','Netherlands','Switzerland','Germany'],drawFn:'drawHwGermany'},
       {answer:'Brazil',q:'A green sign shows a route in a horizontal oval shape with a BR prefix. Which country?',meta:'Highway sign',hints:['BR prefix means federal highway.','The oval shape is distinctive.','Brazil uses BR-followed by numbers: BR-101, BR-116, BR-040.'],exp:'Brazilian federal highways use green oval-shaped markers with a BR prefix. BR-101 runs the entire Brazilian coastline, BR-116 runs north-south through the interior. The oval shape is uniquely Brazilian and often painted on road surfaces too.',pills:['BR-oval = Brazil federal highway','Green oval shape','BR-101 = entire coastal highway','Often painted on road surface'],opts:['Argentina','Colombia','Chile','Brazil'],drawFn:'drawHwBrazil'},
     ]},
-  ]}
+    ,{id:'hw-others',name:'More highway shields',desc:'Spain · Italy · Australia · Japan',questions:[
+      {answer:'Spain',q:'A blue rectangular sign shows a route starting with AP or A. The sign looks similar to France but the country is different. Which Iberian country?',meta:'Highway sign',hints:['Spanish motorways are called Autopistas.','They use blue signs like France.','AP (Autopista de Peaje = toll motorway) or A are Spanish.'],exp:'Spain uses blue motorway signs with AP (toll autopista) or A (free autovía) prefixes — very similar to France. Context separates them: Spanish signs use a different font and the landscape/architecture is distinctly Spanish.',pills:['Blue + AP or A = Spanish autopista','AP = toll · A = free autovía','Very similar to French signs','Context (language, arch) separates Spain from France'],opts:['France','Portugal','Italy','Spain'],drawFn:'drawHwSpain'},
+      {answer:'Italy',q:'A green sign shows a route starting with A followed by a number. The style is Italian. Which country?',meta:'Highway sign',hints:['Italian motorways are called Autostrade.','They use green signs — different from French blue.','Italy: green + A-number = Autostrada.'],exp:'Italian motorways (Autostrade) use GREEN signs — the key difference from France (blue) and the UK (also green but with M-prefix). Italian green motorway signs have white text and an A-number. The A1 runs from Milan to Naples.',pills:['GREEN + A-number = Italian Autostrada','Green not blue (unlike France)','Similar to UK green but A-prefix not M','A1 = Milan to Naples (famous)'],opts:['France','Spain','Germany','Italy'],drawFn:'drawHwItaly'},
+      {answer:'Australia',q:'A green rectangular sign shows a route number in a shield-like shape. The style is antipodean. Which country?',meta:'Highway sign',hints:['Australia uses state-based highway numbering.','Federal highways use a kangaroo shield.','Australian national highway shields show a kangaroo silhouette.'],exp:'Australian national highways use a distinctive shield with a kangaroo silhouette. State roads use different shields per state (NSW uses a blue shield, Victoria uses a red/white shield). The kangaroo shield is uniquely Australian.',pills:['Kangaroo silhouette shield = Australia','State roads vary by state','NSW = blue shield','Victoria = red/white shield'],opts:['New Zealand','South Africa','USA','Australia'],drawFn:'drawHwAustralia'},
+      {answer:'Japan',q:'A blue sign shows a route number inside a circle. Which East Asian country?',meta:'Highway sign',hints:['The route number is inside a circular shape.','Japanese national routes use a specific circle format.','Japan: blue circle with white number = National Route.'],exp:'Japanese national routes are displayed as white numbers inside a blue circle. Expressways use a different green shield. The circular format is unique to Japan among major countries.',pills:['Blue circle + white number = Japan National Route','Expressways use green shield','Circular format unique to Japan','Very common on Japanese road signs'],opts:['South Korea','China','Taiwan','Japan'],drawFn:'drawHwJapan'},
+    ]}  ]}
 
   ,{id:'signreading',icon:'📋',name:'Sign reading',sub:'Mixed scripts · Which country?',color:'#D85A30',league:0,quizzes:[
     {id:'signs-mixed',name:'Mixed script signs',desc:'Identify countries by script combinations',questions:[
@@ -1713,6 +1848,12 @@ const CATS=[
       {answer:'Hong Kong',q:'Signs show Traditional Chinese and English in a hyper-dense skyline of skyscrapers. Which territory?',meta:'Script combination',hints:['Traditional Chinese — not Simplified.','English alongside Chinese.','Former British territory with extreme building density.'],exp:'Hong Kong uses Traditional Chinese + English. Mainland China uses Simplified Chinese. Taiwan also uses Traditional but has no English on standard signs. Hong Kong\'s ultra-dense skyscraper skyline and British-heritage infrastructure (left-side traffic, red post boxes) confirm it.',pills:['Traditional Chinese + English = Hong Kong','Simplified = mainland China','Taiwan = Traditional but no English signs','Ultra-dense skyline + left traffic = HK'],opts:['Taiwan','Macau','Mainland China','Hong Kong'],drawFn:'drawSignHongKong'},
       {answer:'South Africa',q:'Road signs show English + Afrikaans (a Germanic-sounding language). Left-side traffic. Which country?',meta:'Script combination',hints:['Afrikaans looks like Dutch or German.','Words like PADWERKE (roadworks) and GEE PAD (give way).','South Africa has 11 official languages but English + Afrikaans dominate on signs.'],exp:'South Africa uses English + Afrikaans on most road signs. Afrikaans is derived from 17th-century Dutch. Combined with left-side traffic and African landscape, this firmly places you in South Africa. Namibia also has Afrikaans but is far rarer in GeoGuessr.',pills:['English + Afrikaans = South Africa','Afrikaans derived from Dutch','PADWERKE = roadworks','Left-side traffic confirms'],opts:['Zimbabwe','Namibia','Botswana','South Africa'],drawFn:'drawSignSouthAfrica'},
     ]},
+    {id:'signs-more',name:'More country signs',desc:'Korea · Russia · India · Thailand',questions:[
+      {answer:'South Korea',q:'A road sign shows Hangul script alongside English. Which East Asian country?',meta:'Road sign',hints:['Rounded square syllable blocks.','Each block = one syllable.','Hangul on road signs = South Korea.'],exp:'South Korean road signs use Hangul alongside English. Right-side traffic + Hangul confirms South Korea over Japan.',pills:['Hangul + English = South Korea','Right-side traffic unlike Japan'],opts:['Japan','China','Taiwan','South Korea'],drawFn:'drawSignKorea'},
+      {answer:'Russia',q:'A street sign shows only Cyrillic — no Latin. Soviet blocks visible. Which country?',meta:'Road sign',hints:['Cyrillic-only, no transliteration.','Soviet brutalist buildings.','Russia = Cyrillic-only signs.'],exp:'Russian road signs are Cyrillic-only. Ukraine may add Latin. Soviet block architecture + wide avenues confirms Russia.',pills:['Cyrillic-only = Russia','Ukraine may add Latin'],opts:['Ukraine','Bulgaria','Belarus','Russia'],drawFn:'drawSignRussia'},
+      {answer:'India',q:'Devanagari script and English on a blue background. Which country?',meta:'Road sign',hints:['Curvy script with horizontal top bar.','Bilingual with English.','Devanagari + English on blue = India national highway.'],exp:'Indian National Highway signs use Devanagari and English on blue. The shirorekha (top bar) identifies Devanagari.',pills:['Devanagari + English = India','Blue = national highway'],opts:['Nepal','Sri Lanka','Pakistan','India'],drawFn:'drawSignIndia'},
+      {answer:'Thailand',q:'Circular looping script next to a route number on a road sign. Which country?',meta:'Road sign',hints:['Circular looping letterforms.','Next to a route number.','Thai script = Thailand.'],exp:'Thai road signs show Thai script (circular loops) alongside Arabic numerals. Blue = regular highway, green = expressway.',pills:['Circular loops = Thai script','Blue highway · Green expressway'],opts:['Cambodia','Myanmar','Laos','Thailand'],drawFn:'drawSignThailand'},
+    ]}
   ]}];
 
 
@@ -1724,8 +1865,151 @@ const ST=[{n:3,m:1.2,l:'3 streak!'},{n:5,m:1.5,l:'5 streak!'},{n:8,m:2,l:'8 stre
 function cPts(){const b=HP[Math.min(hintsRevealed,3)];const th=ST.slice().reverse().find(t=>qStreak>=t.n);return th?Math.round(b*th.m):b;}
 function cMult(){return ST.slice().reverse().find(t=>qStreak>=t.n)||null;}
 
+
+// ── WEEKLY GOALS ──────────────────────────────────────────────────────────
+function currentWeek(){
+  const d=new Date();
+  const jan1=new Date(d.getFullYear(),0,1);
+  return d.getFullYear()+'-W'+Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);
+}
+
+function ensureGoals(){
+  const wk=currentWeek();
+  if(S.goalsWeek===wk&&S.goals.length===3)return;
+  // New week — generate 3 goals
+  const pick=(pool)=>pool[Math.floor(Math.random()*pool.length)];
+  const e=pick(GOAL_POOL.easy);
+  let m=pick(GOAL_POOL.medium);while(m.id===e.id)m=pick(GOAL_POOL.medium);
+  let h=pick(GOAL_POOL.hard);while(h.id===e.id||h.id===m.id)h=pick(GOAL_POOL.hard);
+  S.goals=[
+    {...e,progress:0,done:false},
+    {...m,progress:0,done:false},
+    {...h,progress:0,done:false},
+  ];
+  S.goalsWeek=wk;
+  save();
+}
+
+function progressGoal(type,meta={}){
+  if(!S.goals.length)return;
+  let changed=false;
+  S.goals.forEach(g=>{
+    if(g.done)return;
+    let hit=false;
+    if(g.type===type){
+      if(type==='correct'||type==='streak'||type==='catCorrect'){
+        if(type==='catCorrect'&&meta.cat!==g.cat)return;
+        g.progress=Math.min(g.n,(g.progress||0)+1);
+        if(g.progress>=g.n)hit=true;
+      } else if(type==='quizComplete'||type==='hardComplete'||type==='catsPlayed'){
+        g.progress=Math.min(g.n,(g.progress||0)+1);
+        if(g.progress>=g.n)hit=true;
+      } else if(type==='daily'||type==='newCat'||type==='clearRelearn'){
+        hit=true;
+      } else if(type==='perfect100'){
+        if(!g.diff||(g.diff==='hard'&&meta.hard)||(g.diff==='easy'&&!meta.hard))hit=true;
+      }
+    }
+    if(hit){g.done=true;g.progress=g.n||1;S.pc+=g.pc;changed=true;
+      showToast(`Goal complete! +${g.pc} 🪙`);}
+  });
+  if(changed)save();
+}
+
+function renderGoals(){
+  ensureGoals();
+  const sec=document.createElement('div');
+  sec.className='smart-section';
+  const lbl=document.createElement('div');
+  lbl.className='smart-label';
+  const done=S.goals.filter(g=>g.done).length;
+  lbl.textContent=`Weekly goals · ${done}/3 done`;
+  sec.appendChild(lbl);
+  S.goals.forEach(g=>{
+    const card=document.createElement('div');
+    card.className='goal-card'+(g.done?' done':'');
+    const maxProg=g.n||1;
+    const pct=Math.min(100,Math.round((g.progress||0)/maxProg*100));
+    card.innerHTML=`
+      <div class="goal-icon">${g.done?'✅':g.icon}</div>
+      <div class="goal-info">
+        <div class="goal-name">${g.name}</div>
+        <div class="goal-prog"><div class="goal-prog-fill" style="width:${g.done?100:pct}%"></div></div>
+      </div>
+      <div class="goal-reward">+${g.pc} 🪙</div>`;
+    sec.appendChild(card);
+  });
+  return sec;
+}
+
+// ── SHOP ──────────────────────────────────────────────────────────────────
+const OWNED={};
+
+function renderShop(){
+  $('shop-pc-balance').textContent=S.pc;
+  const c=$('shop-content');c.innerHTML='';
+  if(!S.shopOwned)S.shopOwned={};
+  const sections=[
+    {label:'Consumables',ids:['learner-pack','reveal-token']},
+    {label:'Permanent upgrades',ids:['extra-hint']},
+    {label:'Quiz packs',ids:['pack-african-signs','pack-central-asia','pack-scandinavia','pack-se-asia-scripts','pack-islands']},
+  ];
+  sections.forEach(({label,ids})=>{
+    const sh=document.createElement('div');sh.className='shop-section-head';sh.textContent=label;c.appendChild(sh);
+    ids.forEach(id=>{
+      const item=SHOP_ITEMS.find(i=>i.id===id);if(!item)return;
+      const owned=(S.shopOwned||{})[id]||0;
+      const isPerm=item.type==='permanent'&&owned>0;
+      const div=document.createElement('div');
+      div.className='shop-item'+(isPerm?' purchased':'');
+      div.innerHTML=`
+        <div class="shop-item-head">
+          <div><div class="shop-item-name">${item.icon} ${item.name}</div><div class="shop-item-sub">${item.sub}</div></div>
+          <div class="shop-item-price">${item.price} 🪙</div>
+        </div>`;
+      const btn=document.createElement('button');
+      btn.className='shop-buy-btn';
+      btn.textContent=isPerm?'Owned':item.type==='consumable'?(owned>0?`Buy more (${owned} owned)`:'Buy'):'Buy';
+      btn.disabled=isPerm||S.pc<item.price;
+      btn.onclick=()=>buyItem(item);
+      div.appendChild(btn);
+      c.appendChild(div);
+    });
+  });
+}
+
+function buyItem(item){
+  if(S.pc<item.price){showToast('Not enough Plonky-Coins!');return;}
+  if(!S.shopOwned)S.shopOwned={};
+  const owned=(S.shopOwned[item.id]||0);
+  if(item.type==='permanent'&&owned>0){showToast('Already owned!');return;}
+  S.pc-=item.price;
+  S.shopOwned[item.id]=(owned||0)+1;
+  save();
+  renderShop();
+  showToast(`Purchased: ${item.name}!`);
+}
+
+// ── PC EARNING ────────────────────────────────────────────────────────────
+function awardPC(n,reason){
+  S.pc+=n;save();
+  if(reason)showToast(`+${n} 🪙 ${reason}`);
+}
+
 // ── SCREENS ─────────────────────────────────────────────────────────────────
-function showScreen(n){document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));const e=$('screen-'+n);if(!e)return;if(e.classList.contains('result-screen'))e.classList.add('show');else e.classList.add('active');}
+function showScreen(n){
+  document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));
+  const e=$('screen-'+n);if(!e)return;
+  if(e.classList.contains('result-screen'))e.classList.add('show');else e.classList.add('active');
+  // Update nav active states in the newly shown screen
+  e.querySelectorAll('.nav-btn').forEach(b=>{
+    const isActive=(n==='home'&&b.onclick&&b.getAttribute('onclick')?.includes('goHome'))||
+      (n!=='home'&&b.getAttribute('onclick')?.includes("'"+n+"'"));
+    b.classList.toggle('active',!!isActive);
+  });
+  if(n==='shop')renderShop();
+  if(n==='progress')renderProgress();
+}
 function goHome(){retryData=null;isDaily=false;renderHome();showScreen('home');}
 
 // ── GLOBAL DIFFICULTY ────────────────────────────────────────────────────────
@@ -1755,7 +2039,11 @@ function renderHome(){
   if(mc===0){rc.style.opacity='.45';rc.style.cursor='default';rsub.textContent='No mistakes saved yet';rb.className='qc-badge qc-badge-muted';}
   else{rc.style.opacity='1';rc.style.cursor='pointer';rsub.textContent=mc+' question'+(mc===1?'':'s')+' to relearn';rb.className='qc-badge qc-badge-danger';}
   renderSmart(lg);
-  renderProgress();
+  ensureGoals();
+  $('home-pc').textContent='🪙 '+S.pc;
+  const doneCt=S.goals.filter(g=>g.done).length;
+  const gb=$('goals-done-badge');
+  if(gb){gb.textContent=doneCt+'/3';gb.style.color=doneCt===3?'var(--accent)':'var(--muted)';}
 }
 
 function renderSmart(lg){
@@ -1862,6 +2150,63 @@ function openBrowse(){
   $('screen-browse').classList.add('active');
 }
 
+function openGoals(){
+  ensureGoals();
+  $('goals-overlay-pc').textContent='🪙 '+S.pc;
+  const done=S.goals.filter(g=>g.done).length;
+  $('goals-overlay-sub').textContent=`${done}/3 complete this week · resets Monday`;
+  const c=$('goals-overlay-content');c.innerHTML='';
+  // Week info
+  const wkInfo=document.createElement('div');
+  wkInfo.style.cssText='font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6';
+  wkInfo.textContent='Complete goals to earn Plonky-Coins 🪙. Goals reset every Monday. Hard mode quizzes also earn coins directly.';
+  c.appendChild(wkInfo);
+  // Goal cards — expanded with description
+  S.goals.forEach((g,i)=>{
+    const tier=['Easy','Medium','Hard'][i];
+    const tierCol=['var(--accent)','var(--gold)','var(--danger)'][i];
+    const maxProg=g.n||1;
+    const pct=Math.min(100,Math.round((g.progress||0)/maxProg*100));
+    const card=document.createElement('div');
+    card.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px'+(g.done?';border-color:rgba(200,241,53,.25)':'');
+    card.innerHTML=`
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="font-size:22px">${g.done?'✅':g.icon}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+            <span style="font-family:var(--fd);font-size:14px;font-weight:800">${g.name}</span>
+            <span style="font-size:9px;font-family:var(--fm);padding:2px 6px;border-radius:10px;border:1px solid;color:${tierCol};border-color:${tierCol};opacity:.7">${tier}</span>
+          </div>
+          <div style="font-size:11px;color:var(--muted)">${g.desc}</div>
+        </div>
+        <div style="font-family:var(--fd);font-size:14px;font-weight:800;color:#FFD600;white-space:nowrap">+${g.pc} 🪙</div>
+      </div>
+      <div style="height:4px;background:var(--bg4);border-radius:2px;overflow:hidden">
+        <div style="height:100%;background:${g.done?'var(--accent)':tierCol};width:${g.done?100:pct}%;border-radius:2px;transition:width .4s;opacity:${g.done?.9:.7}"></div>
+      </div>
+      ${g.n?`<div style="font-size:10px;color:var(--muted);margin-top:4px;font-family:var(--fm)">${g.done?'Complete!':Math.min(g.progress||0,g.n)+' / '+g.n}</div>`:''}`;
+    c.appendChild(card);
+  });
+  // Earning guide
+  const guide=document.createElement('div');
+  guide.style.cssText='background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-top:6px';
+  guide.innerHTML=`<div style="font-family:var(--fd);font-size:13px;font-weight:800;margin-bottom:8px">How to earn 🪙</div>
+    <div style="font-size:11px;color:var(--muted);line-height:2">
+      Hard mode: +1 per correct answer<br>
+      Hard mode 100%: +5 bonus<br>
+      Daily 5: +3 bonus on completion<br>
+      Weekly challenges: +5 to +15 each
+    </div>`;
+  c.appendChild(guide);
+  document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));
+  $('screen-goals').classList.add('active');
+  $('screen-home').style.display='';
+}
+function closeGoals(){
+  $('screen-goals').classList.remove('active');
+  $('screen-home').classList.add('active');
+}
+
 function closeBrowse(){
   $('screen-browse').classList.remove('active');
   $('screen-home').classList.add('active');
@@ -1936,6 +2281,10 @@ function loadQ(){
   if(!qList.length||qi>=qList.length)return;
   answered=false;hintsRevealed=0;
   const q=qList[qi];
+  // Show reveal button if learner pack has uses
+  const learnerUses=(S.shopOwned||{})['learner-pack']||0;
+  const rab=$('reveal-ans-btn');
+  if(rab){rab.style.display=learnerUses>0?'flex':'none';}
   $('hint-strip').innerHTML='';
   $('hint-btn').disabled=false;
   $('hint-label').textContent='Show clue';
@@ -2033,6 +2382,38 @@ function pickTwoOpt(idx){
   b0.textContent+=(ok?' ✓':' ✗');if(!ok)b1.textContent+=' ✓';
   showExp(q,ok,earned);
 }
+function revealAnswer(){
+  if(answered)return;
+  const q=qList[qi];
+  if(!q)return;
+  // Consume one use
+  if(!S.shopOwned)S.shopOwned={};
+  const uses=(S.shopOwned['learner-pack']||0);
+  if(uses<=0){showToast('No Learner pack uses left — buy more in shop!');return;}
+  S.shopOwned['learner-pack']=uses-1;
+  save();
+  // Highlight the correct answer without marking as wrong
+  if(q.type==='compare'){
+    const cs=q.answerSide;
+    $('compare-'+cs).style.outline='3px solid var(--accent)';
+    $('compare-label-'+cs).textContent=q.answer+' ← correct';
+  } else if(q.type==='twoopt'){
+    const idx=q.opts.indexOf(q.answer);
+    const btn=idx===0?$('twoopt-a'):$('twoopt-b');
+    btn.style.outline='3px solid var(--accent)';
+    btn.style.color='var(--accent)';
+  } else {
+    document.querySelectorAll('.opt').forEach(b=>{
+      if(b.querySelector('span').textContent===q.answer){
+        b.style.outline='3px solid var(--accent)';
+      }
+    });
+  }
+  $('reveal-ans-btn').style.display='none';
+  const left=S.shopOwned['learner-pack']||0;
+  showToast(`Answer revealed · ${left} use${left===1?'':'s'} remaining`);
+}
+
 function showExp(q,ok,earned){
   $('exp-title').textContent=ok?`+${earned} pts${hintsRevealed===0?' — no clues needed 🎯':` (${hintsRevealed} clue${hintsRevealed>1?'s':''} used)`}`:"Here's the explanation:";
   $('exp-text').textContent=q.exp;
@@ -2080,20 +2461,68 @@ function showResult(){
       }
     });
   }
-  if(!isRelearn&&CC&&CQ){if(!S.qp[CC.id])S.qp[CC.id]={};S.qp[CC.id][CQ.id]=Math.max(S.qp[CC.id][CQ.id]||0,stars);}
-  if(isDaily)S.daily=today();
+  if(!isRelearn&&CC&&CQ){
+    const wasNew=!S.qp[CC.id]||!(S.qp[CC.id][CQ.id]>0);
+    if(!S.qp[CC.id])S.qp[CC.id]={};
+    S.qp[CC.id][CQ.id]=Math.max(S.qp[CC.id][CQ.id]||0,stars);
+    if(stars>0){
+      progressGoal('quizComplete');
+      if(hardMode())progressGoal('hardComplete');
+    }
+  }
+  if(isDaily){S.daily=today();progressGoal('daily');awardPC(3,'Daily 5 bonus');}
   S.xp+=xp;
+  // Plonky-Coins for hard mode
+  if(hardMode()&&!isRelearn){
+    const correctCount=qResults.filter(Boolean).length;
+    const pcEarned=correctCount+(pct===1?5:0);
+    if(pcEarned>0){
+      S.pc+=pcEarned;
+      // Progress goals
+      if(pct===1)progressGoal('perfect100',{hard:true});
+      progressGoal('hardComplete');
+      for(let i=0;i<correctCount;i++)progressGoal('correct');
+      if(CC)for(let i=0;i<correctCount;i++)progressGoal('catCorrect',{cat:CC.id});
+    }
+  } else if(!isRelearn){
+    // Easy mode — goal tracking only
+    if(pct===1)progressGoal('perfect100',{hard:false});
+    const correctCount=qResults.filter(Boolean).length;
+    for(let i=0;i<correctCount;i++)progressGoal('correct');
+    if(CC)for(let i=0;i<correctCount;i++)progressGoal('catCorrect',{cat:CC.id});
+  }
   // Relearn clearing
-  if(isRelearn){
-    if(pct===1){const sa=new Set(qList.map(q=>q.answer+'|'+(q.drawFn||q.drawFnLeft||'')));S.mistakes=S.mistakes.filter(m=>!sa.has(m.q.answer+'|'+(m.q.drawFn||m.q.drawFnLeft||'')));}
+  if(wasRelearn){
+    const hard=hardMode();
+    if(hard){
+      // Hard mode: only clear on 100%
+      if(pct===1){
+        const sa=new Set(qList.map(q=>q.answer+'|'+(q.drawFn||q.drawFnLeft||'')));
+        S.mistakes=S.mistakes.filter(m=>!sa.has(m.q.answer+'|'+(m.q.drawFn||m.q.drawFnLeft||'')));
+        // Full PC earn already handled above in hard mode block
+      }
+      // else: bank stays intact
+    } else {
+      // Easy mode: remove only correctly answered questions from bank
+      const correctKeys=new Set(
+        reviewData.filter(r=>r.correct).map(r=>r.q.answer+'|'+(r.q.drawFn||r.q.drawFnLeft||''))
+      );
+      S.mistakes=S.mistakes.filter(m=>!correctKeys.has(m.q.answer+'|'+(m.q.drawFn||m.q.drawFnLeft||'')));
+      // Easy relearn PC: +1 per correct answer (less than hard mode)
+      const easyPC=reviewData.filter(r=>r.correct).length;
+      if(easyPC>0){S.pc+=easyPC;showToast('+'+easyPC+' 🪙 relearn');}
+    }
     isRelearn=false;
+    progressGoal('clearRelearn');
   }
   save();
   $('res-emoji').textContent=wasRelearn?(pct===1?'🏆':'🔁'):pct===1?'🏆':pct>=.8?'🌟':pct>=.5?'🗺️':'📍';
   $('res-title').textContent=wasRelearn?(pct===1?'All cleared!':'Keep practising'):pct===1?'Flawless!':pct>=.8?'Great round!':pct>=.5?'Getting there!':'Keep practising';
   $('res-sub').textContent=wasRelearn?'Relearn session':isDaily?'Daily 5 complete!':`${CC?.name||'Quiz'} — ${CQ?.name||''}`;
   $('res-corr').textContent=corr+'/'+total;$('res-pts').textContent=qScore;$('res-str').textContent=qBest;
-  $('res-xp').textContent='+'+xp+' XP';
+  const wasHard2=hardMode()&&!isRelearn;
+  const pcSummary=wasHard2?(qResults.filter(Boolean).length+(pct===1?5:0)):0;
+  $('res-xp').textContent='+'+xp+' XP'+(pcSummary>0?' · +'+pcSummary+' 🪙':'');
   const nxt=CQ?CC?.quizzes[CC.quizzes.findIndex(q=>q.id===CQ.id)+1]:null;
   $('res-note').textContent=wasRelearn?(pct===1?'All mistakes cleared from bank ✓':'Not perfect — mistakes stay for next time'):isDaily?'Come back tomorrow!':stars>0&&nxt?`"${nxt.name}" unlocked!`:stars===0?'Score 1+ star to progress':'Category complete!';
   ['bs1','bs2','bs3'].forEach((id,i)=>setTimeout(()=>$(id).classList.toggle('on',i<stars),i*150));
@@ -2145,6 +2574,22 @@ function renderProgress(){
   $('prog-xpfill').style.width=Math.min(100,Math.round(xIn/xN*100))+'%';
   $('prog-xplbl').textContent=S.xp+' / '+xc[lg]+' XP to '+(LS[lg+1]?.n||'max');
   $('prog-sub').textContent=S.xp+' XP total';
+  // League tiers
+  const tl=$('league-tiers-list');tl.innerHTML='';
+  [{e:'🥉',n:'Bronze',xp:0,next:1000,cats:'Scripts, Flags, Currencies, Signs, Driving, Highways, Area codes, Sign reading, Google Car'},
+   {e:'🥈',n:'Silver',xp:1000,next:3000,cats:'Landscapes · Architecture (coming soon)'},
+   {e:'🥇',n:'Gold',xp:3000,next:7000,cats:'Road markings'},
+   {e:'💎',n:'Diamond',xp:7000,next:null,cats:'All unlocked'}
+  ].forEach(tier=>{
+    const isCur=S.xp>=tier.xp&&(tier.next===null||S.xp<tier.next);
+    const unlocked=S.xp>=tier.xp;
+    const row=document.createElement('div');
+    row.className='league-tier-row'+(isCur?' current-league':'');
+    row.style.opacity=unlocked?'1':'.45';
+    row.innerHTML=`<div style="font-size:20px">${tier.e}</div><div style="flex:1"><div style="font-size:13px;font-weight:500">${tier.n}${isCur?' <span style="font-size:10px;color:var(--accent);font-family:var(--fm)">CURRENT</span>':''}</div><div style="font-size:10px;color:var(--muted);margin-top:1px">${tier.next?tier.xp+' – '+(tier.next-1)+' XP':tier.xp+'+ XP'} · ${tier.cats}</div></div>`;
+    tl.appendChild(row);
+  });
+  // Category progress
   const list=$('cat-prog-list');list.innerHTML='';
   CATS.filter(c=>c.league<=lg).forEach(cat=>{
     const prog=S.qp[cat.id]||{},done=Object.values(prog).filter(s=>s>0).length,total=cat.quizzes.length,p=total?Math.round(done/total*100):0;
@@ -2153,6 +2598,14 @@ function renderProgress(){
     list.appendChild(item);
   });
   renderMistakeList();
+}
+
+function toggleCatProgress(){
+  const wrap=$('cat-prog-wrap');
+  const arrow=$('cat-prog-arrow');
+  const open=wrap.style.display==='block';
+  wrap.style.display=open?'none':'block';
+  arrow.style.transform=open?'':'rotate(180deg)';
 }
 function renderMistakeList(){
   const list=$('mistake-list');if(!list)return;
