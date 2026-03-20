@@ -190,8 +190,15 @@ svg{display:block}
 .twoopt-btn.wrong{border-color:var(--danger);background:var(--danger-dim);color:var(--danger);animation:shake .3s ease}
 .twoopt-btn.reveal{border-color:var(--accent);background:rgba(200,241,53,.05);color:var(--accent)}
 .twoopt-btn:disabled{cursor:default}
-.exp-box{margin:0 20px 12px;padding:12px 14px;border-radius:var(--r2);background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--accent);display:none}
+.exp-box{margin:0 20px 0;border-radius:var(--r2);background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--accent);display:none;overflow:hidden}
 .exp-box.show{display:block}.exp-box.wrong{border-left-color:var(--danger)}
+.exp-toggle{width:calc(100% - 40px);margin:8px 20px 0;padding:8px 12px;border-radius:var(--r2);border:1px solid var(--border);background:var(--bg2);color:var(--muted);font-size:12px;display:none;align-items:center;justify-content:space-between;cursor:pointer;transition:border-color .15s}
+.exp-toggle.show{display:flex}.exp-toggle:hover{border-color:var(--border2);color:var(--text)}
+.exp-toggle-icon{transition:transform .2s;font-size:10px}
+.exp-toggle.open .exp-toggle-icon{transform:rotate(180deg)}
+.exp-inner{padding:12px 14px;display:none}
+.exp-inner.open{display:block}
+.exp-box-spacer{height:12px;display:none}.exp-box-spacer.show{display:block}
 .exp-title{font-family:var(--fm);font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px}
 .exp-text{font-size:12px;line-height:1.6;color:var(--muted2)}
 .exp-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
@@ -275,6 +282,26 @@ svg{display:block}
 .prog-xp-bar{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden}
 .prog-xp-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .6s}
 .prog-xp-lbl{font-size:10px;color:var(--muted);margin-top:5px;font-family:var(--fm)}
+.smart-section{padding:12px 20px 4px}
+.smart-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted2);margin-bottom:8px}
+.smart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s,transform .1s;margin-bottom:7px}
+.smart-card:hover{border-color:var(--border2)}.smart-card:active{transform:scale(.98)}
+.smart-card-icon{font-size:24px;flex-shrink:0}
+.smart-card-info{flex:1;min-width:0}
+.smart-card-name{font-family:var(--fd);font-size:14px;font-weight:800;margin-bottom:1px}
+.smart-card-sub{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.smart-card-badge{font-size:10px;padding:3px 8px;border-radius:20px;white-space:nowrap;font-family:var(--fm);flex-shrink:0}
+.sc-next{border-color:rgba(200,241,53,.2)}.sc-next .smart-card-badge{background:var(--accent-dim);color:var(--accent)}
+.sc-new{}.sc-new .smart-card-badge{background:var(--bg4);color:var(--muted)}
+.browse-league-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:12px 0 6px;display:flex;align-items:center;justify-content:space-between}
+.browse-cat-row{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:6px;cursor:pointer;transition:border-color .15s}
+.browse-cat-row:hover{border-color:var(--border2)}
+.browse-cat-row.locked{opacity:.4;cursor:default}
+.browse-cat-icon{font-size:18px;width:22px;text-align:center}
+.browse-cat-info{flex:1}
+.browse-cat-name{font-size:13px;font-weight:500}
+.browse-cat-sub{font-size:10px;color:var(--muted)}
+.browse-cat-prog{font-size:10px;color:var(--muted);font-family:var(--fm);white-space:nowrap}
 .cat-prog-list{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
 .cat-prog-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:10px 12px;display:flex;align-items:center;gap:10px}
 .cat-prog-icon{font-size:16px;width:22px;text-align:center}
@@ -305,19 +332,20 @@ svg{display:block}
 <div class="screen active" id="screen-home">
   <div class="screen-inner">
     <div class="home-hero">
-      <div class="logo">Plonk<em>Theory</em></div>
-      <div class="logo-sub">Learn GeoGuessr metas</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="logo" onclick="secretTap()">Plonk<em>Theory</em></div>
+          <div class="logo-sub">Learn GeoGuessr metas</div>
+        </div>
+        <div class="diff-toggle" style="flex-shrink:0">
+          <button class="diff-btn ae" id="gdiff-easy" onclick="setGlobalDiff('easy')">Easy</button>
+          <button class="diff-btn" id="gdiff-hard" onclick="setGlobalDiff('hard')">Hard</button>
+        </div>
+      </div>
       <div class="xp-row">
         <div class="league-pill lbronze" id="home-lbadge">🥉 Bronze</div>
         <div class="xp-track"><div class="xp-bar" id="home-xpbar" style="width:0%"></div></div>
         <div class="xp-num" id="home-xpnum">0/1000</div>
-      </div>
-    </div>
-    <div class="diff-row">
-      <span class="diff-lbl">Difficulty</span>
-      <div class="diff-toggle">
-        <button class="diff-btn ae" id="gdiff-easy" onclick="setGlobalDiff('easy')">Easy</button>
-        <button class="diff-btn" id="gdiff-hard" onclick="setGlobalDiff('hard')">Hard</button>
       </div>
     </div>
     <div class="quick-cards">
@@ -338,13 +366,29 @@ svg{display:block}
         <div class="qc-badge qc-badge-muted" id="relearn-badge">0</div>
       </div>
     </div>
-    <div id="cat-sections"></div>
+    <div id="home-smart"></div>
+    <div style="padding:4px 20px 16px">
+      <button onclick="openBrowse()" style="width:100%;padding:11px;border-radius:var(--r2);border:1px solid var(--border);background:transparent;color:var(--muted);font-size:13px;display:flex;align-items:center;justify-content:center;gap:6px">
+        <span>Browse all categories</span><span style="opacity:.5">→</span>
+      </button>
+    </div>
   </div>
   <nav class="nav">
     <button class="nav-btn active" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Learn</button>
     <button class="nav-btn" onclick="showScreen('progress')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17V13M12 17V9M16 17V13"/></svg>Progress</button>
     <button class="nav-btn" onclick="showScreen('leagues')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M4 7h16M4 7l2 8h12l2-8M8 7V5a2 2 0 014 0v2"/></svg>Leagues</button>
   </nav>
+</div>
+
+<!-- BROWSE ALL overlay -->
+<div class="screen" id="screen-browse" style="position:absolute;inset:0;z-index:50;background:var(--bg)">
+  <div class="screen-inner">
+    <div class="sub-header" style="position:sticky;top:0;z-index:10">
+      <button class="back-btn" onclick="closeBrowse()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+      <div><div class="sub-title">All categories</div></div>
+    </div>
+    <div id="browse-list" style="padding:10px 20px 20px"></div>
+  </div>
 </div>
 
 <!-- CATEGORY -->
@@ -408,16 +452,23 @@ svg{display:block}
       <button class="twoopt-btn" id="twoopt-b" onclick="pickTwoOpt(1)"></button>
     </div>
     <div class="opts" id="opts"></div>
+    <button class="exp-toggle" id="exp-toggle" onclick="toggleExp()">
+      <span id="exp-toggle-label">Show explanation</span>
+      <span class="exp-toggle-icon">▼</span>
+    </button>
     <div class="exp-box" id="exp-box">
-      <div class="exp-title" id="exp-title">Explanation</div>
-      <div class="exp-text" id="exp-text"></div>
-      <div class="exp-pills" id="exp-pills"></div>
-      <div class="real-photo" id="real-photo" style="display:none">
-        <div class="real-photo-loading" id="real-photo-loading">Loading photo…</div>
-        <img id="real-photo-img" style="display:none" alt="Real example">
-        <div class="real-photo-label">Real photo · CC licensed</div>
+      <div class="exp-inner" id="exp-inner">
+        <div class="exp-title" id="exp-title">Explanation</div>
+        <div class="exp-text" id="exp-text"></div>
+        <div class="exp-pills" id="exp-pills"></div>
+        <div class="real-photo" id="real-photo" style="display:none">
+          <div class="real-photo-loading" id="real-photo-loading">Loading photo…</div>
+          <img id="real-photo-img" style="display:none" alt="Real example">
+          <div class="real-photo-label">Real photo · CC licensed</div>
+        </div>
       </div>
     </div>
+    <div class="exp-box-spacer" id="exp-box-spacer"></div>
     <button class="next-btn" id="next-btn">Next →</button>
   </div>
   <div class="quit-overlay" id="quit-overlay">
@@ -506,7 +557,7 @@ svg{display:block}
 // ── STATE ──────────────────────────────────────────────────────────────────
 const S={xp:0,qp:{},daily:'',mistakes:[],globalDiff:'easy',sectionOpen:{0:true,1:false,2:false}};
 function save(){try{localStorage.setItem('pt4',JSON.stringify(S));}catch(e){}}
-function load(){try{const d=JSON.parse(localStorage.getItem('pt4')||'{}');if(d.xp!==undefined)S.xp=d.xp;if(d.qp)S.qp=d.qp;if(d.daily)S.daily=d.daily;if(d.mistakes)S.mistakes=d.mistakes;if(d.globalDiff)S.globalDiff=d.globalDiff;if(d.sectionOpen)S.sectionOpen=d.sectionOpen;}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('pt4')||'{}');if(d.xp!==undefined)S.xp=d.xp;if(d.qp)S.qp=d.qp;if(d.daily)S.daily=d.daily;if(d.mistakes)S.mistakes=d.mistakes;if(d.globalDiff)S.globalDiff=d.globalDiff;if(d.sectionOpen)S.sectionOpen=d.sectionOpen;if(d.lastCat)S.lastCat=d.lastCat;}catch(e){}}
 function league(){return S.xp>=7000?3:S.xp>=3000?2:S.xp>=1000?1:0;}
 const LS=[{n:'Bronze',e:'🥉',c:'var(--bronze)',cl:'lbronze',m:1000},{n:'Silver',e:'🥈',c:'var(--silver)',cl:'lsilver',m:3000},{n:'Gold',e:'🥇',c:'var(--gold)',cl:'lgold',m:7000},{n:'Diamond',e:'💎',c:'#80d8ff',cl:'lgold',m:99999}];
 function today(){return new Date().toISOString().slice(0,10);}
@@ -1173,7 +1224,74 @@ const D={
     if(!h){const t=el('text',{x:150,y:122,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});t.textContent='Read the question — identify by road marking description';s.appendChild(t);}
     return s;
   },
-  drawSignSTOP(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='STOP';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='English — UK, USA, Australia';s.appendChild(l);}return s;}
+  _areaCard(s,country,code,city,h){
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:150,rx:8,fill:'#1c1c22'}));
+    if(!h){const f=el('text',{x:150,y:20,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif','letter-spacing':1});f.textContent=country.toUpperCase();s.appendChild(f);}
+    const c=el('text',{x:150,y:72,'text-anchor':'middle','dominant-baseline':'central','font-size':46,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent=code;s.appendChild(c);
+    if(!h){const cl=el('text',{x:150,y:118,'text-anchor':'middle','font-size':12,fill:'#f0eee8','font-family':'sans-serif'});cl.textContent=city;s.appendChild(cl);}
+    return s;
+  }
+  ,drawPhilCode(h){const s=mSVG(300,150);return this._areaCard(s,'Philippines','(02/032/082)','Metro Manila · Cebu · Davao',h);}
+  ,drawIndonCode(h){const s=mSVG(300,150);return this._areaCard(s,'Indonesia','(021/031/061)','Jakarta · Surabaya · Medan',h);}
+  ,drawUSACode(h){const s=mSVG(300,150);return this._areaCard(s,'USA','212/312/206','NYC · Chicago · Seattle',h);}
+  ,_jpMap(s,dotX,dotY,cityName,h){
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));
+    // Hokkaido
+    s.appendChild(el('path',{d:'M192,22 L212,18 L226,24 L224,36 L210,40 L194,36 Z',fill:'#2a2a32',stroke:'#4a4a58','stroke-width':1}));
+    // Honshu main island
+    s.appendChild(el('path',{d:'M118,44 L138,38 L162,40 L180,48 L192,60 L194,76 L186,90 L170,98 L150,102 L130,98 L112,86 L106,70 L108,56 Z',fill:'#2a2a32',stroke:'#4a4a58','stroke-width':1}));
+    // Shikoku
+    s.appendChild(el('ellipse',{cx:154,cy:112,rx:18,ry:8,fill:'#2a2a32',stroke:'#4a4a58','stroke-width':1}));
+    // Kyushu
+    s.appendChild(el('ellipse',{cx:120,cy:120,rx:16,ry:18,fill:'#2a2a32',stroke:'#4a4a58','stroke-width':1}));
+    // Highlighted city dot
+    s.appendChild(el('circle',{cx:dotX,cy:dotY,r:8,fill:'#c8f135',opacity:.9}));
+    s.appendChild(el('circle',{cx:dotX,cy:dotY,r:4,fill:'#fff'}));
+    if(!h){const t=el('text',{x:dotX+12,y:dotY+4,'font-size':11,fill:'#c8f135','font-family':'sans-serif'});t.textContent=cityName;s.appendChild(t);}
+    // Area code card at top
+    s.appendChild(el('rect',{x:10,y:148,width:280,height:54,rx:6,fill:'#242429'}));
+    if(!h){const lab=el('text',{x:150,y:162,'text-anchor':'middle','font-size':9,fill:'#6b6a72','font-family':'monospace','letter-spacing':1});lab.textContent='JAPAN AREA CODE';s.appendChild(lab);}
+    return s;
+  }
+  ,drawMapJapanTokyo(h){const s=mSVG(300,210);this._jpMap(s,178,72,'Tokyo',h);const c=el('text',{x:150,y:184,'text-anchor':'middle','dominant-baseline':'central','font-size':32,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(03)';s.appendChild(c);return s;}
+  ,drawMapJapanOsaka(h){const s=mSVG(300,210);this._jpMap(s,148,82,'Osaka',h);const c=el('text',{x:150,y:184,'text-anchor':'middle','dominant-baseline':'central','font-size':32,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(06)';s.appendChild(c);return s;}
+  ,drawMapJapanSapporo(h){const s=mSVG(300,210);this._jpMap(s,208,28,'Sapporo',h);const c=el('text',{x:150,y:184,'text-anchor':'middle','dominant-baseline':'central','font-size':32,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(011)';s.appendChild(c);return s;}
+  ,drawMapJapanNagoya(h){const s=mSVG(300,210);this._jpMap(s,164,76,'Nagoya',h);const c=el('text',{x:150,y:184,'text-anchor':'middle','dominant-baseline':'central','font-size':32,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(052)';s.appendChild(c);return s;}
+  ,drawMapJapanFukuoka(h){const s=mSVG(300,210);this._jpMap(s,116,116,'Fukuoka',h);const c=el('text',{x:150,y:184,'text-anchor':'middle','dominant-baseline':'central','font-size':32,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(092)';s.appendChild(c);return s;}
+  ,_brMap(s,dotX,dotY,cityName,h){
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('path',{d:'M60,22 L88,16 L116,18 L138,26 L154,38 L162,54 L160,72 L152,88 L142,104 L130,118 L118,132 L104,142 L88,148 L72,144 L56,136 L44,122 L36,104 L32,84 L34,64 L42,46 Z',fill:'#2a2a32',stroke:'#4a4a58','stroke-width':1}));
+    s.appendChild(el('circle',{cx:dotX,cy:dotY,r:7,fill:'#c8f135',opacity:.9}));
+    s.appendChild(el('circle',{cx:dotX,cy:dotY,r:3,fill:'#fff'}));
+    if(!h){const t=el('text',{x:dotX-10,y:dotY-10,'font-size':10,fill:'#c8f135','font-family':'sans-serif','text-anchor':'middle'});t.textContent=cityName;s.appendChild(t);}
+    s.appendChild(el('rect',{x:10,y:158,width:280,height:44,rx:6,fill:'#242429'}));
+    if(!h){const lab=el('text',{x:150,y:170,'text-anchor':'middle','font-size':9,fill:'#6b6a72','font-family':'monospace','letter-spacing':1});lab.textContent='BRAZIL AREA CODE (DDD)';s.appendChild(lab);}
+    return s;
+  }
+  ,drawMapBrazilSP(h){const s=mSVG(300,210);this._brMap(s,130,120,'São Paulo',h);const c=el('text',{x:150,y:188,'text-anchor':'middle','dominant-baseline':'central','font-size':30,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(11)';s.appendChild(c);return s;}
+  ,drawMapBrazilRio(h){const s=mSVG(300,210);this._brMap(s,138,116,'Rio',h);const c=el('text',{x:150,y:188,'text-anchor':'middle','dominant-baseline':'central','font-size':30,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(21)';s.appendChild(c);return s;}
+  ,drawMapBrazilBrasilia(h){const s=mSVG(300,210);this._brMap(s,112,88,'Brasília',h);const c=el('text',{x:150,y:188,'text-anchor':'middle','dominant-baseline':'central','font-size':30,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(61)';s.appendChild(c);return s;}
+  ,drawMapBrazilSalvador(h){const s=mSVG(300,210);this._brMap(s,148,88,'Salvador',h);const c=el('text',{x:150,y:188,'text-anchor':'middle','dominant-baseline':'central','font-size':30,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(71)';s.appendChild(c);return s;}
+  ,drawMapBrazilManaus(h){const s=mSVG(300,210);this._brMap(s,74,48,'Manaus',h);const c=el('text',{x:150,y:188,'text-anchor':'middle','dominant-baseline':'central','font-size':30,'font-weight':'700',fill:'#c8f135','font-family':'monospace'});c.textContent='(92)';s.appendChild(c);return s;}
+  ,_signBoard(s,scripts,h){
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:190,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('rect',{x:14,y:14,width:272,height:162,rx:6,fill:'#2a2a4a',stroke:'#4a4a6a','stroke-width':1}));
+    scripts.forEach(([txt,col,y,size],i)=>{
+      if(!h||i===0){
+        const t=el('text',{x:150,y,'text-anchor':'middle','dominant-baseline':'central','font-size':size||18,fill:col});
+        t.textContent=txt;s.appendChild(t);
+      }
+    });
+    return s;
+  }
+  ,drawSignSriLanka(h){const s=mSVG(300,190);return this._signBoard(s,[['සිංහල නගරය','#f0eee8',55,20],['தமிழ் நகரம்','#c8c4b8',95,18],['City Centre','#a0e0ff',132,16]],h);}
+  ,drawSignMalaysia(h){const s=mSVG(300,190);return this._signBoard(s,[['Jalan Merdeka','#f0eee8',50,16],['默迪卡路','#f0d080',88,22],['மெர்டேகா வீதி','#c8c4b8',126,15]],h);}
+  ,drawSignSingapore(h){const s=mSVG(300,190);return this._signBoard(s,[['Orchard Road','#f0eee8',45,15],['乌节路','#f0d080',80,22],['Jalan Orchard','#a8f0a8',112,14],['ஓர்ச்சார்ட் சாலை','#c8c4b8',145,13]],h);}
+  ,drawSignMorocco(h){const s=mSVG(300,190);return this._signBoard(s,[['الدار البيضاء','#f0eee8',68,22],['Casablanca','#a0c8ff',115,18]],h);}
+  ,drawSignIsrael(h){const s=mSVG(300,190);return this._signBoard(s,[['ירושלים','#f0eee8',55,24],['القدس','#c8c4b8',100,22],['Jerusalem','#a0e0ff',140,18]],h);}
+  ,drawSignHongKong(h){const s=mSVG(300,190);return this._signBoard(s,[['香港中環','#f0d080',72,28],['Central, Hong Kong','#a0e0ff',125,16]],h);}
+  ,drawSignSouthAfrica(h){const s=mSVG(300,190);return this._signBoard(s,[['Road Works Ahead','#f0eee8',65,16],['PADWERKE VOOR','#c8c4b8',105,16],['⚠','#FFD700',145,28]],h);}
+  ,drawSignSTOP(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='STOP';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='English — UK, USA, Australia';s.appendChild(l);}return s;}
   ,drawSignPARE(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='PARE';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Portuguese — Brazil, Portugal, ex-colonies';s.appendChild(l);}return s;}
   ,drawSignALTO(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'107,18 193,18 232,57 232,143 193,182 107,182 68,143 68,57',fill:'#CC0000',stroke:'#fff','stroke-width':4}));const t=el('text',{x:150,y:102,'text-anchor':'middle','dominant-baseline':'central','font-size':38,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});t.textContent='ALTO';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Spanish — Mexico, most of Latin America';s.appendChild(l);}return s;}
   ,drawSignGiveWayUK(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'150,185 40,15 260,15',fill:'#ffffff',stroke:'#CC0000','stroke-width':7,'stroke-linejoin':'round'}));const t1=el('text',{x:150,y:82,'text-anchor':'middle','dominant-baseline':'central','font-size':28,'font-weight':'900',fill:'#000','font-family':'sans-serif'});t1.textContent='GIVE';s.appendChild(t1);const t2=el('text',{x:150,y:114,'text-anchor':'middle','dominant-baseline':'central','font-size':28,'font-weight':'900',fill:'#000','font-family':'sans-serif'});t2.textContent='WAY';s.appendChild(t2);if(!h){const l=el('text',{x:150,y:200,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Inverted triangle + text — UK only';s.appendChild(l);}return s;}
@@ -1182,6 +1300,131 @@ const D={
   ,drawSignWarnUS(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'150,14 288,102 150,190 12,102',fill:'#FFD700',stroke:'#000','stroke-width':3}));const t=el('text',{x:150,y:104,'text-anchor':'middle','dominant-baseline':'central','font-size':54,'font-weight':'900',fill:'#000','font-family':'sans-serif'});t.textContent='!';s.appendChild(t);if(!h){const l=el('text',{x:150,y:196,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Yellow diamond — USA and Canada only';s.appendChild(l);}return s;}
   ,drawSignWarnAU(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('polygon',{points:'150,14 288,102 150,190 12,102',fill:'#FFD700',stroke:'#000','stroke-width':3}));const t=el('text',{x:150,y:96,'text-anchor':'middle','dominant-baseline':'central','font-size':22,'font-weight':'800',fill:'#000','font-family':'sans-serif'});t.textContent='ROAD';s.appendChild(t);const t2=el('text',{x:150,y:122,'text-anchor':'middle','dominant-baseline':'central','font-size':22,'font-weight':'800',fill:'#000','font-family':'sans-serif'});t2.textContent='WORK';s.appendChild(t2);if(!h){const l=el('text',{x:150,y:196,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Yellow diamond with text — Australia and NZ';s.appendChild(l);}return s;}
   ,drawSignSpeedEU(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('circle',{cx:150,cy:98,r:78,fill:'#fff',stroke:'#CC0000','stroke-width':10}));const t=el('text',{x:150,y:100,'text-anchor':'middle','dominant-baseline':'central','font-size':58,'font-weight':'900',fill:'#000','font-family':'sans-serif'});t.textContent='60';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Red circle — Europe (km/h), UK same but mph';s.appendChild(l);}return s;}
+  ,_textCard(s,top,main,sub,mainCol,h){
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:140,rx:8,fill:'#1c1c22'}));
+    if(!h&&top){const t=el('text',{x:150,y:22,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif','letter-spacing':1});t.textContent=top;s.appendChild(t);}
+    const m=el('text',{x:150,y:74,'text-anchor':'middle','dominant-baseline':'central','font-size':44,'font-weight':'700',fill:mainCol,'font-family':'monospace'});m.textContent=main;s.appendChild(m);
+    if(!h&&sub){const sl=el('text',{x:150,y:118,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});sl.textContent=sub;s.appendChild(sl);}
+    return s;
+  }
+  ,drawPhone7(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+7','Russia · Kazakhstan',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone1(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+1','USA · Canada · Caribbean',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone44(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+44','United Kingdom',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone49(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+49','Germany',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone55(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+55','Brazil',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone81(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+81','Japan',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone82(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+82','South Korea',h?'#f0eee8':'#c8f135',h);}
+  ,drawPhone91(h){const s=mSVG(300,140);return this._textCard(s,'CALLING CODE','+91','India',h?'#f0eee8':'#c8f135',h);}
+  ,drawDomainRU(h){const s=mSVG(300,140);return this._textCard(s,'COUNTRY DOMAIN','.ru','Russia',h?'#f0eee8':'#EF9F27',h);}
+  ,drawDomainUA(h){const s=mSVG(300,140);return this._textCard(s,'COUNTRY DOMAIN','.ua','Ukraine',h?'#f0eee8':'#EF9F27',h);}
+  ,drawDomainBR(h){const s=mSVG(300,140);return this._textCard(s,'COUNTRY DOMAIN','.com.br','Brazil',h?'#f0eee8':'#EF9F27',h);}
+  ,drawDomainPL(h){const s=mSVG(300,140);return this._textCard(s,'COUNTRY DOMAIN','.pl','Poland',h?'#f0eee8':'#EF9F27',h);}
+  ,drawDomainNL(h){const s=mSVG(300,140);return this._textCard(s,'COUNTRY DOMAIN','.nl','Netherlands',h?'#f0eee8':'#EF9F27',h);}
+  ,drawDomainAU(h){const s=mSVG(300,140);return this._textCard(s,'COUNTRY DOMAIN','.com.au','Australia',h?'#f0eee8':'#EF9F27',h);}
+  ,drawDriveLeft(h){
+    const s=mSVG(300,160);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:160,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('rect',{x:20,y:30,width:260,height:100,rx:4,fill:'#3a3a3a'}));
+    s.appendChild(el('rect',{x:20,y:76,width:260,height:8,fill:'#f0e040',opacity:.7}));
+    s.appendChild(el('rect',{x:20,y:78,width:260,height:4,fill:'#f0e040',opacity:.5}));
+    // Cars driving on LEFT — right lane empty, left lane has cars
+    // Car 1 going left (near side of road from viewer = left lane)
+    s.appendChild(el('rect',{x:60,y:40,width:50,height:26,rx:4,fill:'#5a9fd4'}));
+    s.appendChild(el('rect',{x:65,y:34,width:38,height:16,rx:3,fill:'#7abcd4'}));
+    s.appendChild(el('circle',{cx:70,cy:68,r:7,fill:'#333'}));s.appendChild(el('circle',{cx:70,cy:68,r:4,fill:'#555'}));
+    s.appendChild(el('circle',{cx:102,cy:68,r:7,fill:'#333'}));s.appendChild(el('circle',{cx:102,cy:68,r:4,fill:'#555'}));
+    // Arrow showing direction — going left
+    s.appendChild(el('line',{x1:55,y1:53,x2:30,y2:53,stroke:'#c8f135','stroke-width':2}));
+    s.appendChild(el('polygon',{points:'28,53 36,48 36,58',fill:'#c8f135'}));
+    // Label
+    if(!h){const l=el('text',{x:150,y:148,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='LEFT-side traffic · UK, AU, NZ, India, Japan...';s.appendChild(l);}
+    return s;
+  }
+  ,drawDriveRight(h){
+    const s=mSVG(300,160);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:160,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('rect',{x:20,y:30,width:260,height:100,rx:4,fill:'#3a3a3a'}));
+    s.appendChild(el('rect',{x:20,y:76,width:260,height:8,fill:'#fff',opacity:.5}));
+    // Car going right — right lane
+    s.appendChild(el('rect',{x:190,y:40,width:50,height:26,rx:4,fill:'#D85A30'}));
+    s.appendChild(el('rect',{x:197,y:34,width:38,height:16,rx:3,fill:'#e87a50'}));
+    s.appendChild(el('circle',{cx:198,cy:68,r:7,fill:'#333'}));s.appendChild(el('circle',{cx:198,cy:68,r:4,fill:'#555'}));
+    s.appendChild(el('circle',{cx:230,cy:68,r:7,fill:'#333'}));s.appendChild(el('circle',{cx:230,cy:68,r:4,fill:'#555'}));
+    // Arrow going right
+    s.appendChild(el('line',{x1:245,y1:53,x2:268,y2:53,stroke:'#c8f135','stroke-width':2}));
+    s.appendChild(el('polygon',{points:'272,53 264,48 264,58',fill:'#c8f135'}));
+    if(!h){const l=el('text',{x:150,y:148,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='RIGHT-side traffic · Europe, Americas, most of Asia';s.appendChild(l);}
+    return s;
+  }
+  ,drawDriveJapan(h){
+    const s=mSVG(300,160);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:160,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('rect',{x:20,y:30,width:260,height:100,rx:4,fill:'#3a3a3a'}));
+    s.appendChild(el('rect',{x:20,y:76,width:260,height:6,fill:'#fff',opacity:.4}));
+    // Japanese car going left (Japan drives left)
+    s.appendChild(el('rect',{x:55,y:40,width:50,height:26,rx:4,fill:'#f0ede8'}));
+    s.appendChild(el('rect',{x:60,y:34,width:38,height:16,rx:3,fill:'#f8f5f0'}));
+    s.appendChild(el('circle',{cx:65,cy:68,r:7,fill:'#333'}));s.appendChild(el('circle',{cx:65,cy:68,r:4,fill:'#555'}));
+    s.appendChild(el('circle',{cx:97,cy:68,r:7,fill:'#333'}));s.appendChild(el('circle',{cx:97,cy:68,r:4,fill:'#555'}));
+    // Japanese sign
+    s.appendChild(el('rect',{x:190,y:38,width:70,height:30,rx:3,fill:'#1a4a8a',stroke:'#fff','stroke-width':1}));
+    const jt=el('text',{x:225,y:54,'text-anchor':'middle','dominant-baseline':'central','font-size':14,fill:'#fff'});jt.textContent='東京';s.appendChild(jt);
+    if(!h){const l=el('text',{x:150,y:148,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Japan drives LEFT · white car · overhead wires';s.appendChild(l);}
+    return s;
+  }
+  ,drawHwUSA(h){
+    const s=mSVG(300,200);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));
+    // Interstate shield: pointed bottom, red top, blue bottom
+    s.appendChild(el('polygon',{points:'150,168 82,24 218,24',fill:'none'}));
+    // Shield shape: trapezoid top + triangle pointing down
+    s.appendChild(el('polygon',{points:'88,20 212,20 220,90 150,170 80,90',fill:'#002868'}));
+    s.appendChild(el('polygon',{points:'88,20 212,20 215,72 85,72',fill:'#CC0000'}));
+    s.appendChild(el('rect',{x:88,y:20,width:124,height:52,fill:'#CC0000'}));
+    s.appendChild(el('rect',{x:88,y:20,width:124,height:2,fill:'#fff',opacity:.5}));
+    if(!h){const lbl=el('text',{x:150,y:42,'text-anchor':'middle','dominant-baseline':'central','font-size':11,fill:'#fff','font-family':'sans-serif','letter-spacing':1});lbl.textContent='INTERSTATE';s.appendChild(lbl);}
+    const num=el('text',{x:150,y:110,'text-anchor':'middle','dominant-baseline':'central','font-size':40,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});num.textContent='95';s.appendChild(num);
+    if(!h){const l=el('text',{x:150,y:188,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Red + blue shield · pointed base · USA only';s.appendChild(l);}
+    return s;
+  }
+  ,drawHwUK(h){
+    const s=mSVG(300,180);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('rect',{x:60,y:20,width:180,height:110,rx:6,fill:'#00703c',stroke:'#fff','stroke-width':1.5}));
+    const m=el('text',{x:150,y:66,'text-anchor':'middle','dominant-baseline':'central','font-size':36,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});m.textContent='M25';s.appendChild(m);
+    if(!h){const sub=el('text',{x:150,y:100,'text-anchor':'middle','font-size':12,fill:'rgba(255,255,255,.6)','font-family':'sans-serif'});sub.textContent='MOTORWAY';s.appendChild(sub);}
+    if(!h){const l=el('text',{x:150,y:165,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Dark green + M-number · UK motorway';s.appendChild(l);}
+    return s;
+  }
+  ,drawHwFrance(h){
+    const s=mSVG(300,180);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));
+    s.appendChild(el('rect',{x:60,y:20,width:180,height:110,rx:6,fill:'#003189',stroke:'#fff','stroke-width':1.5}));
+    const m=el('text',{x:150,y:66,'text-anchor':'middle','dominant-baseline':'central','font-size':40,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});m.textContent='A6';s.appendChild(m);
+    if(!h){const sub=el('text',{x:150,y:100,'text-anchor':'middle','font-size':12,fill:'rgba(255,255,255,.6)','font-family':'sans-serif'});sub.textContent='AUTOROUTE';s.appendChild(sub);}
+    if(!h){const l=el('text',{x:150,y:165,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Blue + A-number · French autoroute';s.appendChild(l);}
+    return s;
+  }
+  ,drawHwGermany(h){
+    const s=mSVG(300,180);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));
+    // Yellow shield shape for Bundesstraße
+    s.appendChild(el('rect',{x:85,y:20,width:130,height:110,rx:8,fill:'#FFD700',stroke:'#c8a800','stroke-width':1.5}));
+    const m=el('text',{x:150,y:70,'text-anchor':'middle','dominant-baseline':'central','font-size':40,'font-weight':'900',fill:'#000','font-family':'sans-serif'});m.textContent='B96';s.appendChild(m);
+    if(!h){const sub=el('text',{x:150,y:103,'text-anchor':'middle','font-size':11,fill:'rgba(0,0,0,.6)','font-family':'sans-serif'});sub.textContent='BUNDESSTRASSE';s.appendChild(sub);}
+    if(!h){const l=el('text',{x:150,y:165,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Yellow shield + B-number · Germany only';s.appendChild(l);}
+    return s;
+  }
+  ,drawHwBrazil(h){
+    const s=mSVG(300,180);
+    s.appendChild(el('rect',{x:0,y:0,width:300,height:180,rx:8,fill:'#1c1c22'}));
+    // Green oval
+    s.appendChild(el('ellipse',{cx:150,cy:76,rx:110,ry:58,fill:'#1a6b1a',stroke:'#fff','stroke-width':2}));
+    const br=el('text',{x:150,y:58,'text-anchor':'middle','dominant-baseline':'central','font-size':16,'font-weight':'700',fill:'#fff','font-family':'sans-serif','letter-spacing':2});br.textContent='BR';s.appendChild(br);
+    const num=el('text',{x:150,y:90,'text-anchor':'middle','dominant-baseline':'central','font-size':30,'font-weight':'900',fill:'#fff','font-family':'sans-serif'});num.textContent='101';s.appendChild(num);
+    if(!h){const l=el('text',{x:150,y:160,'text-anchor':'middle','font-size':11,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Green oval + BR-number · Brazil federal highway';s.appendChild(l);}
+    return s;
+  }
   ,drawSignSpeedUS(h){const s=mSVG(300,200);s.appendChild(el('rect',{x:0,y:0,width:300,height:200,rx:8,fill:'#1c1c22'}));s.appendChild(el('rect',{x:72,y:14,width:156,height:172,rx:6,fill:'#fff',stroke:'#000','stroke-width':3}));const h1=el('text',{x:150,y:46,'text-anchor':'middle','dominant-baseline':'central','font-size':15,'font-weight':'700',fill:'#000','font-family':'sans-serif'});h1.textContent='SPEED';s.appendChild(h1);const h2=el('text',{x:150,y:66,'text-anchor':'middle','dominant-baseline':'central','font-size':15,'font-weight':'700',fill:'#000','font-family':'sans-serif'});h2.textContent='LIMIT';s.appendChild(h2);const t=el('text',{x:150,y:130,'text-anchor':'middle','dominant-baseline':'central','font-size':64,'font-weight':'900',fill:'#000','font-family':'sans-serif'});t.textContent='40';s.appendChild(t);if(!h){const l=el('text',{x:150,y:192,'text-anchor':'middle','font-size':10,fill:'#6b6a72','font-family':'sans-serif'});l.textContent='Rectangular white sign — USA and Canada';s.appendChild(l);}return s;}
   ,_carBase(s,bc,cc){s.appendChild(el('rect',{x:10,y:108,width:280,height:62,rx:8,fill:bc,stroke:'#888','stroke-width':1}));s.appendChild(el('rect',{x:55,y:72,width:170,height:42,rx:10,fill:cc,stroke:'#888','stroke-width':1}));s.appendChild(el('rect',{x:65,y:78,width:62,height:28,rx:4,fill:'#5a9fd4',opacity:.8}));s.appendChild(el('rect',{x:135,y:78,width:72,height:28,rx:4,fill:'#5a9fd4',opacity:.8}));s.appendChild(el('circle',{cx:68,cy:172,r:20,fill:'#333'}));s.appendChild(el('circle',{cx:68,cy:172,r:11,fill:'#555'}));s.appendChild(el('circle',{cx:232,cy:172,r:20,fill:'#333'}));s.appendChild(el('circle',{cx:232,cy:172,r:11,fill:'#555'}));s.appendChild(el('circle',{cx:148,cy:68,r:14,fill:'#444'}));s.appendChild(el('circle',{cx:148,cy:68,r:8,fill:'#222'}));}
   ,drawCarKenya(h){const s=mSVG(300,210);s.appendChild(el('rect',{x:0,y:0,width:300,height:210,rx:8,fill:'#1c1c22'}));this._carBase(s,'#c8c4b8','#d8d4c8');s.appendChild(el('rect',{x:200,y:22,width:8,height:52,rx:3,fill:'#555'}));s.appendChild(el('ellipse',{cx:204,cy:22,rx:7,ry:5,fill:'#333'}));if(!h){const l=el('text',{x:150,y:202,'text-anchor':'middle','font-size':11,fill:'rgba(255,255,255,.45)','font-family':'sans-serif'});l.textContent='Kenya — snorkel pipe on roof';s.appendChild(l);}return s;}
@@ -1195,33 +1438,6 @@ const D={
 
 // ── CATEGORIES ──────────────────────────────────────────────────────────────
 const CATS=[
-  {id:'plates',icon:'🪧',name:'License plates',sub:'Europe · US States',color:'#c8f135',league:0,quizzes:[
-    {id:'eu',name:'European basics',desc:'Colour & strip differences',questions:[
-      {answer:'Netherlands',q:'Which country uses this license plate?',meta:'License plate',hints:['Background colour is unusual — not white or grey.','Both front AND rear plates share this colour.','Yellow front + rear — Netherlands only in EU.'],exp:'Netherlands is the only EU country using yellow plates both front and rear.',pills:['Yellow front + rear','EU blue strip','Black text on yellow'],opts:['Germany','Netherlands','Belgium','Luxembourg'],drawFn:'drawPlateNL',realImg:'https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=640&q=80'},
-      {answer:'Belgium',q:'Which country uses this license plate?',meta:'License plate',hints:['The plate is white.','Look at the text colour — not black.','Belgium = only country with RED text on plates.'],exp:'Belgium uniquely uses red characters on white plates.',pills:['Red text on white','Only red-text country in Europe'],opts:['France','Poland','Belgium','Austria'],drawFn:'drawPlateBE',realImg:'https://images.unsplash.com/photo-1559113202-c916b8e44373?w=640&q=80'},
-      {answer:'United Kingdom',q:'Which country uses this pair of plates?',meta:'License plate',hints:['Two plates shown — front and rear.','They are different colours.','White front + yellow rear = UK only.'],exp:'UK uses white front and yellow rear. Unique combination.',pills:['White front','Yellow rear','No EU strip post-Brexit'],opts:['Ireland','United Kingdom','Australia','South Africa'],drawFn:'drawPlateUK'},
-      {answer:'Norway',q:'Which country uses this license plate?',meta:'License plate',hints:['The left strip is not standard EU blue.','It contains a national flag.','Norwegian flag on strip instead of EU stars. Code: N.'],exp:'Norway (not EU) uses its national flag and code N instead of EU stars.',pills:['Norwegian flag strip','Code: N','Not EU member'],opts:['Sweden','Finland','Norway','Denmark'],drawFn:'drawPlateNO',realImg:'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=640&q=80'},
-      {answer:'Ukraine',q:'Which country uses this license plate?',meta:'License plate',hints:['Left strip uses flag colours.','Yellow and blue.','Ukraine: yellow+blue strip. Code: UA.'],exp:'Ukrainian plates have national flag colours on the left strip.',pills:['Yellow+blue strip','Code: UA','Flag = yellow over blue'],opts:['Russia','Moldova','Belarus','Ukraine'],drawFn:'drawPlateUA'},
-    ]},
-    {id:'us-east',name:'US States — East',desc:'NY, FL, CO…',questions:[
-      {answer:'New York',q:'Which US state is this plate from?',meta:'US State plate',hints:['Dark blue and red theme.','City skyline silhouette in background.','Skyline + Empire State = New York.'],exp:'"Empire State" is New York\'s nickname. Blue/red + Manhattan skyline.',pills:['Empire State motto','NYC skyline','Blue + red'],opts:['Pennsylvania','New Jersey','New York','Massachusetts'],drawFn:'drawPlateNY'},
-      {answer:'Florida',q:'Which US state is this plate from?',meta:'US State plate',hints:['Bright tropical colours.','Palm tree and sunshine.','Palm tree + orange + Sunshine State = Florida.'],exp:'Florida: blue sky, palm tree, orange, "Sunshine State".',pills:['Sunshine State','Palm tree + orange','Blue sky'],opts:['California','Hawaii','Georgia','Florida'],drawFn:'drawPlateFL'},
-      {answer:'Colorado',q:'Which US state is this plate from?',meta:'US State plate',hints:['Snow-capped mountains.','Sky blue fades to green.','Rocky Mountains + Colorful Colorado.'],exp:'Colorado shows the Rockies with snow over green alpine meadows.',pills:['Rocky Mountains','Colorful Colorado','Blue+green'],opts:['Montana','Wyoming','Utah','Colorado'],drawFn:'drawPlateCO'},
-    ]},
-    {id:'us-west',name:'US States — West',desc:'CA, TX, HI…',locked:true,questions:[
-      {answer:'California',q:'Which US state is this plate from?',meta:'US State plate',hints:['Sandy golden background.','Orange poppy flowers — the state flower.','Gold background + poppies = California.'],exp:'California: warm sandy/gold with orange poppies and mountains.',pills:['Sandy gold','Orange poppies','Blue text'],opts:['Nevada','Arizona','Oregon','California'],drawFn:'drawPlateCA'},
-      {answer:'Texas',q:'Which US state is this plate from?',meta:'US State plate',hints:['Vertical stripe on left side.','Blue, white, and red — a specific flag.','Texas flag on left + lone star.'],exp:'Texas state flag stripe on the left with the lone star.',pills:['Texas flag stripe','Lone Star','Lone Star State motto'],opts:['Oklahoma','Louisiana','New Mexico','Texas'],drawFn:'drawPlateTX'},
-      {answer:'Hawaii',q:'Which US state is this plate from?',meta:'US State plate',hints:['Deep ocean blue.','Tropical flower — hibiscus.','Deep blue + hibiscus + Aloha State.'],exp:'Hawaii: deep ocean blue, hibiscus, "Aloha State".',pills:['Deep blue','Hibiscus','Aloha State'],opts:['Florida','Puerto Rico','Hawaii','Guam'],drawFn:'drawPlateHI'},
-    ]},
-  ]},
-  {id:'bollards',icon:'🚧',name:'Bollards',sub:'European road edge posts',color:'#378ADD',league:0,quizzes:[
-    {id:'eu-bollards',name:'European bollards',desc:'Colour patterns by country',questions:[
-      {answer:'Norway',q:'Which country uses bollards with this pattern?',meta:'Road bollard',hints:['Two alternating colours.','Black and white.','Norway = black and white stripes.'],exp:'Norwegian bollards are black and white. Sweden = red/white; Finland = yellow/black.',pills:['Black + white stripes','Snow poles on roads'],opts:['Sweden','Finland','Norway','Denmark'],drawFn:'drawBollardNO',realImg:'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=640&q=80'},
-      {answer:'Romania',q:'Which country uses bollards with this pattern?',meta:'Road bollard',hints:['Two alternating colours.','The warm colour is red.','Romania = red and white stripes.'],exp:'Romanian bollards = red and white stripes. Strong Eastern European GeoGuessr meta.',pills:['Red + white stripes','Grey patchy roads'],opts:['Hungary','Bulgaria','Moldova','Romania'],drawFn:'drawBollardRO',realImg:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=640&q=80'},
-      {answer:'Hungary',q:'Which country uses bollards with this reflector pattern?',meta:'Road bollard',hints:['Two reflectors at different heights.','Different colours top and bottom.','Hungary: red on front (top), white on back (bottom).'],exp:'Hungarian bollards have red front reflector and white back reflector.',pills:['Red top / white bottom','Not stripes — reflectors'],opts:['Austria','Czech Republic','Slovakia','Hungary'],drawFn:'drawBollardHU',realImg:'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=640&q=80'},
-      {answer:'Czech Republic',q:'Which country uses bollards with this marking?',meta:'Road bollard',hints:['A single stripe in the middle.','Bright orange, not red.','Czech = single fluorescent orange stripe in middle.'],exp:'Czech bollards have a single orange stripe in the middle — unique in Central Europe.',pills:['Single orange stripe','Arrow-shaped road signs'],opts:['Slovakia','Poland','Austria','Czech Republic'],drawFn:'drawBollardCZ',realImg:'https://images.unsplash.com/photo-1519677100203-a0e668c92439?w=640&q=80'},
-    ]},
-  ]},
   {id:'scripts',icon:'🔤',name:'Scripts & language',sub:'Asian · Cyrillic · Arabic',color:'#7F77DD',league:0,quizzes:[
     {id:'asian-scripts',name:'Asian scripts',desc:'Japanese, Korean, Hindi, Thai',questions:[
       {answer:'Japanese',q:'Which language uses this combination of scripts?',meta:'Written script',hints:['Multiple writing systems on one sign.','Kanji, hiragana, and katakana all present.','Only Japanese mixes THREE scripts.'],exp:'Japanese is the only language mixing three scripts. Korean = hangul only; Chinese = hanzi only.',pills:['Kanji + hiragana + katakana','Three scripts = Japan only'],opts:['Chinese','Korean','Thai','Japanese'],drawFn:'drawScriptJA'},
@@ -1401,7 +1617,7 @@ const CATS=[
     ]},
   ]},
 
-  ,{id:'googlecar',icon:'🚗',name:'Google Car',sub:'Attachments · Camera setups',color:'#5F5E5A',league:0,quizzes:[
+  {id:'googlecar',icon:'🚗',name:'Google Car',sub:'Attachments · Camera setups',color:'#5F5E5A',league:0,quizzes:[
     {id:'car-basics',name:'Car configurations',desc:'Snorkels, tape, racks, aerials',questions:[
       {answer:'Kenya',q:'The Google Street View car has a tall pipe extending upward from the roof. Which country?',meta:'Google Car',hints:['The attachment is on the roof, not the camera.','It is a vertical tube, like a chimney or air intake.','A snorkel pipe filters dust from the air intake — used in Kenya\'s dry dusty roads.'],exp:'Kenyan Street View cars have a distinctive snorkel (air intake pipe) mounted vertically on the roof. This is used to filter fine dust on Kenya\'s unpaved roads. Combined with Kenyan landscapes (red soil, acacia trees), it\'s a reliable confirm.',pills:['Snorkel pipe on roof','Dust filter for dry roads','Red soil + acacia trees confirm Kenya','Very distinctive'],opts:['Senegal','Ghana','Mongolia','Kenya'],drawFn:'drawCarKenya'},
       {answer:'Ghana',q:'The camera dome on this Street View car has two horizontal black tape strips across it. Which country?',meta:'Google Car',hints:['Look at the camera dome, not the car body.','Something is stuck across the lens.','Black tape strips across the camera = Ghana. Applied to reduce lens flare in bright tropical light.'],exp:'Ghanaian Street View cars famously have two strips of black tape applied horizontally across the camera dome. This reduces lens flare in Ghana\'s bright tropical sunlight. Once you know it, it\'s unmistakable.',pills:['Black tape on camera lens','Two horizontal strips','Reduces tropical lens flare','100% Ghana confirm'],opts:['Nigeria','Senegal','Kenya','Ghana'],drawFn:'drawCarGhana'},
@@ -1410,8 +1626,8 @@ const CATS=[
       {answer:'Mongolia',q:'The Street View car has two parallel horizontal bars running across the roof. Which country?',meta:'Google Car',hints:['Two bars, not one — running parallel across the roof.','Looks like a ladder rack.','Mongolia uses a double-bar roof rack setup.'],exp:'Mongolian Street View cars have two parallel horizontal bars forming a ladder-rack style on the roof. Combined with Mongolia\'s distinctive steppe landscape (flat, treeless, ger/yurt visible), this confirms Mongolia.',pills:['Two parallel horizontal bars','Ladder-rack style','Mongolia steppe landscape confirms','Ger/yurt visible in background'],opts:['Kyrgyzstan','Kazakhstan','Russia','Mongolia'],drawFn:'drawCarMongolia'},
       {answer:'Senegal',q:'The Street View car has a tinted orange/yellow strip across the top of the windscreen. Which country?',meta:'Google Car',hints:['Look at the top of the windscreen, not the roof.','A coloured visor strip is visible.','Senegal cars have an orange/amber tinted windscreen visor strip.'],exp:'Senegalese Street View cars have a characteristic orange or amber tinted strip along the top of the windscreen — a visor to reduce sun glare. Combined with Senegal\'s West African urban landscape (French colonial architecture, dented concrete poles), this confirms Senegal.',pills:['Orange windscreen visor strip','Top of windscreen','French colonial urban landscape','Dented concrete poles confirm'],opts:['Ghana','Nigeria','Kenya','Senegal'],drawFn:'drawCarSenegal'},
     ]},
-  ]}
-  ,{id:'roadsigns',icon:'⚠️',name:'Road signs',sub:'Shapes · Words · Colours',color:'#E24B4A',league:0,quizzes:[
+  ]},
+  {id:'roadsigns',icon:'⚠️',name:'Road signs',sub:'Shapes · Words · Colours',color:'#E24B4A',league:0,quizzes:[
     {id:'signs-stop',name:'Stop signs of the world',desc:'STOP vs PARE vs ALTO',questions:[
       {answer:'Brazil / Portugal',q:'Which countries use this word on their stop sign?',meta:'Road sign',hints:['The word is not English.','It is Portuguese.','PARE = Portuguese for STOP. Used in Brazil, Portugal, and former Portuguese colonies.'],exp:'Brazil, Portugal, and Portuguese-speaking countries (Angola, Mozambique, Cape Verde) use PARE on their stop signs. The octagon shape and red colour are universal — only the word changes.',pills:['PARE = Portuguese for STOP','Brazil + Portugal + ex-colonies','Same octagon shape as STOP'],opts:['Mexico / Latin America','France / Belgium','Brazil / Portugal','Arabic-speaking countries'],drawFn:'drawSignPARE'},
       {answer:'Mexico / most of Latin America',q:'Which region uses this word on their stop sign?',meta:'Road sign',hints:['The word is not English or Portuguese.','It is Spanish.','ALTO = Spanish for STOP (literally "halt"). Used in Mexico and most of Spanish-speaking Latin America.'],exp:'Mexico and most Spanish-speaking Latin American countries use ALTO on their stop signs. Note: some countries (Argentina, Colombia) use PARE instead, so ALTO is most strongly associated with Mexico.',pills:['ALTO = Spanish for STOP','Mexico + most of Latin America','Argentina/Colombia use PARE instead'],opts:['Brazil / Portugal','Spain / Europe','Mexico / most of Latin America','French West Africa'],drawFn:'drawSignALTO'},
@@ -1428,7 +1644,76 @@ const CATS=[
       {answer:'USA and Canada',q:'Which region uses this rectangular white sign for speed limits?',meta:'Road sign',hints:['The sign is rectangular, not circular.','It says SPEED LIMIT at the top.','Rectangle with SPEED LIMIT text = North American standard.'],exp:'North American speed limit signs are rectangular white signs with "SPEED LIMIT" written at the top and the number below. This format is unique to the USA and Canada — the rest of the world uses circular signs. Seeing this rectangle immediately confirms North America.',pills:['Rectangular white sign','SPEED LIMIT text at top','Number below the text','USA and Canada only'],opts:['Australia','Europe','Japan','USA and Canada'],drawFn:'drawSignSpeedUS'},
     ]},
   ]}
-];
+  ,{id:'phonecodes',icon:'📞',name:'Area codes',sub:'Regional codes · City identification',color:'#7F77DD',league:0,quizzes:[
+    {id:'phone-japan',name:'Japan area codes',desc:'Tokyo · Osaka · Sapporo and more',questions:[
+      {answer:'Tokyo',q:'You are in Japan. A shop sign shows the number (03) 5555-1234. Which city?',meta:'Japan area code',hints:['The code is a single digit after the 0.','(03) is one of the most common codes in Japan.','(03) = Tokyo metropolitan area.'],exp:'(03) is the area code for Tokyo and the surrounding metropolitan area. It is Japan\'s most recognisable area code. On Street View you\'ll often see it on shop signs, business cards in windows, and van livery.',pills:['(03) = Tokyo','Most common Japanese area code','Tokyo metro area','Often on shop windows + vans'],opts:['Osaka','Sapporo','Hiroshima','Tokyo'],drawFn:'drawMapJapanTokyo'},
+      {answer:'Osaka',q:'You are in Japan. A number shows (06) at the start. Which city?',meta:'Japan area code',hints:['This is Japan\'s second-largest city.','It is in the Kansai region, west of Tokyo.','(06) = Osaka.'],exp:'(06) is the area code for Osaka, Japan\'s second city and the heart of the Kansai region. Osaka has a very distinctive urban feel — denser signage, different dialect — but on Street View the (06) code is a strong location confirm.',pills:['(06) = Osaka','Kansai region','Second city of Japan','Also covers parts of surrounding Kansai'],opts:['Tokyo','Nagoya','Kyoto','Osaka'],drawFn:'drawMapJapanOsaka'},
+      {answer:'Sapporo',q:'You are in Japan. A number shows (011) — three digits before the number. Which city?',meta:'Japan area code',hints:['This city is on the northernmost main island.','It is known for snow and the Sapporo Beer brand.','(011) = Sapporo, Hokkaido.'],exp:'(011) is Sapporo\'s area code — notable because it is three digits (most major Japanese cities have two-digit codes). Sapporo is on Hokkaido, Japan\'s northernmost main island. Snowy landscape + (011) = Sapporo.',pills:['(011) = Sapporo','Three-digit code (unusual)','Hokkaido — northernmost island','Snow + (011) = Sapporo'],opts:['Tokyo','Osaka','Fukuoka','Sapporo'],drawFn:'drawMapJapanSapporo'},
+      {answer:'Nagoya',q:'You are in Japan. A shop shows (052). Which major city?',meta:'Japan area code',hints:['This city is between Tokyo and Osaka.','It is Japan\'s third largest city by population.','(052) = Nagoya.'],exp:'(052) is Nagoya\'s area code. Nagoya sits between Tokyo and Osaka on the Tokai coast — Japan\'s industrial heartland, home to Toyota. Three-digit code like Sapporo.',pills:['(052) = Nagoya','Between Tokyo and Osaka','Toyota HQ nearby','Three-digit code'],opts:['Tokyo','Osaka','Hiroshima','Nagoya'],drawFn:'drawMapJapanNagoya'},
+      {answer:'Fukuoka',q:'You are in Japan. A number starts with (092). Which city in western Japan?',meta:'Japan area code',hints:['This city is in Kyushu — the southwesternmost main island.','It is the largest city in Kyushu.','(092) = Fukuoka.'],exp:'(092) is Fukuoka\'s area code. Fukuoka is the main city of Kyushu, Japan\'s southwestern island. If you spot this code the city will likely show warmer climate, different urban density, and proximity to the sea.',pills:['(092) = Fukuoka','Kyushu — southwest island','Largest city in Kyushu','Warmer climate than Tokyo'],opts:['Osaka','Hiroshima','Nagoya','Fukuoka'],drawFn:'drawMapJapanFukuoka'},
+    ]},
+    {id:'phone-brazil',name:'Brazil area codes (DDD)',desc:'São Paulo · Rio · Brasília and more',questions:[
+      {answer:'São Paulo',q:'You are in Brazil. A number starts with (11). Which city or state?',meta:'Brazil area code',hints:['This is the largest city in South America.','It is in the southeast of Brazil.','(11) = São Paulo city and state.'],exp:'(11) is São Paulo\'s DDD (Discagem Direta à Distância — direct long distance dialling). São Paulo is Brazil\'s largest city and economic powerhouse. You\'ll see (11) on shop signs, trucks, and business windows across the state.',pills:['(11) = São Paulo','Largest city in South America','Southeast Brazil','DDD = Brazilian area code system'],opts:['Rio de Janeiro','Brasília','Belo Horizonte','São Paulo'],drawFn:'drawMapBrazilSP'},
+      {answer:'Rio de Janeiro',q:'You are in Brazil. A number starts with (21). Which city?',meta:'Brazil area code',hints:['This city is famous for Carnival and Christ the Redeemer.','It is on the Atlantic coast, southeast Brazil.','(21) = Rio de Janeiro.'],exp:'(21) is Rio de Janeiro\'s DDD. Rio is Brazil\'s second-largest city, famous for its beaches, Carnival, and favelas on hillsides. Combined with the distinctive coastal mountain landscape, (21) firmly places you in Rio.',pills:['(21) = Rio de Janeiro','Southeast coast','Famous for Christ the Redeemer','Mountains + coast + (21) = Rio'],opts:['São Paulo','Brasília','Salvador','Rio de Janeiro'],drawFn:'drawMapBrazilRio'},
+      {answer:'Brasília',q:'You are in Brazil. A number starts with (61). Which city?',meta:'Brazil area code',hints:['This is a planned city built from scratch in the 1960s.','It is in the geographic centre of Brazil.','(61) = Brasília, the capital.'],exp:'(61) is Brasília\'s DDD. Brasília is Brazil\'s purpose-built capital, constructed in the 1960s. Its urban landscape is extremely distinctive — wide boulevards, modernist architecture by Oscar Niemeyer, very low density compared to São Paulo or Rio.',pills:['(61) = Brasília','Federal capital of Brazil','Built from scratch 1960s','Modernist wide boulevards'],opts:['São Paulo','Rio de Janeiro','Belo Horizonte','Brasília'],drawFn:'drawMapBrazilBrasilia'},
+      {answer:'Salvador',q:'You are in Brazil. A number starts with (71). Which major northeastern city?',meta:'Brazil area code',hints:['This is a major city in northeastern Brazil.','It has strong African cultural heritage.','(71) = Salvador, Bahia.'],exp:'(71) is Salvador\'s DDD. Salvador is the capital of Bahia state in northeast Brazil — Brazil\'s first capital and a city with the strongest African cultural heritage in Brazil. The architecture is older and more colonial than São Paulo.',pills:['(71) = Salvador','Bahia state, northeast Brazil','Oldest colonial architecture','Strong African cultural heritage'],opts:['Rio de Janeiro','Recife','Fortaleza','Salvador'],drawFn:'drawMapBrazilSalvador'},
+      {answer:'Manaus',q:'You are in Brazil. A number starts with (92). Which Amazonian city?',meta:'Brazil area code',hints:['This city is deep in the Amazon rainforest.','It is famous for its ornate 19th-century opera house.','(92) = Manaus, Amazonas state.'],exp:'(92) is Manaus\'s DDD. Manaus sits deep in the Amazon jungle and is the largest city in the Amazon basin. The surrounding landscape is entirely tropical rainforest. On Street View you\'ll see jungle-adjacent urban scenes very different from southern Brazil.',pills:['(92) = Manaus','Amazon rainforest city','Amazonas state, north Brazil','Jungle surroundings + (92) = Manaus'],opts:['Belém','Porto Alegre','Curitiba','Manaus'],drawFn:'drawMapBrazilManaus'},
+    ]},
+    {id:'phone-philippines',name:'Philippines area codes',desc:'Manila · Cebu · Davao and more',questions:[
+      {answer:'Manila / Metro Manila',q:'You are in the Philippines. A number shows (02). Which area?',meta:'Philippines area code',hints:['(02) covers the entire capital region.','This is the most populated urban area in the Philippines.','(02) = Metro Manila and surrounding provinces.'],exp:'(02) is the area code for Metro Manila — the capital region. It is by far the most common area code you\'ll see in the Philippines on Street View. Dense urban environment, Tagalog signage, tricycles and jeepneys confirm Metro Manila.',pills:['(02) = Metro Manila','Capital region','Most common PH area code','Jeepneys + dense urban = Manila'],opts:['Cebu','Davao','Iloilo','Manila / Metro Manila'],drawFn:'drawPhilCode','realImg':''},
+      {answer:'Cebu City',q:'You are in the Philippines. A number shows (032). Which city in the Visayas?',meta:'Philippines area code',hints:['This is the second-largest city in the Philippines.','It is in the central Visayas region.','(032) = Cebu City and surrounding Cebu province.'],exp:'(032) is Cebu City\'s area code — the Philippines\' second city and the main hub of the Visayas island group. Cebu has a distinct feel from Manila: more compact, closer to the sea, and the Cebuano language dominates over Tagalog.',pills:['(032) = Cebu City','Second city of Philippines','Visayas region','Cebuano language (not Tagalog)'],opts:['Manila','Davao','Iloilo','Cebu City'],drawFn:'drawPhilCode'},
+      {answer:'Davao City',q:'You are in the Philippines. A number shows (082). Which Mindanao city?',meta:'Philippines area code',hints:['This is the largest city in Mindanao.','Mindanao is the southernmost major island.','(082) = Davao City.'],exp:'(082) is Davao City\'s area code — the largest city in Mindanao, the Philippines\' southernmost major island. Davao is known for its proximity to Mount Apo (the highest peak in the Philippines) and a more Muslim-influenced culture in parts.',pills:['(082) = Davao','Largest city in Mindanao','Southernmost major island','Muslim cultural influence'],opts:['Cebu','Manila','Iloilo','Davao City'],drawFn:'drawPhilCode'},
+    ]},
+    {id:'phone-indonesia',name:'Indonesia area codes',desc:'Jakarta · Surabaya · Medan and more',questions:[
+      {answer:'Jakarta',q:'You are in Indonesia. A number shows (021). Which city?',meta:'Indonesia area code',hints:['This is the capital of Indonesia.','It is on the island of Java.','(021) = Jakarta.'],exp:'(021) is Jakarta\'s area code — the Indonesian capital and by far the largest city. Jakarta is on the northwest coast of Java. On Street View you\'ll see dense tropical urban environment, Bahasa Indonesia signage, and heavy traffic.',pills:['(021) = Jakarta','Capital of Indonesia','Northwest Java','Dense tropical urban'],opts:['Surabaya','Bandung','Medan','Jakarta'],drawFn:'drawIndonCode'},
+      {answer:'Surabaya',q:'You are in Indonesia. A number shows (031). Which major Javanese city?',meta:'Indonesia area code',hints:['This is Indonesia\'s second-largest city.','It is in East Java.','(031) = Surabaya.'],exp:'(031) is Surabaya\'s area code — Indonesia\'s second city and the main port of East Java. Surabaya has a distinct character from Jakarta: more industrial, less dense, with a large Arab and Chinese trading community historically.',pills:['(031) = Surabaya','Second city of Indonesia','East Java','Major port city'],opts:['Jakarta','Bandung','Semarang','Surabaya'],drawFn:'drawIndonCode'},
+      {answer:'Medan',q:'You are in Indonesia. A number shows (061). Which city on Sumatra?',meta:'Indonesia area code',hints:['This is the largest city in Sumatra.','It is in the north of Sumatra island.','(061) = Medan.'],exp:'(061) is Medan\'s area code — the largest city in Sumatra and Indonesia\'s third-largest urban area. Medan has a large Chinese and Batak population and is the gateway to the Sumatran highlands. The landscape differs markedly from Java.',pills:['(061) = Medan','Largest city in Sumatra','North Sumatra','Different from Java-based cities'],opts:['Jakarta','Surabaya','Makassar','Medan'],drawFn:'drawIndonCode'},
+    ]},
+    {id:'phone-usa',name:'USA area codes',desc:'New York · LA · Chicago and more',questions:[
+      {answer:'New York City',q:'You are in the USA. A number shows area code 212. Which city?',meta:'USA area code',hints:['This is the most famous American area code.','It covers the island of Manhattan.','212 = Manhattan, New York City.'],exp:'212 is Manhattan\'s original area code — one of the most recognisable in the world. Due to population growth, NYC now also uses 646 and 332 for Manhattan. On Street View, 212 on a business sign places you firmly in Manhattan.',pills:['212 = Manhattan, NYC','Most famous US area code','Also 646 and 332 in Manhattan','Yellow cabs + yellow hydrants confirm NYC'],opts:['Los Angeles','Chicago','Miami','New York City'],drawFn:'drawUSACode'},
+      {answer:'Los Angeles',q:'You are in the USA. A number shows area code 213 or 323. Which city?',meta:'USA area code',hints:['These codes cover a massive sprawling city in the southwest.','It is in California, on the Pacific coast.','213/323 = Los Angeles.'],exp:'213 is central LA (downtown), 323 covers Hollywood, East LA, and surrounding areas. LA is massive — it also uses 310 (West LA, Santa Monica), 818 (San Fernando Valley), and 562 (Long Beach). The 213 or 323 codes place you in central/east LA.',pills:['213 = Downtown LA','323 = Hollywood + East LA','California + 213/323 = central LA','Also 310 West LA · 818 San Fernando Valley'],opts:['New York','Chicago','Phoenix','Los Angeles'],drawFn:'drawUSACode'},
+      {answer:'Chicago',q:'You are in the USA. A number shows area code 312. Which Midwestern city?',meta:'USA area code',hints:['This is Illinois\'s largest city.','It is on the southern shore of Lake Michigan.','312 = Chicago (downtown and near north side).'],exp:'312 is Chicago\'s original area code, covering downtown and the near north side. Chicago also uses 773 (most of the city) and 872. On Street View, 312 combined with Chicago\'s distinctive grid layout, L-train tracks overhead, and flat Midwestern landscape confirms the city.',pills:['312 = Chicago downtown','Illinois, Great Lakes','Also 773 and 872 in Chicago','L-train overhead + 312 = Chicago'],opts:['Detroit','Minneapolis','St Louis','Chicago'],drawFn:'drawUSACode'},
+      {answer:'Miami',q:'You are in the USA. A number shows area code 305. Which Floridian city?',meta:'USA area code',hints:['This is a subtropical coastal city.','It is in the far south of Florida.','305 = Miami and Miami-Dade County.'],exp:'305 is Miami\'s area code. Miami is in the far south of Florida — subtropical climate, Art Deco architecture in South Beach, heavy Latin American influence. Also uses 786. The combination of 305, palm trees, Spanish-language signs, and Art Deco buildings firmly places you in Miami.',pills:['305 = Miami','Far south Florida','Also 786 in Miami-Dade','Latin influence + Art Deco + 305 = Miami'],opts:['Tampa','Orlando','Jacksonville','Miami'],drawFn:'drawUSACode'},
+      {answer:'Seattle',q:'You are in the USA. A number shows area code 206. Which Pacific Northwest city?',meta:'USA area code',hints:['This city is known for rain, coffee culture, and tech companies.','It is in Washington State, on the Pacific coast.','206 = Seattle.'],exp:'206 is Seattle\'s area code. Seattle is in the Pacific Northwest — green, rainy, mountainous backdrop. Home to Boeing, Amazon, Microsoft, and Starbucks. The evergreen trees, grey skies, and hilly terrain make Seattle visually distinctive among US cities.',pills:['206 = Seattle','Washington State, Pacific Northwest','Rainy + evergreen trees + hills','Tech company HQs nearby'],opts:['Portland','San Francisco','Denver','Seattle'],drawFn:'drawUSACode'},
+    ]},
+  ]}
+  ,{id:'drivingside',icon:'🚦',name:'Driving side',sub:'Confirm your guess · Left vs right',color:'#1D9E75',league:0,quizzes:[
+    {id:'drive-confirm',name:'Confirm your guess',desc:'Use driving side to rule countries in or out',questions:[
+      {type:'twoopt',answer:'Left',opts:['Left','Right'],q:'You think this is the UK. Which side should traffic be on to confirm?',meta:'Driving side',hints:['The UK is an island nation that was never conquered by Napoleon.','Napoleon standardised right-hand traffic across Europe.','UK drives on the LEFT.'],exp:'The UK drives on the left. Continental Europe drives right — standardised by Napoleon. The UK was never part of that reform. Key rule: UK + Ireland = left. Every other European country = right.',pills:['UK drives LEFT','Continental Europe drives RIGHT','Ireland also drives left','France Germany Spain Italy = all right'],drawFn:'drawDriveLeft'},
+      {type:'twoopt',answer:'Left',opts:['Left','Right'],q:'You think this is Australia. Which side confirms your guess?',meta:'Driving side',hints:['Australia was a British colony.','British colonies inherited left-side driving.','Australia drives on the LEFT.'],exp:'Australia drives on the left as a former British colony. Combined with eucalyptus trees, dry landscape, and Australian infrastructure, left-side traffic confirms Australia. New Zealand also drives left.',pills:['Australia drives LEFT','Former British colony','New Zealand also left','Eucalyptus + left = Australia confirmed'],drawFn:'drawDriveLeft'},
+      {type:'twoopt',answer:'Left',opts:['Left','Right'],q:'You think this is Japan. Which side confirms?',meta:'Driving side',hints:['Japan was not a British colony.','Japan chose left-side independently.','Japan drives on the LEFT.'],exp:'Japan drives on the left — not from British colonisation but from British railway engineers who trained Japanese engineers in the 1870s. South Korea, China, and most of mainland Asia drive right. Left-side = Japan is a strong confirm.',pills:['Japan drives LEFT','Not a British colony','South Korea + China drive RIGHT','Left = key Japan separator from Korea'],drawFn:'drawDriveJapan'},
+      {type:'twoopt',answer:'Right',opts:['Left','Right'],q:'You think this is South Korea. Which side confirms?',meta:'Driving side',hints:['South Korea was influenced by Japan (left) but switched.','It switched to right-hand traffic in 1946.','South Korea drives on the RIGHT.'],exp:'South Korea drives on the right — switched in 1946 after liberation from Japan. This is the most important East Asian confusable: Japan (left) vs South Korea (right). Both have dense urban environments and similar infrastructure.',pills:['South Korea drives RIGHT','Japan drives LEFT','Switched right in 1946','Most important E.Asian driving side confusable'],drawFn:'drawDriveRight'},
+      {type:'twoopt',answer:'Right',opts:['Left','Right'],q:'You think this is France. Which side confirms?',meta:'Driving side',hints:['France is in continental Europe.','Napoleon standardised right-hand traffic.','France drives on the RIGHT.'],exp:'All of continental Europe drives right — France, Germany, Spain, Italy, Poland, Romania, and every other EU country. The only European left-drivers are UK and Ireland. So right-side traffic in Europe never rules a country in, it only rules out UK and Ireland.',pills:['France drives RIGHT','All continental Europe drives right','Right only rules OUT UK + Ireland in Europe','Cannot separate EU countries by driving side'],drawFn:'drawDriveRight'},
+      {type:'compare',answer:'Left',otherAnswer:'Right',answerSide:'left',drawFnLeft:'drawDriveLeft',drawFnRight:'drawDriveRight',q:'Sweden or Australia — which drives on the LEFT?',meta:'Driving side',hints:['One is a former British colony.','Sweden is in continental Europe.','Continental Europe all drives right. Former British colonies drive left.'],exp:'Australia (left) vs Sweden (right). Sweden is in continental Europe — all of which drives right. Australia is a former British colony and drives left. A useful confusable because both countries have similar open road landscapes with little urban context.',pills:['Australia = LEFT (British colony)','Sweden = RIGHT (continental Europe)','Eucalyptus confirms Australia','Swedish signs confirm Sweden'],otherAnswer:'Right'},
+      {type:'compare',answer:'Left',otherAnswer:'Right',answerSide:'left',drawFnLeft:'drawDriveJapan',drawFnRight:'drawDriveRight',q:'Japan or South Korea — which drives on the LEFT?',meta:'Driving side',hints:['Both are East Asian countries with dense cities.','One switched to right-hand traffic after WWII.','Japan = left. South Korea = right.'],exp:'Japan (left) vs South Korea (right) is the single most important driving side confusable in GeoGuessr. Both countries look extremely similar — dense urban environments, overhead wires, similar architecture. Driving side is one of the few reliable quick separators.',pills:['Japan = LEFT — key fact','South Korea = RIGHT — key fact','Most important E.Asian confusable','Use driving side as a quick separator'],otherAnswer:'Right'},
+    ]},
+    {id:'drive-lefties',name:'Non-obvious left-drivers',desc:'Countries that drive left but are not obvious',questions:[
+      {answer:'Thailand',q:'Thailand was never colonised by Britain. Does it drive on the left or right?',meta:'Driving side',hints:['Thailand is in Southeast Asia.','It maintained independence from colonial powers.','Thailand drives on the LEFT despite never being a British colony.'],exp:'Thailand drives on the left — adopted through trade and cultural influence, not colonisation. Other non-British-colony left-drivers: Japan, Indonesia (Dutch colony, Dutch drove left), Nepal, Bhutan, Mozambique (Portuguese but adopted left).',pills:['Thailand drives LEFT','Never a British colony','SE Asia: many countries drive left','Indonesia also left (Dutch colony)'],opts:['Left — Thailand drives left','Right — Thailand drives right','Switches by region','Thailand'],drawFn:'drawDriveLeft'},
+      {answer:'Indonesia',q:'Indonesia was a Dutch colony, not British. Does it drive on the left?',meta:'Driving side',hints:['The Dutch historically drove on the left.','Dutch colonies inherited left-side traffic.','Indonesia drives on the LEFT.'],exp:'Indonesia drives on the left — inherited from Dutch colonial rule. The Netherlands itself now drives right (switched in 1906) but Indonesia kept left. Left-side + tropical landscape + Indonesian script confirms Indonesia.',pills:['Indonesia drives LEFT','Dutch colonial legacy','Netherlands now drives RIGHT','Tropical + left = Indonesia possible'],opts:['No — Indonesia drives right','Yes — Indonesia drives left','Indonesia','Indonesia'],drawFn:'drawDriveLeft'},
+      {answer:'India and Pakistan',q:'India and Pakistan were both British colonies. Do they both drive on the left?',meta:'Driving side',hints:['Both were part of British India.','Both inherited British traffic rules.','Both India and Pakistan drive on the LEFT.'],exp:'Both India and Pakistan drive on the left as former British colonies — they were once the same country (British India). Driving side alone cannot separate them. Use script: Devanagari (हिंदी) = India, Arabic/Urdu (اردو) = Pakistan.',pills:['India drives LEFT','Pakistan also drives LEFT','Cannot separate by driving side','Use script: Devanagari vs Urdu'],opts:['Only India','Neither — both drive right','India and Pakistan','India and Pakistan'],drawFn:'drawDriveLeft'},
+    ]},
+  ]},
+  {id:'highways',icon:'🚧',name:'Highway shields',sub:'USA · UK · France · Germany · Brazil',color:'#E8820C',league:0,quizzes:[
+    {id:'hw-shields',name:'Shield shapes and colours',desc:'Identify countries by highway signs',questions:[
+      {answer:'USA',q:'A shield-shaped sign with a red top section, blue bottom, and white number. Which country?',meta:'Highway sign',hints:['The shape is distinctive — pointed at the bottom like a police badge.','Red top, blue bottom, white number.','The US Interstate Highway shield is unique in the world.'],exp:'The US Interstate Highway shield — red top, blue bottom, white number, pointed base — is one of the most distinctive road signs globally. No other country uses this design. Interstates are numbered: odd = N-S (I-5, I-95), even = E-W (I-10, I-80), 3-digit = city loops.',pills:['Red top + blue bottom + pointed base','Odd numbers = North-South','Even numbers = East-West','3-digit = city loop or spur'],opts:['Canada','Australia','UK','USA'],drawFn:'drawHwUSA'},
+      {answer:'UK',q:'A dark green sign shows a route starting with M followed by a number. Which country?',meta:'Highway sign',hints:['M stands for Motorway.','Green signs are used for major roads.','UK motorways: M1, M25, M6, M8...'],exp:'UK motorways use dark green signs with white text and an M-prefix. The M25 is the famous London orbital motorway. A-roads also use green signs but with an A-prefix. B-roads use black/white signs. Ireland uses a similar system with M/N/R prefixes.',pills:['Green + M-number = UK motorway','M25 = London orbital (famous)','A-roads also green but A-prefix','Ireland similar: M/N/R'],opts:['Ireland','France','Germany','UK'],drawFn:'drawHwUK'},
+      {answer:'France',q:'A blue rectangular sign shows a route starting with A. The sign style is French. Which country?',meta:'Highway sign',hints:['A stands for Autoroute.','French motorway signs are blue — unlike UK\'s green.','France: A1, A6, A10, A71...'],exp:'French autoroutes use blue rectangular signs with white text and an A-prefix. This contrasts with the UK (green signs). Spain also uses blue signs with A-prefix but the surrounding context (language, architecture) distinguishes them.',pills:['Blue + A-number = French autoroute','Blue not green (unlike UK)','Spain also blue A-prefix but different context','A1 = Paris to Lille'],opts:['UK','Germany','Spain','France'],drawFn:'drawHwFrance'},
+      {answer:'Germany',q:'A yellow shield-shaped sign shows a route starting with B followed by a number. Which country?',meta:'Highway sign',hints:['Yellow shields are unusual in Europe.','B stands for Bundesstraße (federal road).','Germany uses yellow shields for Bundesstraßen: B12, B14, B96...'],exp:'German Bundesstraßen (federal roads) use yellow shield signs with black B-numbers — completely distinctive in Europe. The Autobahn uses blue signs with A-numbers. Seeing a yellow B-shield immediately confirms Germany or Austria (which uses a similar system).',pills:['Yellow shield + B-number = German Bundesstraße','Blue + A-number = Autobahn','Yellow shields = Germany / Austria','B96 = famous Berlin to Bavaria route'],opts:['France','Netherlands','Switzerland','Germany'],drawFn:'drawHwGermany'},
+      {answer:'Brazil',q:'A green sign shows a route in a horizontal oval shape with a BR prefix. Which country?',meta:'Highway sign',hints:['BR prefix means federal highway.','The oval shape is distinctive.','Brazil uses BR-followed by numbers: BR-101, BR-116, BR-040.'],exp:'Brazilian federal highways use green oval-shaped markers with a BR prefix. BR-101 runs the entire Brazilian coastline, BR-116 runs north-south through the interior. The oval shape is uniquely Brazilian and often painted on road surfaces too.',pills:['BR-oval = Brazil federal highway','Green oval shape','BR-101 = entire coastal highway','Often painted on road surface'],opts:['Argentina','Colombia','Chile','Brazil'],drawFn:'drawHwBrazil'},
+    ]},
+  ]}
+
+  ,{id:'signreading',icon:'📋',name:'Sign reading',sub:'Mixed scripts · Which country?',color:'#D85A30',league:0,quizzes:[
+    {id:'signs-mixed',name:'Mixed script signs',desc:'Identify countries by script combinations',questions:[
+      {answer:'Sri Lanka',q:'A road sign shows three scripts: Sinhala (සිංහල), Tamil (தமிழ்), and English. Which country?',meta:'Script combination',hints:['Two Asian scripts plus English.','The round curvy script is Sinhala.','Sri Lanka mandates all three on official signs.'],exp:'Sri Lanka is the only country where Sinhala + Tamil + English appear on the same official sign. This is legally mandated on road signs and government buildings. Sinhala is the Sinhalese majority language; Tamil is the minority language of the north and east.',pills:['Sinhala + Tamil + English = Sri Lanka ONLY','Three-language mandate by law','Sinhala = round curvy script','Tamil = angular with curves'],opts:['India','Malaysia','Singapore','Sri Lanka'],drawFn:'drawSignSriLanka'},
+      {answer:'Malaysia',q:'A shop shows Malay in Latin script, Traditional Chinese characters, and Tamil. Which Southeast Asian country?',meta:'Script combination',hints:['Three scripts: Latin, Chinese characters, Tamil.','One of these countries has three major ethnic communities.','Malaysia: Malay + Chinese + Indian (Tamil).'],exp:'Malaysian shop fronts show Malay (Latin), Traditional Chinese, and Tamil — reflecting the three main communities. Key difference from Singapore: Traditional Chinese (not Simplified). Traditional has more complex characters.',pills:['Malay + Traditional Chinese + Tamil = Malaysia','Traditional Chinese (not Simplified)','Three-community nation','Singapore uses Simplified Chinese'],opts:['Singapore','Indonesia','Thailand','Malaysia'],drawFn:'drawSignMalaysia'},
+      {answer:'Singapore',q:'A government sign shows English, Simplified Chinese, Malay, and Tamil — all four. Which tiny city-state?',meta:'Script combination',hints:['Four official languages on one sign.','One of the smallest and richest countries in the world.','Singapore: English + Mandarin (Simplified) + Malay + Tamil.'],exp:'Singapore has four official languages — English, Mandarin (Simplified Chinese), Malay, and Tamil — all on official signage. Difference from Malaysia: Simplified Chinese (vs Traditional). Ultra-clean modern infrastructure distinguishes Singapore.',pills:['4 languages = Singapore ONLY','Simplified Chinese (not Traditional)','English is primary language','Very clean modern streetscapes'],opts:['Malaysia','Hong Kong','Indonesia','Singapore'],drawFn:'drawSignSingapore'},
+      {answer:'Morocco',q:'A road sign has Arabic on top and French below. Which North African country?',meta:'Script combination',hints:['Arabic + a European language.','The European language is French, not English or Spanish.','Former French colony in North Africa.'],exp:'Morocco, Algeria, and Tunisia all use Arabic + French — a legacy of French colonisation. This separates all three from Egypt and Libya (Arabic only). Context (Atlantic coast = Morocco, Mediterranean = Algeria/Tunisia) and road infrastructure help narrow further.',pills:['Arabic + French = N.African French colony','Morocco, Algeria, Tunisia all use this','Egypt + Libya = Arabic only','Atlantic coast = Morocco'],opts:['Egypt','Tunisia','Libya','Morocco'],drawFn:'drawSignMorocco'},
+      {answer:'Israel',q:'A street sign shows Hebrew, Arabic, and English on three lines. Which country?',meta:'Script combination',hints:['Hebrew script — distinctive block letters, right to left.','Arabic also appears — also right to left.','This three-language combination is legally required.'],exp:'Israel is the only country where Hebrew + Arabic + English appear together on road signs — legally mandated. Hebrew block letters are very distinctive. Both Hebrew and Arabic read right-to-left. No other country uses this exact combination.',pills:['Hebrew + Arabic + English = Israel ONLY','Both scripts read right-to-left','Hebrew = distinctive block letters','Unique combination globally'],opts:['Palestine','Jordan','Lebanon','Israel'],drawFn:'drawSignIsrael'},
+      {answer:'Hong Kong',q:'Signs show Traditional Chinese and English in a hyper-dense skyline of skyscrapers. Which territory?',meta:'Script combination',hints:['Traditional Chinese — not Simplified.','English alongside Chinese.','Former British territory with extreme building density.'],exp:'Hong Kong uses Traditional Chinese + English. Mainland China uses Simplified Chinese. Taiwan also uses Traditional but has no English on standard signs. Hong Kong\'s ultra-dense skyscraper skyline and British-heritage infrastructure (left-side traffic, red post boxes) confirm it.',pills:['Traditional Chinese + English = Hong Kong','Simplified = mainland China','Taiwan = Traditional but no English signs','Ultra-dense skyline + left traffic = HK'],opts:['Taiwan','Macau','Mainland China','Hong Kong'],drawFn:'drawSignHongKong'},
+      {answer:'South Africa',q:'Road signs show English + Afrikaans (a Germanic-sounding language). Left-side traffic. Which country?',meta:'Script combination',hints:['Afrikaans looks like Dutch or German.','Words like PADWERKE (roadworks) and GEE PAD (give way).','South Africa has 11 official languages but English + Afrikaans dominate on signs.'],exp:'South Africa uses English + Afrikaans on most road signs. Afrikaans is derived from 17th-century Dutch. Combined with left-side traffic and African landscape, this firmly places you in South Africa. Namibia also has Afrikaans but is far rarer in GeoGuessr.',pills:['English + Afrikaans = South Africa','Afrikaans derived from Dutch','PADWERKE = roadworks','Left-side traffic confirms'],opts:['Zimbabwe','Namibia','Botswana','South Africa'],drawFn:'drawSignSouthAfrica'},
+    ]},
+  ]}];
 
 
 // ── QUIZ STATE ──────────────────────────────────────────────────────────────
@@ -1441,7 +1726,7 @@ function cMult(){return ST.slice().reverse().find(t=>qStreak>=t.n)||null;}
 
 // ── SCREENS ─────────────────────────────────────────────────────────────────
 function showScreen(n){document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));const e=$('screen-'+n);if(!e)return;if(e.classList.contains('result-screen'))e.classList.add('show');else e.classList.add('active');}
-function goHome(){retryData=null;renderHome();showScreen('home');}
+function goHome(){retryData=null;isDaily=false;renderHome();showScreen('home');}
 
 // ── GLOBAL DIFFICULTY ────────────────────────────────────────────────────────
 function setGlobalDiff(mode){
@@ -1458,86 +1743,130 @@ function renderHome(){
   const xpIn=S.xp-[0,1000,3000,7000][lg],xpNeed=L.m-[0,1000,3000,7000][lg];
   $('home-xpbar').style.width=Math.min(100,Math.round(xpIn/xpNeed*100))+'%';
   $('home-xpnum').textContent=S.xp+'/'+[1000,3000,7000,99999][lg];
-  // Difficulty
   setGlobalDiff(S.globalDiff);
-  // Daily
+  // Daily card
   const db=$('daily-badge');
   if(S.daily===today()){db.textContent='Done ✓';db.className='qc-badge qc-badge-muted';}
   else{db.textContent='Play';db.className='qc-badge qc-badge-accent';}
-  // Relearn
+  // Relearn card
   const mc=S.mistakes.length;
   const rb=$('relearn-badge'),rc=$('relearn-card'),rsub=$('relearn-sub');
   rb.textContent=mc;
   if(mc===0){rc.style.opacity='.45';rc.style.cursor='default';rsub.textContent='No mistakes saved yet';rb.className='qc-badge qc-badge-muted';}
   else{rc.style.opacity='1';rc.style.cursor='pointer';rsub.textContent=mc+' question'+(mc===1?'':'s')+' to relearn';rb.className='qc-badge qc-badge-danger';}
-  // Collapsible sections
-  renderSections(lg);
+  renderSmart(lg);
   renderProgress();
 }
 
-function renderSections(lg){
-  const container=$('cat-sections');
-  container.innerHTML='';
+function renderSmart(lg){
+  const el2=$('home-smart');el2.innerHTML='';
+  const unlocked=CATS.filter(c=>c.league<=lg);
+
+  // ── CONTINUE: last played category ──────────────────────────────────────
+  let continueCard=null;
+  if(S.lastCat){
+    const cat=CATS.find(c=>c.id===S.lastCat);
+    if(cat&&cat.league<=lg){
+      const prog=S.qp[cat.id]||{};
+      // Find next incomplete quiz
+      const nextQz=cat.quizzes.find(qz=>!qz.locked&&qz.questions&&qz.questions.length>0&&!(prog[qz.id]>0));
+      const label=nextQz?`Next: ${nextQz.name}`:`${Object.values(prog).filter(s=>s>0).length}/${cat.quizzes.length} quizzes done`;
+      continueCard={cat,label,badge:'Continue',cls:'sc-next',action:()=>openCategory(cat.id)};
+    }
+  }
+
+  // ── RECOMMENDED: category with most progress but not finished ────────────
+  let recommended=null;
+  const inProgress=unlocked.filter(c=>{
+    const prog=S.qp[c.id]||{};
+    const done=Object.values(prog).filter(s=>s>0).length;
+    return done>0&&done<c.quizzes.filter(q=>q.questions&&q.questions.length>0).length&&c.id!==S.lastCat;
+  });
+  if(inProgress.length>0){
+    const cat=inProgress[0];
+    const prog=S.qp[cat.id]||{};
+    const nextQz=cat.quizzes.find(qz=>!qz.locked&&qz.questions&&qz.questions.length>0&&!(prog[qz.id]>0));
+    recommended={cat,label:nextQz?`Next: ${nextQz.name}`:'Keep going',badge:'Resume',cls:'sc-next',action:()=>openCategory(cat.id)};
+  }
+
+  // ── DISCOVER: untouched category ─────────────────────────────────────────
+  const untouched=unlocked.filter(c=>!S.qp[c.id]||Object.values(S.qp[c.id]||{}).every(s=>s===0));
+  const discover=untouched.length>0?untouched[Math.floor(Math.random()*Math.min(untouched.length,3))]:null;
+
+  // Render continue section
+  if(continueCard){
+    const sec=document.createElement('div');sec.className='smart-section';
+    const lbl=document.createElement('div');lbl.className='smart-label';lbl.textContent='Continue';
+    sec.appendChild(lbl);
+    sec.appendChild(makeSmartCard(continueCard));
+    el2.appendChild(sec);
+  }
+
+  // Render suggested section
+  const suggestions=[recommended,discover?{cat:discover,label:'Not started yet',badge:'Try it',cls:'sc-new',action:()=>openCategory(discover.id)}:null].filter(Boolean);
+  if(suggestions.length>0){
+    const sec=document.createElement('div');sec.className='smart-section';
+    const lbl=document.createElement('div');lbl.className='smart-label';lbl.textContent=continueCard?'Up next':'Start here';
+    sec.appendChild(lbl);
+    suggestions.forEach(s=>sec.appendChild(makeSmartCard(s)));
+    el2.appendChild(sec);
+  }
+}
+
+function makeSmartCard({cat,label,badge,cls,action}){
+  const card=document.createElement('div');
+  card.className='smart-card '+cls;
+  const prog=S.qp[cat.id]||{};
+  const done=Object.values(prog).filter(s=>s>0).length;
+  const total=cat.quizzes.filter(q=>q.questions&&q.questions.length>0).length;
+  const pct=total?Math.round(done/total*100):0;
+  card.innerHTML=`
+    <div class="smart-card-icon">${cat.icon}</div>
+    <div class="smart-card-info">
+      <div class="smart-card-name">${cat.name}</div>
+      <div class="smart-card-sub">${label}</div>
+      <div style="height:3px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:5px">
+        <div style="height:100%;background:${cat.color};width:${pct}%;border-radius:2px"></div>
+      </div>
+    </div>
+    <div class="smart-card-badge">${badge}</div>`;
+  card.onclick=action;
+  return card;
+}
+
+function openBrowse(){
+  const lg=league();
+  const list=$('browse-list');list.innerHTML='';
   const leagueGroups=[
-    {league:0,label:'Bronze · Available now',cls:'bronze',emoji:'🥉'},
-    {league:1,label:'Silver',cls:'silver',emoji:'🥈',xp:1000},
-    {league:2,label:'Gold',cls:'gold',emoji:'🥇',xp:3000},
+    {league:0,label:'🥉 Bronze',cls:'bronze',unlocked:true},
+    {league:1,label:'🥈 Silver',cls:'silver',unlocked:lg>=1,xp:1000},
+    {league:2,label:'🥇 Gold',cls:'gold',unlocked:lg>=2,xp:3000},
   ];
   leagueGroups.forEach(group=>{
-    const unlocked=lg>=group.league;
-    const cats=CATS.filter(c=>c.league===group.league);
-    const isOpen=S.sectionOpen[group.league]!==false&&unlocked;
-    // Section header
     const head=document.createElement('div');
-    head.className='section-group';
-    const headInner=document.createElement('div');
-    headInner.className='section-head';
-    const left=document.createElement('div');
-    left.className='section-head-left';
-    left.innerHTML=`<span class="section-head-label ${group.cls}">${group.emoji} ${group.label}</span>`;
-    if(!unlocked){
-      const note=document.createElement('span');
-      note.className='section-locked-note';
-      note.textContent=`${group.xp.toLocaleString()} XP to unlock`;
-      left.appendChild(note);
-    }
-    const chev=document.createElement('span');
-    chev.className='section-chevron'+(isOpen?' open':'');
-    chev.textContent='▼';
-    headInner.appendChild(left);
-    headInner.appendChild(chev);
-    if(unlocked){
-      headInner.onclick=()=>{
-        S.sectionOpen[group.league]=!S.sectionOpen[group.league];
-        save();
-        renderSections(lg);
-      };
-    }
-    head.appendChild(headInner);
-    // Section body
-    const body=document.createElement('div');
-    body.className='section-body';
-    body.style.maxHeight=isOpen&&unlocked?'800px':'0';
-    if(isOpen&&unlocked){
-      const grid=document.createElement('div');
-      grid.className='cat-grid';
-      cats.forEach(cat=>{
-        const prog=S.qp[cat.id]||{};
-        const total=cat.quizzes.length,done=Object.values(prog).filter(s=>s>0).length;
-        const pct=total?Math.round(done/total*100):0;
-        const sf=Math.floor(Object.values(prog).reduce((a,s)=>a+s,0)/Math.max(1,total));
-        const card=document.createElement('div');
-        card.className='cat-card'+(pct>0?' has-progress':'');
-        card.innerHTML=`<div class="cat-icon-wrap">${cat.icon}</div><div class="cat-name">${cat.name}</div><div class="cat-sub">${cat.sub}</div><div class="cat-stars"><div class="cstar${sf>=1?' on':''}"></div><div class="cstar${sf>=2?' on':''}"></div><div class="cstar${sf>=3?' on':''}"></div></div><div class="cat-prog"><div class="cat-prog-fill" style="background:${cat.color};width:${pct}%"></div></div>`;
-        card.onclick=()=>openCategory(cat.id);
-        grid.appendChild(card);
-      });
-      body.appendChild(grid);
-    }
-    head.appendChild(body);
-    container.appendChild(head);
+    head.className='browse-league-head';
+    head.innerHTML=`<span class="section-head-label ${group.cls}">${group.label}</span>${!group.unlocked?`<span class="section-locked-note">${group.xp.toLocaleString()} XP</span>`:''}`;
+    list.appendChild(head);
+    CATS.filter(c=>c.league===group.league).forEach(cat=>{
+      const prog=S.qp[cat.id]||{};
+      const done=Object.values(prog).filter(s=>s>0).length;
+      const total=cat.quizzes.length;
+      const row=document.createElement('div');
+      row.className='browse-cat-row'+(group.unlocked?'':' locked');
+      row.innerHTML=`<div class="browse-cat-icon">${cat.icon}</div><div class="browse-cat-info"><div class="browse-cat-name">${cat.name}</div><div class="browse-cat-sub">${cat.sub}</div></div><div class="browse-cat-prog">${done}/${total}</div>`;
+      if(group.unlocked)row.onclick=()=>{closeBrowse();openCategory(cat.id);};
+      list.appendChild(row);
+    });
   });
+  document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));
+  $('screen-browse').classList.add('active');
 }
+
+function closeBrowse(){
+  $('screen-browse').classList.remove('active');
+  $('screen-home').classList.add('active');
+}
+
 
 // ── DAILY ───────────────────────────────────────────────────────────────────
 function startDaily(){
@@ -1562,6 +1891,7 @@ function startRelearn(){
 // ── CATEGORY ─────────────────────────────────────────────────────────────────
 function openCategory(catId){
   CC=CATS.find(c=>c.id===catId);if(!CC)return;
+  S.lastCat=catId;save();
   retryData=null;
   $('cat-title').textContent=CC.icon+' '+CC.name;
   const prog=S.qp[catId]||{};
@@ -1713,8 +2043,21 @@ function showExp(q,ok,earned){
   $('next-btn').textContent=qi<qList.length-1?'Next →':'See results →';
   $('next-btn').className='next-btn show';
   $('hint-btn').disabled=true;
+  // Reset exp toggle to collapsed
+  const et=$('exp-toggle');
+  et.className='exp-toggle show';
+  $('exp-inner').className='exp-inner';
+  $('exp-toggle-label').textContent='Show explanation';
+  $('exp-box-spacer').className='exp-box-spacer show';
   const sb=$('streak-banner'),th=cMult();
   if(th&&qStreak>0){sb.className='streak-banner show';$('streak-text').textContent='🔥 '+th.l;$('streak-mult').textContent=th.m+'×';}else sb.className='streak-banner';
+}
+function toggleExp(){
+  const et=$('exp-toggle'),ei=$('exp-inner');
+  const open=ei.classList.contains('open');
+  ei.className='exp-inner'+(open?'':' open');
+  et.className='exp-toggle show'+(open?'':' open');
+  $('exp-toggle-label').textContent=open?'Show explanation':'Hide explanation';
 }
 $('next-btn').onclick=()=>{qi++;qi>=qList.length?showResult():loadQ();};
 function confirmQuit(){$('quit-overlay').classList.add('show');}
@@ -1841,7 +2184,8 @@ load();renderHome();
 // Ensure home screen is visible on init (iOS local file fix)
 document.querySelectorAll('.screen,.result-screen,.review-screen').forEach(s=>s.classList.remove('active','show'));
 $('screen-home').classList.add('active');
+$('screen-browse').classList.remove('active');
 
 </script>
 </body>
-</html>
+</html
